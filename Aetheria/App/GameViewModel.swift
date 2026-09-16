@@ -1,6 +1,7 @@
 import Foundation
 import Combine
 import CoreGraphics
+import SpriteKit
 
 struct ActiveDialogue {
     var npcId: String
