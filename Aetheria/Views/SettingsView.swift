@@ -1,0 +1,90 @@
+import SwiftUI
+
+/// App settings: language, difficulty, audio, haptics, minimap, effects.
+struct SettingsView: View {
+    var onBack: () -> Void
+    @ObservedObject var settings = AppSettings.shared
+
+    var body: some View {
+        HStack {
+            Spacer()
+            Panel(title: L.t("set.title")) {
+                VStack(spacing: 14) {
+                    // Language.
+                    HStack {
+                        Text(L.t("set.language"))
+                            .foregroundColor(.dimText)
+                        Spacer()
+                        Picker("", selection: $settings.language) {
+                            Text("English").tag(AppLanguage.en)
+                            Text("Русский").tag(AppLanguage.ru)
+                        }
+                        .pickerStyle(.segmented)
+                        .frame(width: 220)
+                    }
+                    // Difficulty.
+                    VStack(alignment: .leading, spacing: 4) {
+                        HStack {
+                            Text(L.t("set.difficulty"))
+                                .foregroundColor(.dimText)
+                            Spacer()
+                            Picker("", selection: $settings.difficulty) {
+                                ForEach(Difficulty.allCases, id: \.self) { diff in
+                                    Text(diff.title).tag(diff)
+                                }
+                            }
+                            .pickerStyle(.segmented)
+                            .frame(width: 330)
+                        }
+                        Text(settings.difficulty.details)
+                            .font(.caption)
+                            .foregroundColor(.dimText.opacity(0.8))
+                    }
+                    Divider().background(Color.panelBorder)
+                    // Volumes.
+                    volumeRow(L.t("set.master"), $settings.masterVolume)
+                    volumeRow(L.t("set.music"), $settings.musicVolume)
+                    volumeRow(L.t("set.sfx"), $settings.sfxVolume)
+                    Divider().background(Color.panelBorder)
+                    // Toggles.
+                    toggleRow(L.t("set.haptics"), $settings.hapticsEnabled)
+                    toggleRow(L.t("set.minimap"), $settings.showMinimap)
+                    toggleRow(L.t("set.effects"), $settings.richEffects)
+                    Text(L.t("set.credits"))
+                        .font(.caption)
+                        .foregroundColor(.dimText.opacity(0.8))
+                        .multilineTextAlignment(.center)
+                    MenuButton(label: L.t("common.back"), icon: "chevron.left") {
+                        onBack()
+                    }
+                }
+                .frame(width: 520)
+            }
+            Spacer()
+        }
+        .padding()
+    }
+
+    private func volumeRow(_ label: String, _ value: Binding<Double>) -> some View {
+        HStack {
+            Text(label)
+                .foregroundColor(.dimText)
+                .frame(width: 180, alignment: .leading)
+            Slider(value: value, in: 0...1)
+            Text("\(Int(value.wrappedValue * 100))%")
+                .font(.caption.monospacedDigit())
+                .foregroundColor(.dimText)
+                .frame(width: 44)
+        }
+    }
+
+    private func toggleRow(_ label: String, _ value: Binding<Bool>) -> some View {
+        HStack {
+            Text(label)
+                .foregroundColor(.dimText)
+            Spacer()
+            Toggle("", isOn: value)
+                .labelsHidden()
+        }
+    }
+}
