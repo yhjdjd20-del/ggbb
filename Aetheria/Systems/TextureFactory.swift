@@ -5,12 +5,22 @@ import SpriteKit
 /// CoreGraphics and cached. No image assets required (except the App Icon).
 enum TextureFactory {
     private static var cache: [String: SKTexture] = [:]
+    private static var imageCache: [String: UIImage] = [:]
+    private static var lastImage: UIImage?
 
     static func get(_ key: String) -> SKTexture {
         if let t = cache[key] { return t }
         let t = build(key)
         cache[key] = t
+        if let img = lastImage { imageCache[key] = img }
         return t
+    }
+
+    /// UIImage variant for SwiftUI (`Image(uiImage:)`).
+    static func uiImage(_ key: String) -> UIImage {
+        if let img = imageCache[key] { return img }
+        _ = get(key)
+        return imageCache[key] ?? UIImage()
     }
 
     static func preloadEssential() {
