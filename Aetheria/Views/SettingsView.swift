@@ -50,6 +50,22 @@ struct SettingsView: View {
                     toggleRow(L.t("set.haptics"), $settings.hapticsEnabled)
                     toggleRow(L.t("set.minimap"), $settings.showMinimap)
                     toggleRow(L.t("set.effects"), $settings.richEffects)
+                    // Graphics quality.
+                    HStack {
+                        Text(L.t("set.graphics"))
+                            .foregroundColor(.dimText)
+                        Spacer()
+                        Picker("", selection: $settings.displayQuality) {
+                            ForEach(DisplayQuality.allCases, id: \.self) { quality in
+                                Text(quality.title).tag(quality)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        .frame(width: 330)
+                    }
+                    Text("\(L.t("set.device")): \(DeviceProfile.marketingName)")
+                        .font(.caption)
+                        .foregroundColor(.dimText.opacity(0.8))
                     Text(L.t("set.credits"))
                         .font(.caption)
                         .foregroundColor(.dimText.opacity(0.8))

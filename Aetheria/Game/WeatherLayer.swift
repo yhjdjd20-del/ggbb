@@ -40,7 +40,7 @@ final class WeatherLayer: SKNode {
             case "snow":
                 node.particleTexture = TextureFactory.get("snow")
                 node.particleBirthRate = 55
-                node.particleLifetime = 5.0
+                node.particleLifetime = 9.0
                 node.particleSpeed = 90
                 node.particleSpeedRange = 40
                 node.emissionAngle = -CGFloat.pi / 2
@@ -61,7 +61,7 @@ final class WeatherLayer: SKNode {
             default: // leaves
                 node.particleTexture = TextureFactory.get("leaf")
                 node.particleBirthRate = 18
-                node.particleLifetime = 7.0
+                node.particleLifetime = 12.0
                 node.particleSpeed = 70
                 node.particleSpeedRange = 40
                 node.emissionAngle = -CGFloat.pi / 2 + 0.4
@@ -69,9 +69,7 @@ final class WeatherLayer: SKNode {
                 node.particleRotationRange = 6.28
                 node.particleRotationSpeed = 2.0
             }
-            if !AppSettings.shared.richEffects {
-                node.particleBirthRate *= 0.35
-            }
+            node.particleBirthRate *= AppSettings.shared.particleScale
             addChild(node)
             emitter = node
             node.advanceSimulationTime(3)

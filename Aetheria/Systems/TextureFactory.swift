@@ -164,7 +164,7 @@ enum TextureFactory {
             draw(ctx.cgContext, CGRect(x: 0, y: 0, width: w, height: h))
         }
         let tex = SKTexture(image: image)
-        tex.filteringMode = .nearest
+        tex.filteringMode = .linear
         return tex
     }
 

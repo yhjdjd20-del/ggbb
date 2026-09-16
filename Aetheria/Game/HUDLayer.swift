@@ -87,20 +87,24 @@ final class HUDLayer: SKNode {
     }
 
     /// Repositions everything for the current viewport size (camera space).
-    func layout(size: CGSize) {
+    /// `size` is the visible world rect (see GameScene.visibleSize) and
+    /// `safeArea` is already converted to the same world units.
+    func layout(size: CGSize, safeArea: UIEdgeInsets = .zero) {
         let hw = size.width / 2, hh = size.height / 2
-        let leftX = -hw + 24
-        hpBg.position = CGPoint(x: leftX + barW / 2, y: hh - 30)
-        hpFg.position = CGPoint(x: leftX, y: hh - 30)
-        mpBg.position = CGPoint(x: leftX + barW / 2, y: hh - 58)
-        mpFg.position = CGPoint(x: leftX, y: hh - 58)
-        xpBg.position = CGPoint(x: leftX + barW / 2, y: hh - 80)
-        xpFg.position = CGPoint(x: leftX, y: hh - 80)
-        levelLabel.position = CGPoint(x: leftX, y: hh - 110)
-        goldLabel.position = CGPoint(x: hw - 120, y: hh - 46)
-        bossBar.position = CGPoint(x: 0, y: hh - 72)
-        comboLabel.position = CGPoint(x: hw - 30, y: hh - 190)
-        toastLabel.position = CGPoint(x: 0, y: hh - 132)
+        let leftX = -hw + 24 + safeArea.left
+        let topY = hh - safeArea.top
+        let rightX = hw - 30 - safeArea.right
+        hpBg.position = CGPoint(x: leftX + barW / 2, y: topY - 30)
+        hpFg.position = CGPoint(x: leftX, y: topY - 30)
+        mpBg.position = CGPoint(x: leftX + barW / 2, y: topY - 58)
+        mpFg.position = CGPoint(x: leftX, y: topY - 58)
+        xpBg.position = CGPoint(x: leftX + barW / 2, y: topY - 80)
+        xpFg.position = CGPoint(x: leftX, y: topY - 80)
+        levelLabel.position = CGPoint(x: leftX, y: topY - 108)
+        goldLabel.position = CGPoint(x: leftX + barW, y: topY - 108)
+        bossBar.position = CGPoint(x: 0, y: topY - 72)
+        comboLabel.position = CGPoint(x: rightX, y: topY - 190)
+        toastLabel.position = CGPoint(x: 0, y: topY - 132)
         bannerTitle.position = CGPoint(x: 0, y: 40)
         bannerSub.position = CGPoint(x: 0, y: -12)
         lowHp.position = .zero
@@ -109,11 +113,17 @@ final class HUDLayer: SKNode {
 
     // MARK: - Updates
 
+    private var lastLevelShown = -1
+
     func setBars(hp: Double, maxHp: Double, mana: Double, maxMana: Double, xp: Int, xpNext: Int, level: Int) {
         hpFg.xScale = max(0.001, CGFloat(hp / max(1, maxHp)))
         mpFg.xScale = max(0.001, CGFloat(mana / max(1, maxMana)))
         xpFg.xScale = max(0.001, CGFloat(Double(xp) / Double(max(1, xpNext))))
-        levelLabel.text = "\(L.t("common.level")) \(level)"
+        // Setting text re-renders the label texture: only touch it on change.
+        if level != lastLevelShown {
+            lastLevelShown = level
+            levelLabel.text = "\(L.t("common.level")) \(level)"
+        }
     }
 
     func setGold(_ gold: Int) {

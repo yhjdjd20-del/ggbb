@@ -246,7 +246,11 @@ final class GameViewModel: ObservableObject {
             return false
         }
         if let heal = def.stats["heal"], heal > 0 {
-            if hp >= derivedStats().maxHP { return false }
+            if hp >= derivedStats().maxHP {
+                scene?.hud.toast(L.t("hud.fullHp"))
+                SoundManager.shared.play("error")
+                return false
+            }
             removeItem(itemId: item.itemId)
             healPlayer(heal)
             SoundManager.shared.play("potion")
@@ -254,7 +258,11 @@ final class GameViewModel: ObservableObject {
             return true
         }
         if let mp = def.stats["mana"], mp > 0 {
-            if mana >= derivedStats().maxMana { return false }
+            if mana >= derivedStats().maxMana {
+                scene?.hud.toast(L.t("hud.fullMana"))
+                SoundManager.shared.play("error")
+                return false
+            }
             removeItem(itemId: item.itemId)
             restoreMana(mp)
             SoundManager.shared.play("potion")
@@ -357,6 +365,11 @@ final class GameViewModel: ObservableObject {
             questEvent(.collect(itemId: itemId, count: session.inventoryCount(itemId: itemId)))
         }
         toast("+\(gold) \(L.t("common.gold"))")
+        for itemId in loot {
+            if let def = ContentDatabase.shared.items[itemId] {
+                toast("+ \(def.displayName)")
+            }
+        }
         checkAchievements(.chest(count: session.stats.chestsOpened))
     }
 

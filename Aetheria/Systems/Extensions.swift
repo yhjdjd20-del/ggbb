@@ -45,7 +45,7 @@ extension Comparable {
 extension SKTexture {
     /// 9-slice friendly variant for stretching platforms.
     func stretchable() -> SKTexture {
-        self.filteringMode = .nearest
+        self.filteringMode = .linear
         return self
     }
 }

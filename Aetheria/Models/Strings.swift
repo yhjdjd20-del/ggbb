@@ -168,6 +168,7 @@ enum Strings {
         "set.quality.low": [.en: "Low", .ru: "Низкая"],
         "set.device": [.en: "Device", .ru: "Устройство"],
         "hud.fullHp": [.en: "Health is already full", .ru: "Здоровье уже полное"],
+        "hud.fullMana": [.en: "Mana is already full", .ru: "Мана уже полная"],
         "set.credits": [.en: "A dark fairy-tale action RPG. Made with SpriteKit & SwiftUI.", .ru: "Тёмная сказочная action-RPG. Сделана на SpriteKit и SwiftUI."],
         // death / victory
         "death.title": [.en: "You Died", .ru: "Ты погиб"],

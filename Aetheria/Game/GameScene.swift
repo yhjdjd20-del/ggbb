@@ -94,8 +94,7 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
         world.addChild(damageLayer)
         hud.setup()
         cameraNode.addChild(hud)
-        hud.layout(size: size)
-        weather.layout(size: size)
+        fitCameraToView()
         if !built {
             built = true
             buildWorld(levelId: levelId)
@@ -104,18 +103,56 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
 
     override func didChangeSize(_ oldSize: CGSize) {
         guard built else { return }
-        skyNode.size = CGSize(width: size.width + 100, height: size.height + 100)
-        hud.layout(size: size)
-        weather.layout(size: size)
+        fitCameraToView()
+    }
+
+    // MARK: - Logical viewport (resolution independence)
+
+    /// Design viewport in world units. The camera zooms so every device shows
+    /// roughly this area — identical framing on iPhone SE and Pro Max.
+    static let logicalSize = CGSize(width: 1280, height: 720)
+
+    /// World units currently visible through the camera.
+    func visibleSize() -> CGSize {
+        let s = cameraNode.xScale
+        guard s > 0.001 else { return size }
+        return CGSize(width: size.width / s, height: size.height / s)
+    }
+
+    /// Zooms the camera to the logical viewport (aspect-fill: no black bars)
+    /// and re-layouts all camera-attached overlays.
+    func fitCameraToView() {
+        guard size.width > 1, size.height > 1 else { return }
+        let z = max(size.width / Self.logicalSize.width, size.height / Self.logicalSize.height)
+        cameraNode.setScale(z)
+        relayoutOverlays()
+    }
+
+    /// Re-layouts sky/HUD/weather for the current visible rect.
+    func relayoutOverlays() {
+        let vis = visibleSize()
+        skyNode.size = CGSize(width: vis.width + 160, height: vis.height + 160)
+        // Safe-area insets are in points; convert to world units.
+        let z = max(0.001, cameraNode.xScale)
+        let raw = DeviceProfile.currentSafeArea
+        let inset = UIEdgeInsets(top: raw.top / z, left: raw.left / z, bottom: raw.bottom / z, right: raw.right / z)
+        hud.layout(size: vis, safeArea: inset)
+        weather.layout(size: vis)
         updateCamBounds()
     }
 
     func updateCamBounds() {
+        // Level may not exist yet when fitting the camera in didMove.
+        guard level != nil else {
+            camBounds = .zero
+            return
+        }
+        let vis = visibleSize()
         camBounds = CGRect(
-            x: size.width / 2 - 60,
-            y: size.height / 2 - 60,
-            width: CGFloat(level.width) - size.width + 120,
-            height: CGFloat(level.height) - size.height + 120
+            x: vis.width / 2 - 60,
+            y: vis.height / 2 - 60,
+            width: CGFloat(level.width) - vis.width + 120,
+            height: CGFloat(level.height) - vis.height + 120
         )
     }
 
@@ -558,7 +595,7 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
         if camBounds.height > 0 {
             target.y = min(max(target.y, camBounds.minY), camBounds.maxY)
         } else {
-            target.y = size.height / 2
+            target.y = visibleSize().height / 2
         }
         let k = min(1, CGFloat(dt) * 6)
         cameraNode.position.x += (target.x - cameraNode.position.x) * k
@@ -670,12 +707,36 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
         let (damage, _) = CombatFormulas.spellDamage(derived: derived)
         let bolt = ProjectileNode.create(kind: "bolt", hostile: false)
         bolt.position = player.position + CGPoint(x: player.facing * 40, y: 10)
-        bolt.velocity = CGVector(dx: player.facing * 640, dy: 40)
+        bolt.velocity = aimVelocity(from: bolt.position, speed: 640)
         bolt.damage = damage
-        bolt.life = 1.6
+        bolt.life = 2.4
         world.addChild(bolt)
         projectiles.append(bolt)
         SoundManager.shared.play("shoot")
+    }
+
+    /// Bolt aim assist: fires at the nearest living enemy in the facing
+    /// half-plane (so hovering bosses stay hittable for melee classes),
+    /// flat otherwise.
+    private func aimVelocity(from origin: CGPoint, speed: CGFloat) -> CGVector {
+        var best: EnemyNode?
+        var bestDist: CGFloat = 560
+        for enemy in enemies where !enemy.isDead {
+            let dx = enemy.position.x - origin.x
+            guard dx * player.facing >= 0 else { continue }
+            let d = hypot(dx, enemy.position.y - origin.y)
+            if d < bestDist {
+                bestDist = d
+                best = enemy
+            }
+        }
+        guard let target = best, bestDist > 1 else {
+            return CGVector(dx: player.facing * speed, dy: 40)
+        }
+        let dx = target.position.x - origin.x
+        let dy = target.position.y - origin.y
+        let len = max(1, hypot(dx, dy))
+        return CGVector(dx: dx / len * speed, dy: dy / len * speed)
     }
 
     // MARK: - Melee & damage

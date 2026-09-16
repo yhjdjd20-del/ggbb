@@ -96,15 +96,24 @@ final class SoundManager {
         if currentTheme == theme, musicPlayer.isPlaying { return }
         currentTheme = theme
         musicPlayer.stop()
-        let buffer: AVAudioPCMBuffer
         if let cached = musicCache[theme] {
-            buffer = cached
-        } else {
-            buffer = buildMusic(theme: theme)
-            musicCache[theme] = buffer
+            musicPlayer.scheduleBuffer(cached, at: nil, options: .loops)
+            musicPlayer.play()
+            return
         }
-        musicPlayer.scheduleBuffer(buffer, at: nil, options: .loops)
-        musicPlayer.play()
+        // Synthesis takes ~1-2s: build off the main thread to avoid a freeze
+        // on level transitions, then start playback on the main thread.
+        let requested = theme
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self else { return }
+            let buffer = self.buildMusic(theme: requested)
+            self.musicCache[requested] = buffer
+            DispatchQueue.main.async { [weak self] in
+                guard let self, self.currentTheme == requested else { return }
+                self.musicPlayer.scheduleBuffer(buffer, at: nil, options: .loops)
+                self.musicPlayer.play()
+            }
+        }
     }
 
     func stopMusic() {
