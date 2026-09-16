@@ -67,7 +67,7 @@ final class WeatherLayer: SKNode {
                 node.emissionAngle = -CGFloat.pi / 2 + 0.4
                 node.particleAlpha = 0.9
                 node.particleRotationRange = 6.28
-                node.particleRotationSpeedRange = 2.0
+                node.particleRotationSpeed = 2.0
             }
             if !AppSettings.shared.richEffects {
                 node.particleBirthRate *= 0.35

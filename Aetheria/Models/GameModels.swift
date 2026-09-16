@@ -230,6 +230,7 @@ struct DialogueChoice: Codable {
     var textRu: String?
     var next: String?
     var requiresQuest: String?
+    var requiresQuestDone: String?
     var requiresItem: String?
     var givesQuest: String?
     var turnInQuest: String?
