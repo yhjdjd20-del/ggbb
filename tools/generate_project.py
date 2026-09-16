@@ -62,7 +62,7 @@ def add(key: str, obj: Obj) -> str:
 
 # ------------------------------------------------------- value format
 
-_ATOM = re.compile(r"^[A-Za-z0-9_.$/,*]+$")
+_ATOM = re.compile(r"^[A-Za-z0-9_.$/]+$")
 
 
 def q(value) -> str:
@@ -483,6 +483,19 @@ def validate(text: str) -> bool:
     if text.count("(") != text.count(")"):
         print("ERROR: unbalanced parens")
         ok = False
+    # Commas are only legal inside (...) arrays; elsewhere they must be quoted.
+    stripped = re.sub(r"/\*.*?\*/", "", text)
+    stripped = re.sub(r'"(\\.|[^"\\])*"', '""', stripped)
+    parens = 0
+    for lineno, line in enumerate(stripped.splitlines(), 1):
+        for ch in line:
+            if ch == "(":
+                parens += 1
+            elif ch == ")":
+                parens -= 1
+            elif ch == "," and parens <= 0:
+                print(f"ERROR: unquoted comma at line {lineno}: {line.strip()[:80]}")
+                ok = False
     for rel in SWIFT_FILES + RESOURCE_FILES:
         if not os.path.isfile(os.path.join(ROOT, rel)):
             print(f"ERROR: missing file {rel}")
