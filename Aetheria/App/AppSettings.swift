@@ -63,6 +63,9 @@ final class AppSettings: ObservableObject {
     @Published var richEffects: Bool {
         didSet { save() }
     }
+    @Published var displayQuality: DisplayQuality {
+        didSet { save() }
+    }
 
     private let defaults = UserDefaults.standard
 
