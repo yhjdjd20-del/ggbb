@@ -87,11 +87,17 @@ jobs:
       - name: Build .app (no code signing)
         run: |
           set -o pipefail
-          BUILD_CMD="xcodebuild -project $PROJECT -scheme $SCHEME -configuration $CONFIG -sdk iphoneos -derivedDataPath build/DerivedData CODE_SIGNING_ALLOWED=NO CODE_SIGN_IDENTITY= CODE_SIGNING_REQUIRED=NO build"
+          mkdir -p build
           if command -v xcpretty >/dev/null; then
-            eval "$BUILD_CMD" | tee build/xcodebuild.log | xcpretty --color
+            xcodebuild -project "$PROJECT" -scheme "$SCHEME" -configuration "$CONFIG" \
+              -sdk iphoneos -derivedDataPath build/DerivedData \
+              CODE_SIGNING_ALLOWED=NO CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO \
+              build | tee build/xcodebuild.log | xcpretty --color
           else
-            eval "$BUILD_CMD" | tee build/xcodebuild.log
+            xcodebuild -project "$PROJECT" -scheme "$SCHEME" -configuration "$CONFIG" \
+              -sdk iphoneos -derivedDataPath build/DerivedData \
+              CODE_SIGNING_ALLOWED=NO CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO \
+              build | tee build/xcodebuild.log
           fi
 
       - name: Package unsigned IPA
