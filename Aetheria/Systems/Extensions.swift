@@ -1,6 +1,14 @@
 import UIKit
 import SpriteKit
 
+func +(lhs: CGPoint, rhs: CGPoint) -> CGPoint {
+    CGPoint(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
+}
+
+func -(lhs: CGPoint, rhs: CGPoint) -> CGPoint {
+    CGPoint(x: lhs.x - rhs.x, y: lhs.y - rhs.y)
+}
+
 extension UIColor {
     convenience init(hex: String, alpha: CGFloat = 1.0) {
         var h = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)

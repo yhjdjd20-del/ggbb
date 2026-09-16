@@ -7,20 +7,30 @@ enum TextureFactory {
     private static var cache: [String: SKTexture] = [:]
     private static var imageCache: [String: UIImage] = [:]
     private static var lastImage: UIImage?
+    /// Serializes texture creation (preloading runs on a background thread).
+    private static let queue = DispatchQueue(label: "aetheria.textures")
 
     static func get(_ key: String) -> SKTexture {
-        if let t = cache[key] { return t }
-        let t = build(key)
-        cache[key] = t
-        if let img = lastImage { imageCache[key] = img }
-        return t
+        queue.sync {
+            if let t = cache[key] { return t }
+            return buildAndCache(key)
+        }
     }
 
     /// UIImage variant for SwiftUI (`Image(uiImage:)`).
     static func uiImage(_ key: String) -> UIImage {
-        if let img = imageCache[key] { return img }
-        _ = get(key)
-        return imageCache[key] ?? UIImage()
+        queue.sync {
+            if let img = imageCache[key] { return img }
+            _ = buildAndCache(key)
+            return imageCache[key] ?? UIImage()
+        }
+    }
+
+    private static func buildAndCache(_ key: String) -> SKTexture {
+        let t = build(key)
+        cache[key] = t
+        if let img = lastImage { imageCache[key] = img }
+        return t
     }
 
     static func preloadEssential() {

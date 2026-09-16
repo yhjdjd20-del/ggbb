@@ -8,7 +8,7 @@ struct AetheriaApp: App {
         WindowGroup {
             RootView(vm: vm)
                 .preferredColorScheme(.dark)
-                .statusBarHidden(true)
+                .statusBar(hidden: true)
         }
     }
 }

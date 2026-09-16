@@ -522,10 +522,10 @@ extension TextureFactory {
     static func drawIcon(_ key: String) -> SKTexture {
         render(64, 64) { ctx, _ in
             round(ctx, rect: CGRect(x: 4, y: 4, width: 56, height: 56), radius: 14, color: UIColor(hex: "#1E2233"))
-            round(ctx, rect: CGRect(x: 4, y: 4, width: 56, height: 56), radius: 14, color: UIColor(hex: "#000000", alpha: 0))
             ctx.setStrokeColor(UIColor(hex: "#3A4158").cgColor)
             ctx.setLineWidth(2)
-            ctx.stroke(UIBezierPath(roundedRect: CGRect(x: 5, y: 5, width: 54, height: 54), cornerRadius: 13).cgPath)
+            ctx.addPath(UIBezierPath(roundedRect: CGRect(x: 5, y: 5, width: 54, height: 54), cornerRadius: 13).cgPath)
+            ctx.strokePath()
             switch key {
             case "sword":
                 line(ctx, from: CGPoint(x: 20, y: 44), to: CGPoint(x: 44, y: 20), width: 6, color: UIColor(hex: "#DDE6F0"))

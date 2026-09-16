@@ -125,6 +125,7 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
         level = ContentDatabase.shared.level(id: levelId)
         derived = vm.derivedStats()
         LevelBuilder.build(scene: self, level: level, session: vm.session)
+        world.addChild(damageLayer)
         updateCamBounds()
 
         // Player (reused across levels).

@@ -26,7 +26,7 @@ struct SaveSlotView: View {
             Spacer()
         }
         .padding()
-        .alert(L.t("slots.deleteTitle"), isPresented: Binding(
+        .alert(Text(L.t("slots.deleteTitle")), isPresented: Binding(
             get: { deleteSlot != nil },
             set: { if !$0 { deleteSlot = nil } }
         )) {

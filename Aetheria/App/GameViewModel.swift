@@ -48,6 +48,11 @@ final class GameViewModel: ObservableObject {
     }
 
     func refreshPause() {
+        if modalOpen {
+            input.endFrame()
+            input.moveX = 0
+            input.moveY = 0
+        }
         scene?.isPaused = modalOpen
     }
 

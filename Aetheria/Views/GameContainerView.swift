@@ -66,7 +66,7 @@ struct GameContainerView: View {
                 }
             }
         }
-        .statusBarHidden(true)
+        .statusBar(hidden: true)
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
             if vm.inGame && !vm.modalOpen {
                 vm.showPause = true

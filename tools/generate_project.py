@@ -225,28 +225,8 @@ def build():
     )))
 
     # ---- groups mirroring folders
-    def group_for rel_dir: str) -> ID:
-        """Group id for a directory relative to ROOT (e.g. Aetheria/App)."""
-        return ID(group_ids[rel_dir])
-
     # collect dirs
     dirs: dict = {}  # rel_dir -> {"subdirs": set, "files": [refId...]}
-    all_refs = {}
-
-    def ref_of(rel: str) -> ID:
-        for oid, o in objects.items():
-            if o.isa == "PBXFileReference" and o.comment == os.path.basename(rel):
-                # disambiguate by key is complex; store map instead
-                pass
-        return ID(all_refs[rel])
-
-    # rebuild map rel -> ref oid
-    for rel in SWIFT_FILES + RESOURCE_FILES:
-        # find by construction order is fragile; recompute gid sequence-free:
-        # instead, look up objects by comment + a stored path key in props is absent,
-        # so keep our own map by re-adding? Simpler: we stored nothing; iterate objects
-        # matching basename AND ensure uniqueness of basenames.
-        pass
 
     # NOTE: basenames must be unique across the project (we enforce below).
     by_name: dict = {}
