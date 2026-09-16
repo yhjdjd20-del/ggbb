@@ -79,6 +79,10 @@
 			isa = PBXBuildFile;
 			fileRef = 7E2C5BEF020734716382EA90 /* AppSettings.swift */;
 		};
+		4F299816B7D59B44E3E8BB09 /* DeviceProfile.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 0367A2450C79C229E26A817D /* DeviceProfile.swift */;
+		};
 		5123748BC0D3658CAEC68CFC /* level_forest.json in Resources */ = {
 			isa = PBXBuildFile;
 			fileRef = D959ACE1671F3D00FECCDD80 /* level_forest.json */;
@@ -238,6 +242,12 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.swift;
 			path = EnemyNode.swift;
+			sourceTree = "<group>";
+		};
+		0367A2450C79C229E26A817D /* DeviceProfile.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = DeviceProfile.swift;
 			sourceTree = "<group>";
 		};
 		0432375C3CC35BAD01523610 /* WeatherLayer.swift */ = {
@@ -621,6 +631,7 @@
 			children = (
 				04C1E101D8AA68FDDF0828A2 /* AchievementManager.swift */,
 				62D5E11B8A717BAD863778B3 /* CombatFormulas.swift */,
+				0367A2450C79C229E26A817D /* DeviceProfile.swift */,
 				1AEB5B177C6BD1142C934BF2 /* Extensions.swift */,
 				62D269C1190926DFABEF7FD3 /* GameControllerManager.swift */,
 				50126DDC1B93801EB7C9845F /* HapticManager.swift */,
@@ -836,6 +847,7 @@
 				8ADCEA70419B4C2B02B5AA2B /* Strings.swift in Sources */,
 				80C301B140D386E5C0D5A997 /* AchievementManager.swift in Sources */,
 				C69E4A646F05207699788C44 /* CombatFormulas.swift in Sources */,
+				4F299816B7D59B44E3E8BB09 /* DeviceProfile.swift in Sources */,
 				D25B9A9D30D350E115C45E83 /* Extensions.swift in Sources */,
 				F7B811176C3B6504A91D84B6 /* GameControllerManager.swift in Sources */,
 				478D7985F9949884B2AF85FC /* HapticManager.swift in Sources */,
