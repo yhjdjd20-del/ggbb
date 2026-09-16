@@ -94,3 +94,19 @@ enum AchievementManager {
         return newly
     }
 }
+
+/// Cross-adventure achievement collection (shown in the main menu).
+enum AchievementStore {
+    private static let key = "globalAchievements"
+
+    static var unlocked: Set<String> {
+        get { Set(UserDefaults.standard.stringArray(forKey: key) ?? []) }
+        set { UserDefaults.standard.set(Array(newValue), forKey: key) }
+    }
+
+    static func grant(_ ids: [String]) {
+        var current = unlocked
+        ids.forEach { current.insert($0) }
+        unlocked = current
+    }
+}

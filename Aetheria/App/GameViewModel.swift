@@ -777,6 +777,7 @@ final class GameViewModel: ObservableObject {
         let newly = AchievementManager.check(event, session: session)
         guard !newly.isEmpty else { return }
         session.achievements.append(contentsOf: newly)
+        AchievementStore.grant(newly)
         for id in newly {
             if let def = AchievementManager.all.first(where: { $0.id == id }) {
                 toast("\(L.t("ach.got")) \(def.title)")
