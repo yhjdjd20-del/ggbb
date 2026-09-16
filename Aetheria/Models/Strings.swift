@@ -16,6 +16,7 @@ enum Strings {
         // common
         "common.ok": [.en: "OK", .ru: "ОК"],
         "common.cancel": [.en: "Cancel", .ru: "Отмена"],
+        "common.continue": [.en: "Keep exploring", .ru: "Продолжить странствия"],
         "common.close": [.en: "Close", .ru: "Закрыть"],
         "common.back": [.en: "Back", .ru: "Назад"],
         "common.level": [.en: "Level", .ru: "Уровень"],
