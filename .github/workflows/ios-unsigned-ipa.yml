@@ -100,6 +100,26 @@ jobs:
               build | tee build/xcodebuild.log
           fi
 
+      - name: Diagnose on failure
+        if: failure()
+        run: |
+          echo "=== project schemes ==="
+          xcodebuild -project "$PROJECT" -list 2>&1 | head -25 || true
+          xcodebuild -project "$PROJECT" -list 2>&1 | head -25 | cut -c1-300 | while IFS= read -r line; do
+            echo "::notice::$line"
+          done
+          echo "=== log size ==="
+          ls -lh build/ || echo "(no build dir)"
+          if [ -f build/xcodebuild.log ]; then
+            echo "=== error lines ==="
+            grep -iE "error:" build/xcodebuild.log | head -20 || echo "(no error: lines)"
+            grep -iE "error:" build/xcodebuild.log | head -8 | cut -c1-400 | while IFS= read -r line; do
+              echo "::error::$line"
+            done
+          else
+            echo "::error::build/xcodebuild.log was not created"
+          fi
+
       - name: Package unsigned IPA
         run: |
           APP_PATH=$(find build/DerivedData/Build/Products/Release-iphoneos -maxdepth 1 -name "*.app" | head -1)
