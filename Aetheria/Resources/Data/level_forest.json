@@ -1,0 +1,73 @@
+{
+  "id": "forest",
+  "name": "Whispering Forest",
+  "nameRu": "Шепчущий лес",
+  "width": 4200,
+  "height": 1200,
+  "spawn": {"x": 200, "y": 300},
+  "theme": "forest",
+  "weather": "leaves",
+  "timeOfDay": 0.4,
+  "music": "forest",
+  "platforms": [
+    {"x": 0, "y": 0, "w": 1200, "h": 120, "type": "grass"},
+    {"x": 1200, "y": 60, "w": 150, "h": 60, "type": "stone"},
+    {"x": 1350, "y": 0, "w": 900, "h": 120, "type": "grass"},
+    {"x": 2250, "y": 60, "w": 150, "h": 60, "type": "stone"},
+    {"x": 2400, "y": 0, "w": 800, "h": 120, "type": "grass"},
+    {"x": 3200, "y": 60, "w": 150, "h": 60, "type": "stone"},
+    {"x": 3350, "y": 0, "w": 850, "h": 120, "type": "grass"},
+    {"x": 500, "y": 320, "w": 180, "h": 36, "type": "wood"},
+    {"x": 760, "y": 460, "w": 180, "h": 36, "type": "wood"},
+    {"x": 1020, "y": 600, "w": 220, "h": 36, "type": "wood"},
+    {"x": 1500, "y": 300, "w": 160, "h": 36, "type": "wood"},
+    {"x": 1750, "y": 440, "w": 160, "h": 36, "type": "wood"},
+    {"x": 2500, "y": 320, "w": 200, "h": 36, "type": "wood"},
+    {"x": 2800, "y": 480, "w": 180, "h": 36, "type": "wood"},
+    {"x": 3450, "y": 300, "w": 180, "h": 36, "type": "wood"},
+    {"x": 3700, "y": 460, "w": 200, "h": 36, "type": "wood"}
+  ],
+  "movingPlatforms": [],
+  "ladders": [
+    {"x": 800, "y": 120, "w": 60, "h": 340, "type": null}
+  ],
+  "hazards": [
+    {"x": 1204, "y": 120, "w": 142, "h": 28, "damage": 12, "type": "spikes"},
+    {"x": 2254, "y": 120, "w": 142, "h": 28, "damage": 12, "type": "spikes"},
+    {"x": 3204, "y": 120, "w": 142, "h": 28, "damage": 12, "type": "spikes"}
+  ],
+  "enemySpawns": [
+    {"id": "slime", "x": 600, "y": 300},
+    {"id": "slime", "x": 1100, "y": 300},
+    {"id": "slime", "x": 1600, "y": 300},
+    {"id": "slime", "x": 2050, "y": 300},
+    {"id": "slime", "x": 2600, "y": 300},
+    {"id": "slime", "x": 3050, "y": 300},
+    {"id": "bat", "x": 900, "y": 620},
+    {"id": "bat", "x": 2000, "y": 700},
+    {"id": "bat", "x": 2650, "y": 620},
+    {"id": "skeleton", "x": 2900, "y": 300},
+    {"id": "slime", "x": 3500, "y": 300},
+    {"id": "bat", "x": 3800, "y": 650}
+  ],
+  "npcs": [
+    {"id": "elder", "x": 350, "y": 130},
+    {"id": "merchant", "x": 920, "y": 130}
+  ],
+  "chests": [
+    {"id": "ch_forest_1", "x": 1090, "y": 640, "loot": ["potion_minor", "potion_minor", "gel"], "gold": 30},
+    {"id": "ch_forest_2", "x": 3760, "y": 500, "loot": ["armor_leather", "meat", "meat"], "gold": 40}
+  ],
+  "checkpoints": [
+    {"id": "cp_forest_1", "x": 2320, "y": 130},
+    {"id": "cp_forest_2", "x": 3420, "y": 130}
+  ],
+  "signs": [
+    {"x": 260, "y": 130, "text": "East: Whispering Forest. Mind the slimes!", "textRu": "На восток: Шепчущий лес. Осторожно, слаймы!"},
+    {"x": 1300, "y": 130, "text": "Jump: SPACE. Attack: J. Dash: SHIFT.", "textRu": "Прыжок: ПРОБЕЛ. Атака: J. Рывок: SHIFT."},
+    {"x": 3300, "y": 130, "text": "The portal hums ahead...", "textRu": "Впереди гудит портал..."}
+  ],
+  "portal": {"x": 4050, "y": 130, "target": "caves", "lockedByBoss": null, "isFinal": false},
+  "boss": null,
+  "tipKey": "howto.goal"
+}
