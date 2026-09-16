@@ -1,0 +1,141 @@
+name: iOS unsigned IPA
+
+# Builds the game on GitHub-hosted macOS runners and packages an
+# UNSIGNED .ipa (no Apple Developer certificates required).
+#
+# The unsigned IPA cannot be installed directly on a stock device —
+# re-sign it with your own certificate (Xcode, Sideloadly, AltStore, …).
+#
+# Triggers:
+#   - every push / PR  -> validates + builds, uploads IPA as an artifact
+#   - tags like v1.0.0  -> additionally attaches the IPA to a GitHub Release
+#   - manual            -> "Run workflow" button in the Actions tab
+
+on:
+  push:
+    branches: ["**"]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PROJECT: Aetheria.xcodeproj
+  SCHEME: Aetheria
+  CONFIG: Release
+
+jobs:
+  # ---- fast static checks on Linux (no Mac needed) ----
+  validate:
+    name: Validate content & project
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate JSON content
+        run: |
+          python3 -c "
+          import json, glob, sys
+          files = sorted(glob.glob('Aetheria/Resources/Data/*.json'))
+          assert files, 'no JSON files found'
+          for f in files:
+              json.load(open(f, encoding='utf-8'))
+              print('OK', f)
+          "
+
+      - name: Check Swift brace balance
+        run: |
+          python3 -c "
+          import glob, re, sys
+          bad = []
+          for f in sorted(glob.glob('Aetheria/**/*.swift', recursive=True)):
+              t = open(f, encoding='utf-8').read()
+              t = re.sub(r'\"(\\\\.|[^\"\\\\])*\"', '', t)
+              t = re.sub(r'//.*', '', t)
+              t = re.sub(r'/\*.*?\*/', '', t, flags=re.S)
+              for name, a, b in [('{}', t.count('{'), t.count('}')),
+                                 ('()', t.count('('), t.count(')')),
+                                 ('[]', t.count('['), t.count(']'))]:
+                  if a != b:
+                      bad.append((f, name, a, b))
+          print('checked', len(glob.glob('Aetheria/**/*.swift', recursive=True)), 'files')
+          assert not bad, f'imbalanced: {bad}'
+          "
+
+      - name: Check generated project is in sync
+        run: |
+          python3 tools/generate_project.py
+          git diff --exit-code -- Aetheria.xcodeproj/project.pbxproj \
+            || (echo '::error::project.pbxproj is out of sync — run python3 tools/generate_project.py and commit the result'; exit 1)
+
+  # ---- full build + unsigned IPA on macOS ----
+  build:
+    name: Build unsigned IPA
+    needs: validate
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Show Xcode version
+        run: |
+          xcodebuild -version
+          xcodebuild -showsdks | head -20
+
+      - name: Build .app (no code signing)
+        run: |
+          set -o pipefail
+          BUILD_CMD="xcodebuild -project $PROJECT -scheme $SCHEME -configuration $CONFIG -sdk iphoneos -derivedDataPath build/DerivedData CODE_SIGNING_ALLOWED=NO CODE_SIGN_IDENTITY= CODE_SIGNING_REQUIRED=NO build"
+          if command -v xcpretty >/dev/null; then
+            eval "$BUILD_CMD" | tee build/xcodebuild.log | xcpretty --color
+          else
+            eval "$BUILD_CMD" | tee build/xcodebuild.log
+          fi
+
+      - name: Package unsigned IPA
+        run: |
+          APP_PATH=$(find build/DerivedData/Build/Products/Release-iphoneos -maxdepth 1 -name "*.app" | head -1)
+          echo "App bundle: $APP_PATH"
+          test -d "$APP_PATH" || (echo "::error::.app bundle not found"; exit 1)
+          rm -rf Payload Aetheria-unsigned.ipa
+          mkdir -p Payload
+          cp -R "$APP_PATH" Payload/
+          ditto -c -k --keepParent Payload Aetheria-unsigned.ipa
+          ls -lh Aetheria-unsigned.ipa
+          unzip -l Aetheria-unsigned.ipa | head -15
+
+      - name: Upload IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Aetheria-unsigned-ipa
+          path: Aetheria-unsigned.ipa
+          retention-days: 30
+
+      - name: Upload build log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xcodebuild-log
+          path: build/xcodebuild.log
+          retention-days: 7
+
+  # ---- attach the IPA to a GitHub Release for tags (v*) ----
+  release:
+    name: Attach IPA to Release
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: Aetheria-unsigned-ipa
+
+      - name: Publish Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: Aetheria-unsigned.ipa
+          generate_release_notes: true
