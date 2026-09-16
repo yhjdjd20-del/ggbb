@@ -314,7 +314,7 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
             }
             if proj.hostile {
                 if hypot(proj.position.x - player.position.x, proj.position.y - player.position.y) < 34 {
-                    damagePlayer(CombatFormulas.mitigated(proj.damage, defense: derived.defense), from: proj.position)
+                    damagePlayer(CombatFormulas.mitigated(raw: proj.damage, defense: derived.defense), from: proj.position)
                     proj.removeFromParent()
                     continue
                 }
@@ -386,7 +386,7 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
         let feet = CGRect(x: player.position.x - 12, y: player.position.y - 33, width: 24, height: 30)
         for hazard in hazards {
             if feet.intersects(hazard.rect.insetBy(dx: 8, dy: 6)) {
-                let hurt = damagePlayer(CombatFormulas.mitigated(hazard.damage, defense: derived.defense), from: player.position + CGPoint(x: 0, y: -40))
+                let hurt = damagePlayer(CombatFormulas.mitigated(raw: hazard.damage, defense: derived.defense), from: player.position + CGPoint(x: 0, y: -40))
                 if hurt {
                     player.physicsBody?.velocity.dy = 480
                 }
@@ -500,10 +500,10 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
     private func activateCheckpoint(_ cp: CheckpointNode) {
         guard let vm = viewModel else { return }
         cp.activate()
-        vm.session.checkpointId = cp.id
+        vm.session.checkpointId = cp.checkpointId
         vm.healPlayer(derived.maxHP * 0.5)
         vm.restoreMana(derived.maxMana * 0.5)
-        vm.questEvent(.reach(checkpointId: cp.id))
+        vm.questEvent(.reach(checkpointId: cp.checkpointId))
         vm.saveGame(silent: true)
         hud.toast("\(L.t("hud.checkpoint")) ✓")
         SoundManager.shared.play("checkpoint")
@@ -702,11 +702,11 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
         }
         projectiles.removeAll { $0.parent == nil }
         if hitAny {
-            combo += 1
+            self.combo += 1
             comboTimer = 2.2
-            hud.showCombo(combo)
-            if combo >= 10 {
-                vm.grantComboAchievement(combo: combo)
+            hud.showCombo(self.combo)
+            if self.combo >= 10 {
+                vm.grantComboAchievement(combo: self.combo)
             }
         }
         _ = vm
@@ -773,13 +773,13 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
     }
 
     func enemyDealTouchDamage(_ enemy: EnemyNode, amount: Double) {
-        damagePlayer(CombatFormulas.mitigated(amount, defense: derived.defense), from: enemy.position)
+        damagePlayer(CombatFormulas.mitigated(raw: amount, defense: derived.defense), from: enemy.position)
     }
 
     func enemyAoE(at point: CGPoint, radius: CGFloat, damage: Double) {
         explode(at: point, radius: radius)
         if hypot(player.position.x - point.x, player.position.y - point.y) < radius {
-            damagePlayer(CombatFormulas.mitigated(damage, defense: derived.defense), from: point)
+            damagePlayer(CombatFormulas.mitigated(raw: damage, defense: derived.defense), from: point)
         }
     }
 

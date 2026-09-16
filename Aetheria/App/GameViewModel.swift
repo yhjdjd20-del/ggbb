@@ -556,24 +556,26 @@ final class GameViewModel: ObservableObject {
 
     func visibleChoices() -> [DialogueChoice] {
         guard let node = currentDialogueNode() else { return [] }
-        return node.choices.filter { choice in
+        var result: [DialogueChoice] = []
+        for choice in node.choices {
             if let req = choice.requiresQuest, questState(req) != .active {
-                return false
+                continue
             }
             if let reqDone = choice.requiresQuestDone, questState(reqDone) != .turnedIn {
-                return false
+                continue
             }
             if let gives = choice.givesQuest {
-                guard let def = ContentDatabase.shared.quests[gives], isQuestAvailable(def) else { return false }
+                guard let def = ContentDatabase.shared.quests[gives], isQuestAvailable(def) else { continue }
             }
             if let turnIn = choice.turnInQuest {
-                guard let state = questState(turnIn), state == .active || state == .readyToTurnIn else { return false }
+                guard let state = questState(turnIn), state == .active || state == .readyToTurnIn else { continue }
             }
             if let item = choice.requiresItem, session.inventoryCount(itemId: item) == 0 {
-                return false
+                continue
             }
-            return true
+            result.append(choice)
         }
+        return result
     }
 
     func chooseDialogue(_ choice: DialogueChoice) {

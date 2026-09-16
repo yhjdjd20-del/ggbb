@@ -51,7 +51,7 @@ final class BossNode: EnemyNode {
         facing = playerPos.x >= position.x ? 1 : -1
         if d < touchRadius && touchCd <= 0 {
             touchCd = 1.0
-            delegate?.enemyDealTouchDamage(self, damage * touchMultiplier)
+            delegate?.enemyDealTouchDamage(self, amount: damage * touchMultiplier)
         }
 
         // Phase transitions.

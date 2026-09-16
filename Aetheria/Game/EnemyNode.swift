@@ -103,7 +103,7 @@ class EnemyNode: SKSpriteNode {
         // Touch damage.
         if d < touchRadius && touchCd <= 0 && state != .dead {
             touchCd = 1.0
-            delegate?.enemyDealTouchDamage(self, damage * touchMultiplier)
+            delegate?.enemyDealTouchDamage(self, amount: damage * touchMultiplier)
         }
 
         switch def.behavior {
