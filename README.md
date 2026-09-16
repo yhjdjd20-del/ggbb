@@ -1,6 +1,10 @@
 # ⚔️ AETHERIA: Echoes of the Fallen
 
+[![iOS unsigned IPA](https://github.com/yhjdjd20-del/ggbb/actions/workflows/ios-unsigned-ipa.yml/badge.svg)](https://github.com/yhjdjd20-del/ggbb/actions/workflows/ios-unsigned-ipa.yml)
+
 **Сложная action-RPG-платформер для iOS** — Swift, SpriteKit + SwiftUI.
+
+> 🤖 Каждый пуш автоматически собирается в **неподписанный .ipa** (GitHub Actions → Artifacts). Теги вида `v1.0.0` публикуют IPA в Releases.
 
 Тёмная сказочная история: Разлом пожирает небо, и только герой, пахнущий рассветом, может закрыть его — пройдя 4 региона, победив 3 стражей и собрав силу Эха.
 

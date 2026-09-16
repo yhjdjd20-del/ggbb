@@ -1,5 +1,4 @@
 # Xcode
-build/
 DerivedData/
 *.pbxuser
 !default.pbxuser
@@ -14,11 +13,16 @@ xcuserdata/
 *.moved-aside
 *.xcuserstate
 *.xcscmblueprint
-*.xccheckout
 
 # Swift Package Manager
 .build/
 .swiftpm/
+
+# Build artifacts (local + CI)
+build/
+Payload/
+*.ipa
+*.dSYM.zip
 
 # macOS
 .DS_Store
