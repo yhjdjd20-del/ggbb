@@ -83,6 +83,24 @@ final class AppSettings: ObservableObject {
         hapticsEnabled = defaults.object(forKey: "hapticsEnabled") as? Bool ?? true
         showMinimap = defaults.object(forKey: "showMinimap") as? Bool ?? true
         richEffects = defaults.object(forKey: "richEffects") as? Bool ?? true
+        displayQuality = defaults.string(forKey: "displayQuality").flatMap(DisplayQuality.init(rawValue:)) ?? .auto
+    }
+
+    /// Resolved quality (Auto -> device tier). Never `.auto`.
+    var effectiveQuality: DisplayQuality {
+        displayQuality == .auto ? DeviceProfile.autoTier : displayQuality
+    }
+
+    /// Particle birth-rate multiplier for the resolved quality.
+    var particleScale: Double {
+        var scale: Double
+        switch effectiveQuality {
+        case .high, .auto: scale = 1.0
+        case .medium: scale = 0.7
+        case .low: scale = 0.4
+        }
+        if !richEffects { scale *= 0.35 }
+        return scale
     }
 
     private func save() {
@@ -94,5 +112,6 @@ final class AppSettings: ObservableObject {
         defaults.set(hapticsEnabled, forKey: "hapticsEnabled")
         defaults.set(showMinimap, forKey: "showMinimap")
         defaults.set(richEffects, forKey: "richEffects")
+        defaults.set(displayQuality.rawValue, forKey: "displayQuality")
     }
 }

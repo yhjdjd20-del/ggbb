@@ -161,6 +161,13 @@ enum Strings {
         "set.haptics": [.en: "Haptics", .ru: "Вибрация"],
         "set.minimap": [.en: "Minimap", .ru: "Миникарта"],
         "set.effects": [.en: "Rich effects", .ru: "Богатые эффекты"],
+        "set.graphics": [.en: "Graphics", .ru: "Графика"],
+        "set.quality.auto": [.en: "Auto", .ru: "Авто"],
+        "set.quality.high": [.en: "High", .ru: "Высокая"],
+        "set.quality.medium": [.en: "Medium", .ru: "Средняя"],
+        "set.quality.low": [.en: "Low", .ru: "Низкая"],
+        "set.device": [.en: "Device", .ru: "Устройство"],
+        "hud.fullHp": [.en: "Health is already full", .ru: "Здоровье уже полное"],
         "set.credits": [.en: "A dark fairy-tale action RPG. Made with SpriteKit & SwiftUI.", .ru: "Тёмная сказочная action-RPG. Сделана на SpriteKit и SwiftUI."],
         // death / victory
         "death.title": [.en: "You Died", .ru: "Ты погиб"],
