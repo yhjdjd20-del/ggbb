@@ -79,6 +79,21 @@ Aetheria/
 | Зелье      | ❤️        | Q          | —       |
 | Действие   | ✋       | E          | Menu    |
 
+## 🤖 Разработка через Gemini CLI (без лимитов Arena)
+
+Репозиторий настроен для работы с бесплатным [Gemini CLI](https://github.com/google-gemini/gemini-cli) — инструкции для агента лежат в `GEMINI.md` и подхватываются автоматически.
+
+**Локально:**
+
+```bash
+npm install -g @google/gemini-cli
+gemini  # первый запуск: вход через Google-аккаунт (щедрые бесплатные квоты)
+```
+
+Затем просите по-русски прямо в терминале из корня репо: «почини баг с…», «добавь…».
+
+**Прямо в GitHub:** добавьте секрет `GEMINI_API_KEY` (Settings → Secrets and variables → Actions; сам ключ бесплатно берётся в [Google AI Studio](https://aistudio.google.com/)) и напишите комментарий `@gemini-cli <задача>` в любом issue или PR — агент выполнит задачу, запушит код и ответит в том же треде (workflow `Gemini Dispatch`).
+
 ---
 
 *Made with SpriteKit & SwiftUI. No game engines were harmed — only slimes.* 💜

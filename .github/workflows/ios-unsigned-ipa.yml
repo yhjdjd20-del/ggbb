@@ -47,7 +47,7 @@ jobs:
               t = open(f, encoding='utf-8').read()
               t = re.sub(r'\"(\\\\.|[^\"\\\\])*\"', '', t)
               t = re.sub(r'//.*', '', t)
-              t = re.sub(r'/\\*.*?\\*/', '', t, flags=re.S)
+              t = re.sub(r'/\*.*?\*/', '', t, flags=re.S)
               for name, a, b in [('{}', t.count('{'), t.count('}')), ('()', t.count('('), t.count(')')), ('[]', t.count('['), t.count(']'))]:
                   if a != b:
                       bad.append((f, name, a, b))
@@ -94,7 +94,12 @@ jobs:
           xcodebuild -project "$PROJECT" -list 2>&1 | head -25 || true
           echo "=== error lines ==="
           if [ -f build/xcodebuild.log ]; then
-            grep -iE "error:" build/xcodebuild.log | head -30 || true
+            grep -iE "error:" build/xcodebuild.log | head -30 || echo "(no error: lines)"
+            grep -iE "error:" build/xcodebuild.log | head -8 | cut -c1-400 | while IFS= read -r line; do
+              echo "::error::$line"
+            done
+          else
+            echo "::error::build/xcodebuild.log was not created"
           fi
 
       - name: Package unsigned IPA

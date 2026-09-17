@@ -32,3 +32,7 @@ Payload/
 # Tools
 .venv/
 __pycache__/
+
+# Gemini CLI (local settings + GitHub App credentials)
+.gemini/
+gha-creds-*.json
