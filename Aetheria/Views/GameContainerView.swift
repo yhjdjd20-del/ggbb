@@ -7,7 +7,7 @@ final class SceneHolder: ObservableObject {
     let scene: GameScene
 
     init(vm: GameViewModel) {
-        let scene = GameScene(size: CGSize(width: 1280, height: 720), viewModel: vm, levelId: vm.session.currentLevel)
+        let scene = GameScene(size: GameScene.logicalSize, viewModel: vm, levelId: vm.session.currentLevel)
         self.scene = scene
         vm.scene = scene
     }
@@ -25,44 +25,49 @@ struct GameContainerView: View {
     }
 
     var body: some View {
-        ZStack {
-            SpriteView(scene: holder.scene, preferredFramesPerSecond: 60)
-                .ignoresSafeArea()
+        GeometryReader { proxy in
+            ZStack {
+                SpriteView(scene: holder.scene, preferredFramesPerSecond: 60)
+                    .ignoresSafeArea()
 
-            // Top HUD strip.
-            VStack {
-                HStack(alignment: .top, spacing: 10) {
-                    questTracker
-                    Spacer()
-                    if settings.showMinimap {
-                        MinimapView(vm: vm)
+                // Top HUD strip. Geometry-based spacing keeps it usable on the
+                // compact landscape viewport of iPhone SE.
+                VStack {
+                    HStack(alignment: .top, spacing: 8) {
+                        questTracker(topInset: proxy.safeAreaInsets.top)
+                        Spacer(minLength: 4)
+                        if settings.showMinimap {
+                            MinimapView(vm: vm)
+                                .scaleEffect(min(1, max(0.78, proxy.size.width / 700)))
+                        }
+                        menuButtons
                     }
-                    menuButtons
+                    .padding(.horizontal, max(8, proxy.safeAreaInsets.left + 6))
+                    .padding(.top, max(6, proxy.safeAreaInsets.top + 2))
+                    Spacer()
                 }
-                .padding(.horizontal, 10)
-                .padding(.top, 6)
-                Spacer()
-            }
 
-            // Touch controls (transparent containers pass touches through).
-            if !vm.modalOpen {
-                TouchControlsView(vm: vm)
-            }
+                if !vm.modalOpen {
+                    TouchControlsView(vm: vm)
+                        .padding(.leading, proxy.safeAreaInsets.leading)
+                        .padding(.trailing, proxy.safeAreaInsets.trailing)
+                        .padding(.bottom, proxy.safeAreaInsets.bottom)
+                }
 
-            // Modal overlays.
-            if vm.showInventory { InventoryView(vm: vm) }
-            if vm.showSkills { SkillTreeView(vm: vm) }
-            if vm.showQuests { QuestLogView(vm: vm) }
-            if vm.showDialogue { DialogueOverlayView(vm: vm) }
-            if vm.showShop { ShopView(vm: vm) }
-            if vm.showPause { PauseMenuView(vm: vm) }
-            if vm.showSign { SignView(vm: vm) }
-            if vm.showDeath { DeathView(vm: vm) }
-            if vm.showVictory { VictoryView(vm: vm) }
-            if vm.showSettings {
-                ZStack {
-                    FullscreenDim()
-                    SettingsView(onBack: { vm.showSettings = false })
+                if vm.showInventory { InventoryView(vm: vm) }
+                if vm.showSkills { SkillTreeView(vm: vm) }
+                if vm.showQuests { QuestLogView(vm: vm) }
+                if vm.showDialogue { DialogueOverlayView(vm: vm) }
+                if vm.showShop { ShopView(vm: vm) }
+                if vm.showPause { PauseMenuView(vm: vm) }
+                if vm.showSign { SignView(vm: vm) }
+                if vm.showDeath { DeathView(vm: vm) }
+                if vm.showVictory { VictoryView(vm: vm) }
+                if vm.showSettings {
+                    ZStack {
+                        FullscreenDim()
+                        SettingsView(onBack: { vm.showSettings = false })
+                    }
                 }
             }
         }
@@ -74,9 +79,7 @@ struct GameContainerView: View {
         }
     }
 
-    // MARK: - Quest tracker
-
-    private var questTracker: some View {
+    private func questTracker(topInset: CGFloat) -> some View {
         Group {
             if let title = vm.trackedQuestTitle() {
                 Button(action: { vm.showQuests = true }) {
@@ -84,6 +87,8 @@ struct GameContainerView: View {
                         Text(title)
                             .font(.caption.bold())
                             .foregroundColor(.white)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.7)
                         if let progress = vm.trackedQuestProgress() {
                             Text(progress)
                                 .font(.caption2)
@@ -95,15 +100,13 @@ struct GameContainerView: View {
                     .background(Color.black.opacity(0.45))
                     .cornerRadius(8)
                 }
-                .padding(.top, 116)
+                .padding(.top, max(54, 94 - topInset))
             }
         }
     }
 
-    // MARK: - Menu buttons
-
     private var menuButtons: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 6) {
             hudButton(icon: "bag.fill") { vm.showInventory = true }
             ZStack(alignment: .topTrailing) {
                 hudButton(icon: "star.fill") { vm.showSkills = true }
