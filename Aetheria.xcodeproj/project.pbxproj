@@ -107,6 +107,10 @@
 			isa = PBXBuildFile;
 			fileRef = 8E888A2193308B2C5D36DD87 /* TextureFactory+World.swift */;
 		};
+		77E2B89981237A1EAAE297C5 /* GameScene+VFX.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = EE1341246D36700CC244E6BB /* GameScene+VFX.swift */;
+		};
 		78F6007696E8E47C2AAEA7F6 /* OverlaysView.swift in Sources */ = {
 			isa = PBXBuildFile;
 			fileRef = 6FC946BAC5150C6119DCC754 /* OverlaysView.swift */;
@@ -234,6 +238,10 @@
 		F7B811176C3B6504A91D84B6 /* GameControllerManager.swift in Sources */ = {
 			isa = PBXBuildFile;
 			fileRef = 62D269C1190926DFABEF7FD3 /* GameControllerManager.swift */;
+		};
+		FD6C7D1711C5ABAE119B5E22 /* VisualFX.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = AFAFCE462F4D5B2B80C7FA58 /* VisualFX.swift */;
 		};
 /* End PBXBuildFile section */
 
@@ -509,6 +517,12 @@
 			path = Strings.swift;
 			sourceTree = "<group>";
 		};
+		AFAFCE462F4D5B2B80C7FA58 /* VisualFX.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = VisualFX.swift;
+			sourceTree = "<group>";
+		};
 		B048C9B184D504AEBCF2CA56 /* PauseMenuView.swift */ = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.swift;
@@ -575,6 +589,12 @@
 			path = WorldObjects.swift;
 			sourceTree = "<group>";
 		};
+		EE1341246D36700CC244E6BB /* GameScene+VFX.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "GameScene+VFX.swift";
+			sourceTree = "<group>";
+		};
 		F061AB033A3974DD025B3971 /* level_castle.json */ = {
 			isa = PBXFileReference;
 			lastKnownFileType = text.json;
@@ -639,6 +659,7 @@
 				6C4FF0D367D749F865721602 /* SoundManager.swift */,
 				8E888A2193308B2C5D36DD87 /* TextureFactory+World.swift */,
 				3E1CADD8749405F107A00941 /* TextureFactory.swift */,
+				AFAFCE462F4D5B2B80C7FA58 /* VisualFX.swift */,
 			);
 			path = Systems;
 			sourceTree = "<group>";
@@ -667,6 +688,7 @@
 			children = (
 				FE4A7B1C4BC4803448641D13 /* BossNode.swift */,
 				014384399CE7223B10107AAA /* EnemyNode.swift */,
+				EE1341246D36700CC244E6BB /* GameScene+VFX.swift */,
 				14FD4D9A7B53B5934144A246 /* GameScene.swift */,
 				DE80F8F4140050CA06A8AE59 /* HUDLayer.swift */,
 				76AE65BA1B8FE33A9C064772 /* LevelBuilder.swift */,
@@ -835,6 +857,7 @@
 				B5DA90E70CBBBD2365F13901 /* InputState.swift in Sources */,
 				A51B09C8A7011942B2063B79 /* BossNode.swift in Sources */,
 				60BDDB6BE75661471E3D4F0F /* EnemyNode.swift in Sources */,
+				77E2B89981237A1EAAE297C5 /* GameScene+VFX.swift in Sources */,
 				7CB7E12A3A03201ED89DA060 /* GameScene.swift in Sources */,
 				D02DE6EF74F2A8A26C5A72C8 /* HUDLayer.swift in Sources */,
 				A65B28510B47E4672C330EEE /* LevelBuilder.swift in Sources */,
@@ -855,6 +878,7 @@
 				82A7E8CE73292E02CDC6CF97 /* SoundManager.swift in Sources */,
 				68597716FEBF0E569C94B11A /* TextureFactory+World.swift in Sources */,
 				CAFC631B6CE3E23D1790F73A /* TextureFactory.swift in Sources */,
+				FD6C7D1711C5ABAE119B5E22 /* VisualFX.swift in Sources */,
 				C0E6A9600A27FDDCC7A886C5 /* AchievementsView.swift in Sources */,
 				2E01376B4C401F0963FF0340 /* CharacterCreateView.swift in Sources */,
 				9A65FFD01E6B0DC8DC47FD1A /* DialogueOverlayView.swift in Sources */,

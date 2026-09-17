@@ -651,8 +651,10 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
         guard let vm = viewModel else { return }
         vm.session.stats.jumps += 1
         SoundManager.shared.play(doubleJump ? "doubleJump" : "jump")
+        spawnDustBurst(at: player.position + CGPoint(x: 0, y: -30), color: doubleJump ? .cyan : .white, count: doubleJump ? 11 : 8, radius: 32)
         if doubleJump {
             puff(at: player.position + CGPoint(x: 0, y: -30), big: false, color: .white)
+            spawnImpactRing(at: player.position + CGPoint(x: 0, y: -22), color: .cyan, radius: 24)
         }
     }
 
@@ -660,6 +662,7 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
         if fallSpeed < -900 {
             SoundManager.shared.play("land")
             puff(at: player.position + CGPoint(x: 0, y: -30), big: false, color: SKColor(white: 1, alpha: 0.7))
+            spawnDustBurst(at: player.position + CGPoint(x: 0, y: -22), color: .gray, count: 10, radius: 36, upward: 8)
         }
     }
 
@@ -677,6 +680,8 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
         ghost.color = SKColor(red: 0.5, green: 0.85, blue: 1, alpha: 1)
         world.addChild(ghost)
         ghost.run(SKAction.sequence([SKAction.fadeOut(withDuration: 0.3), SKAction.removeFromParent()]))
+        spawnDashTrail(at: player.position + CGPoint(x: player.facing * -12, y: 0), color: .cyan)
+        spawnDustBurst(at: player.position + CGPoint(x: player.facing * -18, y: -18), color: .cyan, count: 6, radius: 28, upward: 8)
     }
 
     func playerDidAttack(combo: Int) {
@@ -691,6 +696,7 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
             SKAction.removeFromParent(),
         ]))
         performMeleeHit(combo: combo)
+        spawnImpactRing(at: player.position + CGPoint(x: player.facing * 42, y: 5), color: .yellow, radius: 20)
     }
 
     func playerDidCast() {
@@ -713,6 +719,8 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
         world.addChild(bolt)
         projectiles.append(bolt)
         SoundManager.shared.play("shoot")
+        spawnImpactRing(at: bolt.position, color: .cyan, radius: 22)
+        spawnDustBurst(at: bolt.position, color: .cyan, count: 7, radius: 28, upward: 12)
     }
 
     /// Bolt aim assist: fires at the nearest living enemy in the facing
@@ -784,6 +792,7 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
         vm.session.stats.damageDealt += damage
         damageLayer.spawn(text: "\(Int(damage))", at: enemy.position + CGPoint(x: 0, y: enemy.size.height / 2),
                           color: crit ? SKColor(red: 1, green: 0.75, blue: 0.2, alpha: 1) : .white, big: crit)
+        enemyHitVFX(at: enemy.position + CGPoint(x: 0, y: 10), crit: crit)
         if derived.lifesteal > 0 {
             vm.healPlayer(damage * derived.lifesteal)
         }

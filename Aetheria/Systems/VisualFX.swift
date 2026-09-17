@@ -58,7 +58,7 @@ extension SKNode {
                   duration: TimeInterval = 0.55,
                   upward: CGFloat = 10) {
         for _ in 0..<count {
-            let s = SKSpriteNode(texture: VisualFX.sparkTexture(color: UIColor(color)))
+            let s = SKSpriteNode(texture: VisualFX.sparkTexture(color: color))
             s.position = position
             s.zPosition = zPosition + 1
             s.setScale(CGFloat.random(in: 0.5...1.2))

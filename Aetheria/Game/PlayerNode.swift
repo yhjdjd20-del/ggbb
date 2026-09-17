@@ -218,6 +218,15 @@ final class PlayerNode: SKSpriteNode {
             texture = TextureFactory.get(key)
         }
         xScale = abs(xScale) * facing
+        // Motion polish: subtle squash & stretch while running / airborne.
+        // (Multiplies xScale instead of setScale so the facing flip survives.)
+        let running = abs(physicsBody?.velocity.dx ?? 0) > 40
+        if grounded {
+            xScale *= running ? CGFloat(1.0 + 0.05 * sin(animTime * 12)) : 1.0
+            yScale = 1.0
+        } else {
+            yScale = 1.0 + 0.06 * sin(animTime * 14)
+        }
 
         if hurtFlash > 0 {
             colorBlendFactor = 0.7
