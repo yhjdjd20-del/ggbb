@@ -42,7 +42,7 @@ struct GameContainerView: View {
                         }
                         menuButtons
                     }
-                    .padding(.horizontal, max(8, proxy.safeAreaInsets.left + 6))
+                    .padding(.horizontal, max(8, proxy.safeAreaInsets.leading + 6))
                     .padding(.top, max(6, proxy.safeAreaInsets.top + 2))
                     Spacer()
                 }
