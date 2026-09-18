@@ -30,9 +30,10 @@ final class InputState {
         var v = moveX
         if keyLeft { v -= 1 }
         if keyRight { v += 1 }
-        // Gamepad stick
+        // Gamepad stick + d-pad
         if let pad = GameControllerManager.shared.activeGamepad {
             v += CGFloat(pad.leftThumbstick.xAxis.value)
+            v += CGFloat(pad.dpad.xAxis.value)
         }
         return max(-1, min(1, v))
     }
@@ -43,6 +44,7 @@ final class InputState {
         if keyDown { v -= 1 }
         if let pad = GameControllerManager.shared.activeGamepad {
             v += CGFloat(pad.leftThumbstick.yAxis.value)
+            v += CGFloat(pad.dpad.yAxis.value)
         }
         return max(-1, min(1, v))
     }

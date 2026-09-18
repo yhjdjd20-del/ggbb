@@ -64,6 +64,13 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
     var autosaveTimer = 0.0
     var shake = 0.0
     var lastGoldShown = -1
+    var secondWindUsed = false
+    var potionCd = 0.0
+    var streakCount = 0
+    var streakTimer = 0.0
+    var dustTimer = 0.0
+    var thunderTimer = 8.0
+    var lastGreet: [String: Double] = [:]
     var built = false
 
     // MARK: - Init
@@ -171,9 +178,11 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
             player.delegate = self
         } else {
             player.removeFromParent()
-            player.groundedContacts = 0
-            player.grounded = false
+            player.resetGroundTracking()
             player.climbing = false
+            secondWindUsed = false
+            streakCount = 0
+            streakTimer = 0
             player.onLadder = false
             player.dashTime = 0
             player.invulnerable = 1.0
@@ -243,6 +252,9 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
 
         let input = vm.input
         spellCooldown = max(0, spellCooldown - dt)
+        potionCd = max(0, potionCd - dt)
+        streakTimer -= dt
+        if streakTimer <= 0 { streakCount = 0 }
         comboTimer -= dt
         if comboTimer <= 0 && combo > 0 {
             combo = 0
@@ -252,6 +264,18 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
         // Ladders.
         player.onLadder = ladders.contains { $0.insetBy(dx: -8, dy: 0).contains(player.position) }
         player.update(dt: dt, input: input, derived: derived)
+
+        // Queued potion from the HUD heart button.
+        if input.potionQueued {
+            _ = vm.drinkPotion()
+        }
+        // Air attack locked: explain instead of silently dropping the press.
+        if input.attackQueued && !player.grounded && !player.climbing && !derived.canAirAttack {
+            if let skill = ContentDatabase.shared.skills.values.first(where: { $0.unlock == "airAttack" }) {
+                hud.toast(String(format: L.t("hud.noAir"), skill.displayName))
+                SoundManager.shared.play("error")
+            }
+        }
 
         updateMovingPlatforms(dt: dt)
         updateEnemies(dt: dt)
@@ -264,6 +288,7 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
         updateBoss(dt: dt)
         updateCamera(dt: dt)
         updateParallax()
+        updateAmbientLife(dt: dt, vm: vm)
 
         // Mana regen.
         let regen = 2.4 * (level.weather == "rain" ? 1.5 : 1.0)
@@ -277,6 +302,15 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
         if vm.session.gold != lastGoldShown {
             lastGoldShown = vm.session.gold
             hud.setGold(vm.session.gold)
+        }
+        // Low-HP vignette follows current HP (clears on heal).
+        hud.setLowHp(vm.hp < derived.maxHP * 0.3)
+        // Auto-potion.
+        if AppSettings.shared.autoPotion && potionCd <= 0 && vm.hp > 0
+            && vm.hp < derived.maxHP * 0.25
+            && (vm.session.inventoryCount(itemId: "potion_minor") > 0
+                || vm.session.inventoryCount(itemId: "potion_major") > 0) {
+            if vm.drinkPotion() { potionCd = 5 }
         }
 
         // Periodic sync.
@@ -321,13 +355,13 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
 
     private func updateEnemies(dt: Double) {
         enemies.removeAll { $0.parent == nil }
-        let snowSlow = level.weather == "snow" ? 0.95 : 1.0
-        _ = snowSlow
+        let snowSlow: CGFloat = level.weather == "snow" ? 0.85 : 1.0
         for enemy in enemies {
+            enemy.speedMul = snowSlow
             enemy.update(dt: dt, playerPos: player.position)
         }
         if let boss, bossIntroduced, !boss.isDead {
-            hud.setBossHp(boss.hp / boss.maxHp)
+            hud.setBossHp(cur: boss.hp, max: boss.maxHp)
         }
     }
 
@@ -500,7 +534,9 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
 
     private func promptLabel(for target: InteractTarget) -> String {
         switch target {
-        case .npc: return L.t("hud.talk")
+        case .npc(let npc):
+            let name = viewModel?.npcName(npc.npcId) ?? ""
+            return name.isEmpty ? L.t("hud.talk") : "\(L.t("hud.talk")) — \(name)"
         case .chest: return L.t("hud.open")
         case .portal: return L.t("hud.enter")
         case .sign: return L.t("hud.read")
@@ -538,6 +574,9 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
         guard let vm = viewModel else { return }
         cp.activate()
         vm.session.checkpointId = cp.checkpointId
+        if !vm.session.waystones.contains(cp.checkpointId) {
+            vm.session.waystones.append(cp.checkpointId)
+        }
         vm.healPlayer(derived.maxHP * 0.5)
         vm.restoreMana(derived.maxMana * 0.5)
         vm.questEvent(.reach(checkpointId: cp.checkpointId))
@@ -560,7 +599,7 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
                 SoundManager.shared.play("bossRoar")
                 SoundManager.shared.playMusic(theme: "boss")
                 showBarriers(arena: arena)
-                shake = max(shake, 10)
+                addShake(10)
             }
         }
         if bossIntroduced, let arena = bossArena {
@@ -618,7 +657,68 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
     }
 
     func addShake(_ amount: CGFloat) {
+        guard AppSettings.shared.screenShake else { return }
         shake = min(26, shake + amount)
+    }
+
+    // MARK: - Ambient life
+
+    /// Sprint dust, rain thunder, one-time tutorial hints, NPC greetings.
+    private func updateAmbientLife(dt: Double, vm: GameViewModel) {
+        // Sprint dust.
+        dustTimer -= dt
+        let speed = abs(player.physicsBody?.velocity.dx ?? 0)
+        if player.grounded && speed > 300 && dustTimer <= 0 {
+            dustTimer = 0.18
+            if AppSettings.shared.richEffects {
+                puff(at: player.position + CGPoint(x: -player.facing * 20, y: -28),
+                     big: false, color: SKColor(white: 0.75, alpha: 0.8))
+            }
+        }
+        // Rain thunder.
+        if level.weather == "rain" {
+            thunderTimer -= dt
+            if thunderTimer <= 0 {
+                thunderTimer = Double.random(in: 6...14)
+                weather.thunder()
+                SoundManager.shared.play("thunder")
+            }
+        }
+        // One-time tutorial hints.
+        if !vm.sawHint("move") && vm.session.stats.playTime > 1.5 {
+            vm.markHint("move")
+            hud.toast(L.t("tut.move"))
+        }
+        if !vm.sawHint("attack") && enemies.contains(where: {
+            !$0.isDead && abs($0.position.x - player.position.x) < 340
+                && abs($0.position.y - player.position.y) < 200
+        }) {
+            vm.markHint("attack")
+            hud.toast(L.t("tut.attack"))
+        }
+        if !vm.sawHint("potion") && vm.hp < derived.maxHP * 0.5 {
+            vm.markHint("potion")
+            hud.toast(L.t("tut.potion"))
+        }
+        if !vm.sawHint("ladder") && player.onLadder {
+            vm.markHint("ladder")
+            hud.toast(L.t("tut.ladder"))
+        }
+        // NPC greetings (60s cooldown per NPC).
+        for npc in npcs {
+            let d = hypot(npc.position.x - player.position.x, npc.position.y - player.position.y)
+            if d < 170 {
+                let last = lastGreet[npc.npcId] ?? -999
+                if vm.session.stats.playTime - last > 60 {
+                    lastGreet[npc.npcId] = vm.session.stats.playTime
+                    let key = "npc.greet.\(npc.npcId)"
+                    let line = L.t(key)
+                    if line != key {
+                        hud.toast("\(vm.npcName(npc.npcId)): \(line)")
+                    }
+                }
+            }
+        }
     }
 
     // MARK: - Physics contact
@@ -630,7 +730,7 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
         guard playerBody != nil else { return }
         let mask = other.categoryBitMask
         if mask == PhysicsCategory.ground || mask == PhysicsCategory.platform || mask == PhysicsCategory.moving {
-            player.landed(contactY: contact.contactPoint.y)
+            player.landed(body: other, contactY: contact.contactPoint.y)
         }
     }
 
@@ -641,7 +741,7 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
         let other = a.categoryBitMask == PhysicsCategory.player ? b : a
         let mask = other.categoryBitMask
         if mask == PhysicsCategory.ground || mask == PhysicsCategory.platform || mask == PhysicsCategory.moving {
-            player.leftGround()
+            player.leftGround(body: other)
         }
     }
 
@@ -798,6 +898,7 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
         }
         if crit {
             addShake(5)
+            hud.critFlash()
             SoundManager.shared.play("crit")
             Haptics.impact(.medium)
         } else {
@@ -822,6 +923,16 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
         Haptics.notification(.error)
         hud.setLowHp(vm.hp < derived.maxHP * 0.3)
         if vm.hp <= 0 {
+            if derived.secondWind && !secondWindUsed {
+                secondWindUsed = true
+                vm.hp = derived.maxHP * 0.3
+                hud.toast(L.t("hud.secondWind"))
+                hud.critFlash()
+                puff(at: player.position, big: true, color: SKColor(red: 0.5, green: 1, blue: 0.5, alpha: 1))
+                SoundManager.shared.play("levelup")
+                vm.syncBadges()
+                return true
+            }
             vm.hp = 0
             vm.onPlayerDeath()
         }
@@ -912,12 +1023,20 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
             addShake(20)
         }
 
-        // Rewards.
-        let xp = CombatFormulas.xpReward(base: enemy.def.xp, level: vm.session.level, bonus: derived.xpBonus)
+        // Rewards (elites pay extra).
+        let eliteXPMul = enemy.elite ? 1.5 : 1.0
+        let xp = CombatFormulas.xpReward(base: Int(Double(enemy.def.xp) * eliteXPMul),
+                                        level: vm.session.level, bonus: derived.xpBonus)
         let weatherXPMult = level.weather == "ash" ? 1.05 : 1.0
-        vm.addXP(Int(Double(xp) * weatherXPMult))
+        let xpGain = Int(Double(xp) * weatherXPMult)
+        vm.addXP(xpGain)
+        if xpGain > 0 {
+            damageLayer.spawn(text: "+\(xpGain) XP", at: pos + CGPoint(x: 0, y: 60),
+                              color: SKColor(red: 0.75, green: 0.55, blue: 1, alpha: 1), big: enemy.elite)
+        }
         let goldBonus = 1.0 + derived.goldBonus + (level.weather == "leaves" ? 0.05 : 0)
-        let gold = Int(Double(Int.random(in: enemy.def.goldMin...max(enemy.def.goldMin, enemy.def.goldMax))) * goldBonus)
+        let gold = Int(Double(Int.random(in: enemy.def.goldMin...max(enemy.def.goldMin, enemy.def.goldMax)))
+            * goldBonus * (enemy.elite ? 2 : 1))
         spawnCoins(amount: gold, at: pos)
         for loot in enemy.def.loot {
             if Double.random(in: 0...1) < loot.chance {
@@ -947,6 +1066,21 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
         }
         vm.checkKillAchievements()
 
+        if !enemy.isBoss {
+            // Kill streaks.
+            streakCount += 1
+            streakTimer = 4
+            if streakCount >= 2 {
+                let key = streakCount >= 5 ? "hud.streak5" : "hud.streak\(streakCount)"
+                hud.banner(title: L.t(key), sub: "")
+            }
+            // Area fully cleared.
+            if !enemies.isEmpty && enemies.allSatisfy({ $0.isDead }) {
+                hud.toast(L.t("level.complete"))
+                vm.checkAchievements(.fullClear(levelId: level.id))
+            }
+        }
+
         enemy.run(SKAction.sequence([
             SKAction.group([SKAction.fadeOut(withDuration: 0.3), SKAction.scale(to: 0.2, duration: 0.3)]),
             SKAction.removeFromParent(),
@@ -962,6 +1096,10 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
             left -= chunk
             spawnPickup(kind: .coin(amount: chunk), at: pos)
             if pickups.count > 60 { break }
+        }
+        if left > 0 {
+            // Pickup cap hit: credit the remainder so gold never vanishes.
+            viewModel?.addGold(left)
         }
     }
 
@@ -1051,7 +1189,7 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
 
     func onLevelUp() {
         SoundManager.shared.play("levelup")
-        hud.toast("\(L.t("hud.levelUp")) (+1 skill, +2 attr)")
+        hud.toast("\(L.t("hud.levelUp")) (\(L.t("hud.levelUpDetail")))")
         Haptics.notification(.success)
         puff(at: player.position, big: true, color: SKColor(red: 1, green: 0.85, blue: 0.3, alpha: 1))
         let ring = SKSpriteNode(texture: TextureFactory.get("glow"))

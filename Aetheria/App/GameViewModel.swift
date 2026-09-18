@@ -53,7 +53,13 @@ final class GameViewModel: ObservableObject {
             input.endFrame()
             input.moveX = 0
             input.moveY = 0
+            input.jumpHeld = false
+            input.keyLeft = false
+            input.keyRight = false
+            input.keyUp = false
+            input.keyDown = false
         }
+        GameControllerManager.shared.uiBlocked = modalOpen
         scene?.isPaused = modalOpen
     }
 
@@ -114,6 +120,7 @@ final class GameViewModel: ObservableObject {
         showShop = false
         showSign = false
         showDeath = false
+        showVictory = false
         activeDialogue = nil
     }
 
@@ -214,20 +221,17 @@ final class GameViewModel: ObservableObject {
     @discardableResult
     func drinkPotion() -> Bool {
         let derived = derivedStats()
-        if session.inventoryCount(itemId: "potion_minor") > 0 && hp < derived.maxHP * 0.999 {
-            removeItem(itemId: "potion_minor")
-            healPlayer(50)
-            SoundManager.shared.play("potion")
-            scene?.puff(at: scene?.player.position ?? .zero, big: false, color: SKColor(red: 0.4, green: 1, blue: 0.5, alpha: 1))
-            syncBadges()
-            return true
-        }
-        if session.inventoryCount(itemId: "potion_major") > 0 && hp < derived.maxHP * 0.999 {
-            removeItem(itemId: "potion_major")
-            healPlayer(140)
-            SoundManager.shared.play("potion")
-            syncBadges()
-            return true
+        let db = ContentDatabase.shared
+        for potionId in ["potion_minor", "potion_major"] {
+            if session.inventoryCount(itemId: potionId) > 0 && hp < derived.maxHP * 0.999 {
+                let heal = db.items[potionId]?.stats["heal"] ?? 50
+                removeItem(itemId: potionId)
+                healPlayer(heal)
+                SoundManager.shared.play("potion")
+                scene?.puff(at: scene?.player.position ?? .zero, big: false, color: SKColor(red: 0.4, green: 1, blue: 0.5, alpha: 1))
+                syncBadges()
+                return true
+            }
         }
         toast(L.t("hud.noPotions"))
         SoundManager.shared.play("error")
@@ -305,6 +309,20 @@ final class GameViewModel: ObservableObject {
         scene?.refreshDerived()
     }
 
+    func sellItem(_ item: InventoryItem) {
+        guard let def = ContentDatabase.shared.items[item.itemId], def.type != .keyItem else {
+            SoundManager.shared.play("error")
+            return
+        }
+        let qty = item.quantity
+        guard removeItem(itemId: item.itemId, quantity: qty) else { return }
+        let gain = max(1, def.price / 2) * qty
+        addGold(gain)
+        toast("\(L.t("shop.sold")): +\(gain) \(L.t("common.gold"))")
+        SoundManager.shared.play("coin")
+        syncBadges()
+    }
+
     func dropItem(_ item: InventoryItem) {
         session.inventory.removeAll { $0.id == item.id }
         SoundManager.shared.play("click")
@@ -351,6 +369,27 @@ final class GameViewModel: ObservableObject {
         session.baseStats[keyPath: keyPath] += 1
         SoundManager.shared.play("click")
         scene?.refreshDerived()
+    }
+
+    func respecAttributes() {
+        let spent = session.baseStats.strength + session.baseStats.agility
+            + session.baseStats.vitality + session.baseStats.intelligence - 12
+        guard spent > 0 else {
+            toast(L.t("skill.respecNone"))
+            SoundManager.shared.play("error")
+            return
+        }
+        guard session.gold >= 500 else {
+            toast(L.t("shop.poor"))
+            SoundManager.shared.play("error")
+            return
+        }
+        addGold(-500)
+        session.statPoints += spent
+        session.baseStats = Stats(strength: 3, agility: 3, vitality: 3, intelligence: 3)
+        scene?.refreshDerived()
+        toast(L.t("skill.respecDone"))
+        SoundManager.shared.play("skill")
     }
 
     // MARK: - Chests
@@ -411,6 +450,10 @@ final class GameViewModel: ObservableObject {
         for (id, var progress) in session.quests where progress.state == .active {
             guard let def = db.quests[id] else { continue }
             var changed = false
+            while progress.counts.count < def.objectives.count {
+                progress.counts.append(0)
+                changed = true
+            }
             for (i, obj) in def.objectives.enumerated() {
                 if progress.counts[i] >= obj.count { continue }
                 switch (event, obj.type) {
@@ -495,6 +538,9 @@ final class GameViewModel: ObservableObject {
         }
         if def.reward.gold > 0 || !def.reward.items.isEmpty {
             toast("\(L.t("common.reward")): \(def.reward.gold > 0 ? "+\(def.reward.gold) \(L.t("common.gold"))" : "")")
+        }
+        if def.kind == .main {
+            scene?.hud.banner(title: def.displayTitle, sub: L.t("hud.questDone"))
         }
         SoundManager.shared.play("questDone")
         acceptAutoQuests()
@@ -624,8 +670,13 @@ final class GameViewModel: ObservableObject {
 
     // MARK: - Shop
 
+    var shopNpcId = ""
+
     func openShop(npcId: String) {
-        shopItems = shopStock(npcId: npcId)
+        shopNpcId = npcId
+        shopItems = shopStock(npcId: npcId).filter {
+            !($0.stock > 0 && session.purchasedShop.contains("\(npcId):\($0.itemId)"))
+        }
         showDialogue = false
         showShop = true
         SoundManager.shared.play("coin")
@@ -687,6 +738,8 @@ final class GameViewModel: ObservableObject {
         addItem(itemId: shopItem.itemId)
         if shopItems[index].stock > 0 {
             shopItems[index].stock -= 1
+            let key = "\(shopNpcId):\(shopItem.itemId)"
+            if !session.purchasedShop.contains(key) { session.purchasedShop.append(key) }
         }
         questEvent(.collect(itemId: shopItem.itemId, count: session.inventoryCount(itemId: shopItem.itemId)))
         toast(L.t("shop.bought"))
@@ -816,5 +869,45 @@ final class GameViewModel: ObservableObject {
 
     func randomHeroName() -> String {
         Self.heroNames.randomElement() ?? "Hero"
+    }
+
+    // MARK: - NPC names / fast travel / tutorial / continue
+
+    func npcName(_ npcId: String) -> String {
+        let key = "npc.\(npcId)"
+        let value = L.t(key)
+        return value == key ? npcId.capitalized : value
+    }
+
+    func fastTravel(to checkpointId: String) {
+        guard let scene, scene.checkpoints.contains(where: { $0.checkpointId == checkpointId }),
+              let node = scene.checkpoints.first(where: { $0.checkpointId == checkpointId })
+        else { return }
+        session.checkpointId = checkpointId
+        scene.player.position = node.position + CGPoint(x: 0, y: 40)
+        scene.player.physicsBody?.velocity = .zero
+        scene.player.invulnerable = 1.5
+        scene.cameraNode.position = scene.player.position
+        scene.puff(at: scene.player.position, big: true, color: SKColor(red: 0.7, green: 0.5, blue: 1, alpha: 1))
+        SoundManager.shared.play("portal")
+        saveGame(silent: true)
+    }
+
+    func sawHint(_ id: String) -> Bool {
+        session.seenHints.contains(id)
+    }
+
+    func markHint(_ id: String) {
+        if !session.seenHints.contains(id) { session.seenHints.append(id) }
+    }
+
+    func continueLatest() {
+        var best: (slot: Int, at: Date)?
+        for slot in 0..<SaveManager.slotCount where SaveManager.exists(slot: slot) {
+            if let loaded = SaveManager.load(slot: slot), best == nil || loaded.savedAt > best!.at {
+                best = (slot, loaded.savedAt)
+            }
+        }
+        if let best { continueGame(slot: best.slot) }
     }
 }

@@ -16,6 +16,7 @@ final class PlayerNode: SKSpriteNode {
     var facing: CGFloat = 1
     var groundedContacts = 0
     var grounded = false
+    private var groundBodies = Set<ObjectIdentifier>()
     var onLadder = false
     var climbing = false
     var coyote = 0.0
@@ -30,6 +31,12 @@ final class PlayerNode: SKSpriteNode {
     var invulnerable = 0.0
     var hurtFlash = 0.0
     var classId = "knight"
+
+    func resetGroundTracking() {
+        groundBodies.removeAll()
+        groundedContacts = 0
+        grounded = false
+    }
 
     private var animTime = 0.0
     private var runDistance: CGFloat = 0
@@ -156,21 +163,23 @@ final class PlayerNode: SKSpriteNode {
 
     // MARK: - Ground contact (called by the scene)
 
-    func landed(contactY: CGFloat) {
-        if position.y > contactY + 6 {
-            let wasAirborne = !grounded
-            groundedContacts += 1
-            grounded = true
-            if wasAirborne {
-                jumpsUsed = 0
-                delegate?.playerDidLand(fallSpeed: prevVy)
-            }
+    func landed(body: SKPhysicsBody, contactY: CGFloat) {
+        // Only top contacts count; side scrapes must not steal ground counts later.
+        guard position.y > contactY + 6 else { return }
+        let wasAirborne = !grounded
+        groundBodies.insert(ObjectIdentifier(body))
+        groundedContacts = groundBodies.count
+        grounded = true
+        if wasAirborne {
+            jumpsUsed = 0
+            delegate?.playerDidLand(fallSpeed: prevVy)
         }
     }
 
-    func leftGround() {
-        groundedContacts = max(0, groundedContacts - 1)
-        if groundedContacts == 0 { grounded = false }
+    func leftGround(body: SKPhysicsBody) {
+        groundBodies.remove(ObjectIdentifier(body))
+        groundedContacts = groundBodies.count
+        if groundBodies.isEmpty { grounded = false }
     }
 
     // MARK: - Damage
