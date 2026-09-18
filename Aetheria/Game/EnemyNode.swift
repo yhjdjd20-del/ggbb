@@ -38,6 +38,8 @@ class EnemyNode: SKSpriteNode {
     var active = false
     var isBoss = false
     var touchMultiplier = 1.0
+    var elite = false
+    var speedMul: CGFloat = 1
 
     private var animTime = 0.0
     private var flash = 0.0
@@ -116,13 +118,33 @@ class EnemyNode: SKSpriteNode {
         }
 
         xScale = abs(xScale) * facing
-        colorBlendFactor = flash > 0 ? 0.8 : 0
-        color = .white
+        // HP bar is a child: counter-flip so it never mirrors when facing left.
+        hpBg?.xScale = facing
+        if flash > 0 {
+            colorBlendFactor = 0.8
+            color = .white
+        } else if elite {
+            colorBlendFactor = 0.35
+            color = SKColor(red: 1, green: 0.8, blue: 0.3, alpha: 1)
+        } else {
+            colorBlendFactor = 0
+            color = .white
+        }
+    }
+
+    /// Promotes this enemy to an elite: tougher, golden, worth more.
+    func makeElite() {
+        guard !elite, !isBoss else { return }
+        elite = true
+        maxHp *= 1.6
+        hp = maxHp
+        damageMul *= 1.25
+        setScale(xScale * 1.12)
     }
 
     // MARK: - Behaviors
 
-    private func groundSpeed() -> CGFloat { CGFloat(def.speed) }
+    private func groundSpeed() -> CGFloat { CGFloat(def.speed) * speedMul }
 
     private func updateHopper(dt: Double, playerPos: CGPoint, d: CGFloat) {
         guard state != .hurt else { return }
@@ -306,12 +328,13 @@ class EnemyNode: SKSpriteNode {
         let move = SKAction.moveTo(x: nx, duration: 0.05)
         run(SKAction.sequence([
             SKAction.fadeOut(withDuration: 0.22), move,
-            SKAction.wait(forDuration: 0.1), SKAction.fadeIn(withDuration: 0.22),
+            SKAction.wait(forDuration: 0.1),
+            SKAction.run { [weak self] in
+                guard let self else { return }
+                self.delegate?.enemyPuff(at: self.position, big: true)
+            },
+            SKAction.fadeIn(withDuration: 0.22),
         ]))
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { [weak self] in
-            guard let self else { return }
-            self.delegate?.enemyPuff(at: self.position, big: true)
-        }
     }
 
     // MARK: - Damage

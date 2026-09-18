@@ -80,7 +80,7 @@ final class BossNode: EnemyNode {
 
     private func updateGolem(dt: Double, playerPos: CGPoint, d: CGFloat) {
         // Lumbers toward the player.
-        physicsBody?.velocity.dx = facing * CGFloat(def.speed) * (phase >= 2 ? 1.3 : 1.0)
+        physicsBody?.velocity.dx = facing * CGFloat(def.speed) * speedMul * (phase >= 2 ? 1.3 : 1.0)
         if Int(bossTime * 4) % 2 == 0 { texture = TextureFactory.get("boss_golem_0") } else { texture = TextureFactory.get("boss_golem_1") }
         patternT -= dt
         if patternT > 0 { return }
@@ -147,7 +147,7 @@ final class BossNode: EnemyNode {
         texture = TextureFactory.get("boss_knight_\(Int(bossTime * 5) % 2)")
         patternT -= dt
         if patternT > 0 {
-            if state != .attack { physicsBody?.velocity.dx = facing * CGFloat(def.speed) * 0.6 }
+            if state != .attack { physicsBody?.velocity.dx = facing * CGFloat(def.speed) * speedMul * 0.6 }
             return
         }
         switch patternIndex % (phase >= 2 ? 3 : 2) {

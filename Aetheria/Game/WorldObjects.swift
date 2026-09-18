@@ -137,18 +137,36 @@ final class NPCNode: SKSpriteNode {
 final class ChestNode: SKSpriteNode {
     var chestId = ""
     var isOpen = false
+    private var sparkle: SKSpriteNode?
 
     static func create(chestId: String, opened: Bool) -> ChestNode {
         let node = ChestNode(texture: TextureFactory.get(opened ? "chest_1" : "chest_0"))
         node.chestId = chestId
         node.isOpen = opened
         node.zPosition = 8
+        if !opened {
+            // Golden shimmer marks unopened chests.
+            let glow = SKSpriteNode(texture: TextureFactory.get("glow"))
+            glow.setScale(1.4)
+            glow.alpha = 0.55
+            glow.colorBlendFactor = 0.7
+            glow.color = SKColor(red: 1, green: 0.85, blue: 0.4, alpha: 1)
+            glow.zPosition = -1
+            glow.run(SKAction.repeatForever(SKAction.sequence([
+                SKAction.fadeAlpha(to: 0.3, duration: 0.6),
+                SKAction.fadeAlpha(to: 0.7, duration: 0.6),
+            ])))
+            node.addChild(glow)
+            node.sparkle = glow
+        }
         return node
     }
 
     func open() {
         isOpen = true
         texture = TextureFactory.get("chest_1")
+        sparkle?.removeFromParent()
+        sparkle = nil
     }
 }
 

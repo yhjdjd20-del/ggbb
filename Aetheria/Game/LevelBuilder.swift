@@ -39,20 +39,17 @@ enum LevelBuilder {
         buildBoss(scene: scene, level: level, session: session)
         buildDecorations(scene: scene, level: level)
 
-        scene.camBounds = CGRect(
-            x: scene.size.width / 2 - 60,
-            y: scene.size.height / 2 - 60,
-            width: CGFloat(level.width) - scene.size.width + 120,
-            height: CGFloat(level.height) - scene.size.height + 120
-        )
-        scene.weather.configure(weather: level.weather, timeOfDay: level.timeOfDay, size: scene.size)
+        // NOTE: camBounds is recomputed by updateCamBounds() after build; the visible
+        // rect (not scene.size) is the source of truth on all aspects.
+        scene.weather.configure(weather: level.weather, timeOfDay: level.timeOfDay, size: scene.visibleSize())
     }
 
     // MARK: - Pieces
 
     private static func buildSky(scene: GameScene, level: LevelData) {
         scene.skyNode.texture = TextureFactory.get("sky_\(level.theme)_\(TextureFactory.skyBucket(for: level.timeOfDay))")
-        scene.skyNode.size = CGSize(width: scene.size.width + 100, height: scene.size.height + 100)
+        let vis = scene.visibleSize()
+        scene.skyNode.size = CGSize(width: vis.width + 160, height: vis.height + 160)
     }
 
     private static func buildParallax(scene: GameScene, level: LevelData) {
@@ -160,6 +157,7 @@ enum LevelBuilder {
             enemy.maxHp = def.hp * diff.enemyHP
             enemy.hp = enemy.maxHp
             enemy.damageMul = diff.enemyDamage
+            if Double.random(in: 0...1) < 0.08 { enemy.makeElite() }
             if def.flying || def.behavior == "ghost" {
                 enemy.position = CGPoint(x: CGFloat(spawn.x), y: CGFloat(spawn.y))
             } else {
@@ -253,7 +251,8 @@ enum LevelBuilder {
     }
 
     private static func buildDecorations(scene: GameScene, level: LevelData) {
-        var rng = LCG(state: UInt64(abs(level.id.hashValue) + 0x9E3779B9))
+        let stableSeed = level.id.utf8.reduce(UInt64(0)) { $0 &* 31 &+ UInt64($1) }
+        var rng = LCG(state: stableSeed &+ 0x9E3779B9)
         var seed: [String]
         switch level.theme {
         case "caves": seed = ["crystal", "mushroom", "mushroom", "rockDeco", "torch"]
@@ -266,7 +265,7 @@ enum LevelBuilder {
             let kind = seed[rng.next(seed.count)]
             let top = groundTop(at: x, level: level)
             if top > 0 {
-                let sprite = SKSpriteNode(texture: TextureFactory.get(kind))
+                let sprite = SKSpriteNode(texture: TextureFactory.get(kind == "torch" ? "torch_0" : kind))
                 sprite.position = CGPoint(x: x, y: top + sprite.size.height / 2 - 8)
                 sprite.zPosition = kind == "cloudDeco" ? -80 : 2
                 if kind == "cloudDeco" {
