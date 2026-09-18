@@ -121,6 +121,7 @@ struct DerivedStats: Codable {
     var canDoubleJump: Bool
     var canDash: Bool
     var canAirAttack: Bool
+    var secondWind: Bool
     var spellCostMultiplier: Double
 }
 
@@ -489,6 +490,9 @@ struct GameSession: Codable {
     var unlockedLevels: [String] = ["forest"]
     var openedChests: [String] = []
     var defeatedBosses: [String] = []
+    var purchasedShop: [String] = []
+    var waystones: [String] = []
+    var seenHints: [String] = []
     var achievements: [String] = []
     var stats: GameStatistics = GameStatistics()
     var hp: Double = 100

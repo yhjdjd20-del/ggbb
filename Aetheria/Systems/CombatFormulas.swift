@@ -38,6 +38,7 @@ enum CombatFormulas {
         var spellCost = 1.0
         var attackPct = 0.0, magicPct = 0.0, hpPct = 0.0, speedPct = 0.0
         var canDoubleJump = false, canDash = true, canAirAttack = false
+        var secondWind = false
 
         // Class passives
         switch hero.id {
@@ -83,6 +84,7 @@ enum CombatFormulas {
             case "doubleJump": canDoubleJump = true
             case "dash": canDash = true
             case "airAttack": canAirAttack = true
+            case "secondWind": secondWind = true
             default: break
             }
         }
@@ -108,6 +110,7 @@ enum CombatFormulas {
             canDoubleJump: canDoubleJump,
             canDash: canDash,
             canAirAttack: canAirAttack,
+            secondWind: secondWind,
             spellCostMultiplier: max(0.4, spellCost)
         )
     }
