@@ -202,6 +202,54 @@ enum Strings {
         "toast.item": [.en: "Received", .ru: "Получено"],
         "toast.gold": [.en: "Gold", .ru: "Золото"],
         "toast.skill": [.en: "Skill learned", .ru: "Навык изучен"],
+        // combo ranks
+        "combo.r5": [.en: "Fierce", .ru: "Свирепая"],
+        "combo.r10": [.en: "Ruthless", .ru: "Безжалостная"],
+        "combo.r20": [.en: "Legendary", .ru: "Легендарная"],
+        "combo.r30": [.en: "Mythic", .ru: "Мифическая"],
+        // kill streaks
+        "hud.streak2": [.en: "Double kill!", .ru: "Двойное убийство!"],
+        "hud.streak3": [.en: "Triple kill!", .ru: "Тройное убийство!"],
+        "hud.streak4": [.en: "Rampage!", .ru: "Буйство!"],
+        "hud.streak5": [.en: "Unstoppable!", .ru: "Неостановимый!"],
+        "hud.levelUpDetail": [.en: "+1 skill, +2 attributes", .ru: "+1 навык, +2 атрибута"],
+        "hud.secondWind": [.en: "Second Wind!", .ru: "Второе дыхание!"],
+        "hud.elite": [.en: "Elite", .ru: "Элита"],
+        "hud.noAir": [.en: "Air attacks require: %@", .ru: "Атаки в воздухе требуют: %@"],
+        // shop / inventory
+        "shop.sold": [.en: "Sold", .ru: "Продано"],
+        "inv.sellBtn": [.en: "Sell", .ru: "Продать"],
+        // skills
+        "skill.respec": [.en: "Reset (500 ●)", .ru: "Сбросить (500 ●)"],
+        "skill.respecDone": [.en: "Attributes reset", .ru: "Атрибуты сброшены"],
+        "skill.respecNone": [.en: "Nothing to reset", .ru: "Нечего сбрасывать"],
+        // npc names + greetings
+        "npc.elder": [.en: "Elder Maren", .ru: "Старейшина Марен"],
+        "npc.merchant": [.en: "Merchant Pell", .ru: "Торговец Пелл"],
+        "npc.hermit": [.en: "Hermit Odo", .ru: "Отшельник Одо"],
+        "npc.guard": [.en: "Captain Vera", .ru: "Капитан Вера"],
+        "npc.spirit": [.en: "Rift Spirit", .ru: "Дух Разлома"],
+        "npc.greet.elder": [.en: "The forest remembers you, child.", .ru: "Лес помнит тебя, дитя."],
+        "npc.greet.merchant": [.en: "Fine wares, fair prices!", .ru: "Отличные товары, честные цены!"],
+        "npc.greet.hermit": [.en: "Mind the dark below...", .ru: "Остерегайся тьмы внизу..."],
+        "npc.greet.guard": [.en: "Hold the gate, hero.", .ru: "Держи врата, герой."],
+        "npc.greet.spirit": [.en: "The Rift stirs...", .ru: "Разлом шевелится..."],
+        // settings
+        "set.shake": [.en: "Screen shake", .ru: "Тряска экрана"],
+        "set.dmgNumbers": [.en: "Damage numbers", .ru: "Цифры урона"],
+        "set.autoPotion": [.en: "Auto-potion below 25% HP", .ru: "Автозелье при HP ниже 25%"],
+        // tutorial hints
+        "tut.move": [.en: "Move with the left stick · Jump with the green button", .ru: "Двигайся левым стиком · Прыгай зелёной кнопкой"],
+        "tut.attack": [.en: "Attack with the fire button · Cast bolts with the spark button", .ru: "Атакуй кнопкой огня · Стреляй болтами кнопкой искры"],
+        "tut.potion": [.en: "Drink a potion with the heart button when hurt", .ru: "Выпей зелье кнопкой сердца, когда ранен"],
+        "tut.ladder": [.en: "Push up or down to climb", .ru: "Жми вверх или вниз, чтобы лезть"],
+        // fast travel
+        "travel.title": [.en: "Waystones", .ru: "Путевые камни"],
+        "travel.go": [.en: "Travel", .ru: "В путь"],
+        "travel.here": [.en: "You are here", .ru: "Ты здесь"],
+        "travel.empty": [.en: "Touch more waystones to unlock travel", .ru: "Касайся путевых камней, чтобы открыть перемещения"],
+        // pause
+        "pause.stats": [.en: "Hero stats", .ru: "Характеристики"],
         // level names fallback
         "level.complete": [.en: "Region cleared!", .ru: "Регион зачищен!"],
     ]
