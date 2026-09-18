@@ -29,6 +29,7 @@ final class GameViewModel: ObservableObject {
     @Published var showSign = false { didSet { refreshPause() } }
     @Published var showDeath = false { didSet { refreshPause() } }
     @Published var showVictory = false { didSet { refreshPause() } }
+    @Published var showTravel = false { didSet { refreshPause() } }
     @Published var activeDialogue: ActiveDialogue?
     @Published var shopItems: [ShopItem] = []
     @Published var signText = ""
@@ -41,7 +42,7 @@ final class GameViewModel: ObservableObject {
 
     var modalOpen: Bool {
         showInventory || showSkills || showQuests || showPause || showDialogue
-            || showShop || showSign || showDeath || showVictory
+            || showShop || showSign || showDeath || showVictory || showTravel
     }
 
     init() {
@@ -121,6 +122,7 @@ final class GameViewModel: ObservableObject {
         showSign = false
         showDeath = false
         showVictory = false
+        showTravel = false
         activeDialogue = nil
     }
 

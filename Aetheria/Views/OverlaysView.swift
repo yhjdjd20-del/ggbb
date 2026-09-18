@@ -19,6 +19,9 @@ struct DeathView: View {
                 Text("\(L.t("death.lost")): \(vm.deathPenalty()) \(L.t("common.gold"))")
                     .foregroundColor(.gold)
                     .padding(.top, 4)
+                Text("⚔ \(vm.session.stats.kills) · 👑 \(vm.session.stats.bossesKilled) · ⏱ \(formatPlayTime(vm.session.stats.playTime))")
+                    .font(.subheadline)
+                    .foregroundColor(.dimText)
                 HStack(spacing: 12) {
                     MenuButton(label: L.t("death.respawn"), icon: "heart.fill", accent: Color(hex: "#3FD97C")) {
                         vm.respawn()
@@ -63,7 +66,7 @@ struct VictoryView: View {
                     .frame(width: 340)
                 }
                 HStack(spacing: 12) {
-                    MenuButton(label: "🗺 \(L.t("common.continue") ?? "Continue")", icon: "play.fill", accent: Color(hex: "#3FD97C")) {
+                    MenuButton(label: "🗺 \(L.t("common.continue")")", icon: "play.fill", accent: Color(hex: "#3FD97C")) {
                         vm.continueAfterVictory()
                     }
                     MenuButton(label: L.t("victory.menu"), icon: "house.fill", accent: Color(hex: "#9AA3B2")) {

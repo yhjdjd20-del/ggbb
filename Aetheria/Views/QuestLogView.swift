@@ -93,7 +93,7 @@ struct QuestLogView: View {
                 }
             }
             if let turnIn = quest.turnIn, ready {
-                Text("\(L.t("quest.turnIn")): \(turnIn)")
+                Text("\(L.t("quest.turnIn")): \(vm.npcName(turnIn))")
                     .font(.caption)
                     .foregroundColor(.gold)
             }

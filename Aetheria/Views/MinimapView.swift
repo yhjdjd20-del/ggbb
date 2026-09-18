@@ -6,7 +6,7 @@ struct MinimapView: View {
 
     var body: some View {
         Canvas { context, size in
-            guard let mm = vm.minimap, mm.levelW > 0 else { return }
+            guard let mm = vm.minimap, mm.levelW > 0, mm.levelH > 0 else { return }
             let sx = size.width / mm.levelW
             let sy = size.height / mm.levelH
             func map(_ p: CGPoint) -> CGPoint {

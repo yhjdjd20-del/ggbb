@@ -158,13 +158,18 @@ struct InventoryView: View {
                         .font(.caption)
                         .foregroundColor(Color(hex: "#7DF9FF"))
                 }
+                ForEach(Array(compareLines(def).enumerated()), id: \.offset) { _, pair in
+                    Text(pair.0)
+                        .font(.caption.bold())
+                        .foregroundColor(pair.1)
+                }
                 Text("\(L.t("inv.sell")): \(def.price / 2) \(L.t("common.gold"))")
                     .font(.caption)
                     .foregroundColor(.dimText)
                 HStack(spacing: 8) {
                     if def.usable {
                         SmallButton(label: L.t("inv.use")) {
-                            if !vm.useItem(item) { SoundManager.shared.play("error") }
+                            _ = vm.useItem(item)
                         }
                     }
                     if def.type == .weapon || def.type == .armor || def.type == .trinket {
@@ -176,6 +181,10 @@ struct InventoryView: View {
                     if def.type != .keyItem {
                         SmallButton(label: L.t("inv.drop")) {
                             vm.dropItem(item)
+                            selectedId = nil
+                        }
+                        SmallButton(label: L.t("inv.sellBtn")) {
+                            vm.sellItem(item)
                             selectedId = nil
                         }
                     }
@@ -190,6 +199,29 @@ struct InventoryView: View {
         .background(Color(hex: "#1E2438"))
         .cornerRadius(12)
         .frame(minHeight: 300)
+    }
+
+    private func compareLines(_ def: ItemDefinition) -> [(String, Color)] {
+        guard def.type == .weapon || def.type == .armor || def.type == .trinket else { return [] }
+        let equippedId: String?
+        switch def.type {
+        case .weapon: equippedId = vm.session.equipment.weapon?.itemId
+        case .armor: equippedId = vm.session.equipment.armor?.itemId
+        default: equippedId = vm.session.equipment.trinket?.itemId
+        }
+        guard let equippedId, let old = ContentDatabase.shared.items[equippedId],
+              old.id != def.id else { return [] }
+        var out: [(String, Color)] = []
+        for key in ["attack", "magic", "defense", "maxHealth", "maxMana", "crit", "moveSpeed"] {
+            let d = (def.stats[key] ?? 0) - (old.stats[key] ?? 0)
+            if d != 0 {
+                let num = d.truncatingRemainder(dividingBy: 1) == 0
+                    ? "\(Int(d) > 0 ? "+" : "")\(Int(d))" : String(format: "%+.2f", d)
+                out.append(("\(key): \(num) \(d > 0 ? "▲" : "▼")",
+                            d > 0 ? Color(hex: "#3FD97C") : Color(hex: "#FF6B6B")))
+            }
+        }
+        return out
     }
 
     private func statLines(_ def: ItemDefinition) -> [String] {

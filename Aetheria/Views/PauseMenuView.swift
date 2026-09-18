@@ -12,6 +12,7 @@ struct PauseMenuView: View {
                     Text("\(vm.session.heroName) · \(L.t("common.level")) \(vm.session.level) · \(formatPlayTime(vm.session.stats.playTime))")
                         .font(.subheadline)
                         .foregroundColor(.dimText)
+                    statChips
                     MenuButton(label: L.t("pause.resume"), icon: "play.fill", accent: Color(hex: "#3FD97C")) {
                         vm.showPause = false
                     }
@@ -29,6 +30,10 @@ struct PauseMenuView: View {
                             vm.showQuests = true
                         }
                     }
+                    MenuButton(label: L.t("travel.title"), icon: "sparkles", accent: Color(hex: "#B45CFF")) {
+                        vm.showPause = false
+                        vm.showTravel = true
+                    }
                     MenuButton(label: L.t("pause.save"), icon: "square.and.arrow.down.fill", accent: Color(hex: "#FFD95E")) {
                         vm.saveGame(silent: false)
                     }
@@ -42,5 +47,30 @@ struct PauseMenuView: View {
                 .frame(width: 420)
             }
         }
+    }
+
+    private var statChips: some View {
+        let derived = vm.derivedStats()
+        return VStack(spacing: 4) {
+            Text(L.t("pause.stats"))
+                .font(.caption)
+                .foregroundColor(.dimText)
+            HStack(spacing: 8) {
+                chip("⚔ \(Int(derived.attack))")
+                chip("✦ \(Int(derived.magicPower))")
+                chip("🛡 \(Int(derived.defense))")
+                chip("❤ \(Int(derived.maxHP))")
+            }
+        }
+    }
+
+    private func chip(_ text: String) -> some View {
+        Text(text)
+            .font(.caption.bold())
+            .foregroundColor(.white)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
+            .background(Color(hex: "#2A3350"))
+            .cornerRadius(8)
     }
 }

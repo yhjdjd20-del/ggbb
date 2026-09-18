@@ -69,6 +69,10 @@ struct MainMenuView: View {
         (0..<SaveManager.slotCount).contains { SaveManager.exists(slot: $0) }
     }
 
+    private var appVersion: String {
+        "v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0")"
+    }
+
     private var mainScreen: some View {
         HStack(spacing: 0) {
             // Title side.
@@ -84,7 +88,7 @@ struct MainMenuView: View {
                     .font(.title3)
                     .foregroundColor(.dimText)
                 Spacer()
-                Text("v1.0.0 · SpriteKit + SwiftUI")
+                Text("\(appVersion) · SpriteKit + SwiftUI")
                     .font(.caption)
                     .foregroundColor(.dimText.opacity(0.7))
             }
@@ -96,7 +100,7 @@ struct MainMenuView: View {
                 Spacer()
                 if hasAnySave {
                     MenuButton(label: L.t("menu.continue"), icon: "play.fill", accent: Color(hex: "#3FD97C")) {
-                        screen = .slots
+                        vm.continueLatest()
                     }
                 }
                 MenuButton(label: L.t("menu.slots"), icon: "gamecontroller.fill") {

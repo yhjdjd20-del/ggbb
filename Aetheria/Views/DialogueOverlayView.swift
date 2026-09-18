@@ -29,11 +29,7 @@ struct DialogueOverlayView: View {
                                     .frame(maxWidth: .infinity, alignment: .leading)
                             }
                             .frame(height: 70)
-                            VStack(spacing: 6) {
-                                ForEach(vm.visibleChoices(), id: \.text) { choice in
-                                    choiceButton(choice)
-                                }
-                            }
+                            choiceList
                         }
                     }
                     .padding(18)
@@ -44,6 +40,37 @@ struct DialogueOverlayView: View {
                     .padding(.bottom, 24)
                 }
             }
+        }
+    }
+
+    private var choiceList: some View {
+        VStack(spacing: 6) {
+            if vm.visibleChoices().isEmpty {
+                // All choices gated by unmet requirements: never soft-lock.
+                leaveButton
+            } else {
+                ForEach(Array(vm.visibleChoices().enumerated()), id: \.offset) { _, choice in
+                    choiceButton(choice)
+                }
+            }
+        }
+    }
+
+    private var leaveButton: some View {
+        Button(action: { vm.closeDialogue() }) {
+            HStack {
+                Text(L.t("dlg.leave"))
+                    .font(.subheadline)
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.caption)
+            }
+            .foregroundColor(.white)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 9)
+            .frame(maxWidth: .infinity)
+            .background(Color(hex: "#2A3350"))
+            .cornerRadius(10)
         }
     }
 

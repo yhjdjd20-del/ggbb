@@ -50,6 +50,9 @@ struct SettingsView: View {
                     toggleRow(L.t("set.haptics"), $settings.hapticsEnabled)
                     toggleRow(L.t("set.minimap"), $settings.showMinimap)
                     toggleRow(L.t("set.effects"), $settings.richEffects)
+                    toggleRow(L.t("set.shake"), $settings.screenShake)
+                    toggleRow(L.t("set.dmgNumbers"), $settings.damageNumbers)
+                    toggleRow(L.t("set.autoPotion"), $settings.autoPotion)
                     // Graphics quality.
                     HStack {
                         Text(L.t("set.graphics"))

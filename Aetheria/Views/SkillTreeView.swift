@@ -96,7 +96,7 @@ struct SkillTreeView: View {
                     .foregroundColor(.dimText)
                     .lineLimit(2)
                 if !skill.requires.isEmpty {
-                    Text("\(L.t("skill.req")): \(skill.requires.map { "\($0.skill) \($0.rank)" }.joined(separator: ", "))")
+                    Text("\(L.t("skill.req")): \(reqNames(skill))")
                         .font(.caption2)
                         .foregroundColor(.dimText.opacity(0.8))
                 }
@@ -144,6 +144,13 @@ struct SkillTreeView: View {
             .cornerRadius(8)
     }
 
+    private func reqNames(_ skill: SkillDefinition) -> String {
+        skill.requires.map { req in
+            let name = ContentDatabase.shared.skills[req.skill]?.displayName ?? req.skill
+            return "\(name) \(req.rank)"
+        }.joined(separator: ", ")
+    }
+
     // MARK: - Attributes
 
     private var attributesTab: some View {
@@ -151,6 +158,9 @@ struct SkillTreeView: View {
             Text("\(L.t("skill.attrPoints")): \(vm.session.statPoints)")
                 .font(.headline)
                 .foregroundColor(.gold)
+            SmallButton(label: L.t("skill.respec")) {
+                vm.respecAttributes()
+            }
             attrRow(L.t("char.str"), L.t("skill.str.d"), \Stats.strength)
             attrRow(L.t("char.agi"), L.t("skill.agi.d"), \Stats.agility)
             attrRow(L.t("char.vit"), L.t("skill.vit.d"), \Stats.vitality)
@@ -162,7 +172,7 @@ struct SkillTreeView: View {
     private func attrRow(_ label: String, _ desc: String, _ keyPath: WritableKeyPath<Stats, Int>) -> some View {
         HStack {
             VStack(alignment: .leading) {
-                Text("\(label): \(vm.session.baseStats[keyPath: keyPath])")
+                Text("\(label): \(vm.session.hero.stats[keyPath: keyPath] + vm.session.baseStats[keyPath: keyPath])")
                     .font(.headline)
                     .foregroundColor(.white)
                 Text(desc)
