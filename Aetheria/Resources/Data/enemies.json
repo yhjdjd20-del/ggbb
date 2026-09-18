@@ -1,11 +1,338 @@
 [
-  {"id":"slime","name":"Gloom Slime","nameRu":"Мрачный слайм","hp":24,"damage":8,"speed":90,"xp":12,"goldMin":2,"goldMax":6,"behavior":"hopper","flying":false,"projectileSpeed":0,"attackRange":60,"attackCooldown":1.2,"scale":1.0,"phases":1,"loot":[{"item":"gel","chance":0.7,"min":1,"max":2},{"item":"meat","chance":0.1,"min":1,"max":1},{"item":"potion_minor","chance":0.06,"min":1,"max":1}]},
-  {"id":"bat","name":"Cave Bat","nameRu":"Пещерная мышь","hp":18,"damage":10,"speed":150,"xp":14,"goldMin":2,"goldMax":7,"behavior":"flyer","flying":true,"projectileSpeed":0,"attackRange":70,"attackCooldown":1.0,"scale":1.0,"phases":1,"loot":[{"item":"wing","chance":0.7,"min":1,"max":2},{"item":"feather","chance":0.15,"min":1,"max":1}]},
-  {"id":"skeleton","name":"Risen Archer","nameRu":"Восставший лучник","hp":35,"damage":12,"speed":110,"xp":22,"goldMin":4,"goldMax":10,"behavior":"shooter","flying":false,"projectileSpeed":420,"attackRange":420,"attackCooldown":2.2,"scale":1.0,"phases":1,"loot":[{"item":"bone","chance":0.7,"min":1,"max":2},{"item":"potion_minor","chance":0.1,"min":1,"max":1}]},
-  {"id":"orc","name":"Rift Orc","nameRu":"Орк Разлома","hp":70,"damage":16,"speed":130,"xp":30,"goldMin":6,"goldMax":14,"behavior":"charger","flying":false,"projectileSpeed":0,"attackRange":95,"attackCooldown":1.6,"scale":1.0,"phases":1,"loot":[{"item":"meat","chance":0.3,"min":1,"max":2},{"item":"ore","chance":0.15,"min":1,"max":1}]},
-  {"id":"ghost","name":"Lost Echo","nameRu":"Потерянное эхо","hp":45,"damage":14,"speed":120,"xp":28,"goldMin":5,"goldMax":12,"behavior":"ghost","flying":true,"projectileSpeed":300,"attackRange":360,"attackCooldown":2.4,"scale":1.0,"phases":1,"loot":[{"item":"shard","chance":0.2,"min":1,"max":1},{"item":"mana_minor","chance":0.12,"min":1,"max":1}]},
-  {"id":"mage","name":"Hex Mage","nameRu":"Маг скверны","hp":55,"damage":18,"speed":80,"xp":40,"goldMin":8,"goldMax":18,"behavior":"mage","flying":false,"projectileSpeed":360,"attackRange":480,"attackCooldown":2.6,"scale":1.0,"phases":1,"loot":[{"item":"shard","chance":0.3,"min":1,"max":2},{"item":"mana_minor","chance":0.15,"min":1,"max":1},{"item":"mana_major","chance":0.05,"min":1,"max":1}]},
-  {"id":"boss_golem","name":"Cave Golem","nameRu":"Пещерный голем","hp":650,"damage":24,"speed":100,"xp":300,"goldMin":150,"goldMax":250,"behavior":"boss","flying":false,"projectileSpeed":380,"attackRange":220,"attackCooldown":2.0,"scale":1.0,"phases":2,"loot":[{"item":"ore","chance":1.0,"min":2,"max":4},{"item":"potion_major","chance":1.0,"min":1,"max":2},{"item":"armor_leather","chance":0.5,"min":1,"max":1}]},
-  {"id":"boss_knight","name":"Fallen Knight","nameRu":"Павший рыцарь","hp":950,"damage":30,"speed":170,"xp":500,"goldMin":250,"goldMax":400,"behavior":"boss","flying":false,"projectileSpeed":440,"attackRange":260,"attackCooldown":1.7,"scale":1.0,"phases":3,"loot":[{"item":"sword_rune","chance":0.6,"min":1,"max":1},{"item":"potion_major","chance":1.0,"min":2,"max":3},{"item":"amulet_blood","chance":0.35,"min":1,"max":1}]},
-  {"id":"boss_dragon","name":"Rift Dragon","nameRu":"Дракон Разлома","hp":1400,"damage":36,"speed":200,"xp":900,"goldMin":400,"goldMax":600,"behavior":"boss","flying":true,"projectileSpeed":460,"attackRange":520,"attackCooldown":1.9,"scale":1.0,"phases":3,"loot":[{"item":"shard","chance":1.0,"min":3,"max":5},{"item":"potion_major","chance":1.0,"min":2,"max":3},{"item":"armor_dragonscale","chance":0.5,"min":1,"max":1}]}
+  {
+    "id": "slime",
+    "name": "Gloom Slime",
+    "nameRu": "Мрачный слайм",
+    "hp": 24,
+    "damage": 8,
+    "speed": 90,
+    "xp": 12,
+    "goldMin": 2,
+    "goldMax": 6,
+    "behavior": "hopper",
+    "flying": false,
+    "projectileSpeed": 0,
+    "attackRange": 60,
+    "attackCooldown": 1.2,
+    "scale": 1.0,
+    "phases": 1,
+    "loot": [
+      {
+        "item": "gel",
+        "chance": 0.7,
+        "min": 1,
+        "max": 2
+      },
+      {
+        "item": "meat",
+        "chance": 0.1,
+        "min": 1,
+        "max": 1
+      },
+      {
+        "item": "potion_minor",
+        "chance": 0.06,
+        "min": 1,
+        "max": 1
+      }
+    ]
+  },
+  {
+    "id": "bat",
+    "name": "Cave Bat",
+    "nameRu": "Пещерная мышь",
+    "hp": 18,
+    "damage": 10,
+    "speed": 150,
+    "xp": 14,
+    "goldMin": 2,
+    "goldMax": 7,
+    "behavior": "flyer",
+    "flying": true,
+    "projectileSpeed": 0,
+    "attackRange": 70,
+    "attackCooldown": 1.0,
+    "scale": 1.0,
+    "phases": 1,
+    "loot": [
+      {
+        "item": "wing",
+        "chance": 0.7,
+        "min": 1,
+        "max": 2
+      },
+      {
+        "item": "feather",
+        "chance": 0.15,
+        "min": 1,
+        "max": 1
+      }
+    ]
+  },
+  {
+    "id": "skeleton",
+    "name": "Risen Archer",
+    "nameRu": "Восставший лучник",
+    "hp": 35,
+    "damage": 12,
+    "speed": 110,
+    "xp": 22,
+    "goldMin": 4,
+    "goldMax": 10,
+    "behavior": "shooter",
+    "flying": false,
+    "projectileSpeed": 420,
+    "attackRange": 420,
+    "attackCooldown": 2.2,
+    "scale": 1.0,
+    "phases": 1,
+    "loot": [
+      {
+        "item": "bone",
+        "chance": 0.7,
+        "min": 1,
+        "max": 2
+      },
+      {
+        "item": "potion_minor",
+        "chance": 0.1,
+        "min": 1,
+        "max": 1
+      }
+    ]
+  },
+  {
+    "id": "orc",
+    "name": "Rift Orc",
+    "nameRu": "Орк Разлома",
+    "hp": 70,
+    "damage": 16,
+    "speed": 130,
+    "xp": 30,
+    "goldMin": 6,
+    "goldMax": 14,
+    "behavior": "charger",
+    "flying": false,
+    "projectileSpeed": 0,
+    "attackRange": 95,
+    "attackCooldown": 1.6,
+    "scale": 1.0,
+    "phases": 1,
+    "loot": [
+      {
+        "item": "meat",
+        "chance": 0.3,
+        "min": 1,
+        "max": 2
+      },
+      {
+        "item": "ore",
+        "chance": 0.15,
+        "min": 1,
+        "max": 1
+      },
+      {
+        "item": "meat",
+        "chance": 0.15,
+        "min": 1,
+        "max": 2
+      }
+    ]
+  },
+  {
+    "id": "ghost",
+    "name": "Lost Echo",
+    "nameRu": "Потерянное эхо",
+    "hp": 45,
+    "damage": 14,
+    "speed": 120,
+    "xp": 28,
+    "goldMin": 5,
+    "goldMax": 12,
+    "behavior": "ghost",
+    "flying": true,
+    "projectileSpeed": 300,
+    "attackRange": 360,
+    "attackCooldown": 2.4,
+    "scale": 1.0,
+    "phases": 1,
+    "loot": [
+      {
+        "item": "shard",
+        "chance": 0.2,
+        "min": 1,
+        "max": 1
+      },
+      {
+        "item": "mana_minor",
+        "chance": 0.12,
+        "min": 1,
+        "max": 1
+      }
+    ]
+  },
+  {
+    "id": "mage",
+    "name": "Hex Mage",
+    "nameRu": "Маг скверны",
+    "hp": 55,
+    "damage": 18,
+    "speed": 80,
+    "xp": 40,
+    "goldMin": 8,
+    "goldMax": 18,
+    "behavior": "mage",
+    "flying": false,
+    "projectileSpeed": 360,
+    "attackRange": 480,
+    "attackCooldown": 2.6,
+    "scale": 1.0,
+    "phases": 1,
+    "loot": [
+      {
+        "item": "shard",
+        "chance": 0.3,
+        "min": 1,
+        "max": 2
+      },
+      {
+        "item": "mana_minor",
+        "chance": 0.15,
+        "min": 1,
+        "max": 1
+      },
+      {
+        "item": "mana_major",
+        "chance": 0.05,
+        "min": 1,
+        "max": 1
+      },
+      {
+        "item": "elixir_dawn",
+        "chance": 0.04,
+        "min": 1,
+        "max": 1
+      }
+    ]
+  },
+  {
+    "id": "boss_golem",
+    "name": "Cave Golem",
+    "nameRu": "Пещерный голем",
+    "hp": 650,
+    "damage": 24,
+    "speed": 100,
+    "xp": 300,
+    "goldMin": 150,
+    "goldMax": 250,
+    "behavior": "boss",
+    "flying": false,
+    "projectileSpeed": 380,
+    "attackRange": 220,
+    "attackCooldown": 2.0,
+    "scale": 1.0,
+    "phases": 2,
+    "loot": [
+      {
+        "item": "ore",
+        "chance": 1.0,
+        "min": 2,
+        "max": 4
+      },
+      {
+        "item": "potion_major",
+        "chance": 1.0,
+        "min": 1,
+        "max": 2
+      },
+      {
+        "item": "armor_leather",
+        "chance": 0.5,
+        "min": 1,
+        "max": 1
+      }
+    ]
+  },
+  {
+    "id": "boss_knight",
+    "name": "Fallen Knight",
+    "nameRu": "Павший рыцарь",
+    "hp": 950,
+    "damage": 30,
+    "speed": 170,
+    "xp": 500,
+    "goldMin": 250,
+    "goldMax": 400,
+    "behavior": "boss",
+    "flying": false,
+    "projectileSpeed": 440,
+    "attackRange": 260,
+    "attackCooldown": 1.7,
+    "scale": 1.0,
+    "phases": 3,
+    "loot": [
+      {
+        "item": "sword_rune",
+        "chance": 0.6,
+        "min": 1,
+        "max": 1
+      },
+      {
+        "item": "potion_major",
+        "chance": 1.0,
+        "min": 2,
+        "max": 3
+      },
+      {
+        "item": "amulet_blood",
+        "chance": 0.35,
+        "min": 1,
+        "max": 1
+      },
+      {
+        "item": "ring_vampire",
+        "chance": 0.5,
+        "min": 1,
+        "max": 1
+      }
+    ]
+  },
+  {
+    "id": "boss_dragon",
+    "name": "Rift Dragon",
+    "nameRu": "Дракон Разлома",
+    "hp": 1400,
+    "damage": 36,
+    "speed": 200,
+    "xp": 900,
+    "goldMin": 400,
+    "goldMax": 600,
+    "behavior": "boss",
+    "flying": true,
+    "projectileSpeed": 460,
+    "attackRange": 520,
+    "attackCooldown": 1.9,
+    "scale": 1.0,
+    "phases": 3,
+    "loot": [
+      {
+        "item": "shard",
+        "chance": 1.0,
+        "min": 3,
+        "max": 5
+      },
+      {
+        "item": "potion_major",
+        "chance": 1.0,
+        "min": 2,
+        "max": 3
+      },
+      {
+        "item": "armor_dragonscale",
+        "chance": 0.5,
+        "min": 1,
+        "max": 1
+      }
+    ]
+  }
 ]

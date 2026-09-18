@@ -251,26 +251,19 @@ final class GameViewModel: ObservableObject {
             }
             return false
         }
-        if let heal = def.stats["heal"], heal > 0 {
-            if hp >= derivedStats().maxHP {
-                scene?.hud.toast(L.t("hud.fullHp"))
+        let heal = def.stats["heal"] ?? 0
+        let mp = def.stats["mana"] ?? 0
+        if heal > 0 || mp > 0 {
+            let needHp = heal > 0 && hp < derivedStats().maxHP
+            let needMp = mp > 0 && mana < derivedStats().maxMana
+            if !needHp && !needMp {
+                scene?.hud.toast(L.t(heal > 0 ? "hud.fullHp" : "hud.fullMana"))
                 SoundManager.shared.play("error")
                 return false
             }
             removeItem(itemId: item.itemId)
-            healPlayer(heal)
-            SoundManager.shared.play("potion")
-            syncBadges()
-            return true
-        }
-        if let mp = def.stats["mana"], mp > 0 {
-            if mana >= derivedStats().maxMana {
-                scene?.hud.toast(L.t("hud.fullMana"))
-                SoundManager.shared.play("error")
-                return false
-            }
-            removeItem(itemId: item.itemId)
-            restoreMana(mp)
+            if heal > 0 { healPlayer(heal) }
+            if mp > 0 { restoreMana(mp) }
             SoundManager.shared.play("potion")
             syncBadges()
             return true
@@ -700,6 +693,7 @@ final class GameViewModel: ObservableObject {
                 ShopItem(itemId: "sword_steel", price: 120, stock: 1),
                 ShopItem(itemId: "armor_leather", price: 80, stock: 1),
                 ShopItem(itemId: "ring_copper", price: 70, stock: 1),
+                ShopItem(itemId: "elixir_dawn", price: 150, stock: 2),
             ]
         case "hermit":
             return [
@@ -708,6 +702,8 @@ final class GameViewModel: ObservableObject {
                 ShopItem(itemId: "mana_major", price: 50, stock: -1),
                 ShopItem(itemId: "bomb", price: 45, stock: -1),
                 ShopItem(itemId: "bow_hunter", price: 150, stock: 1),
+                ShopItem(itemId: "bow_ember", price: 450, stock: 1),
+                ShopItem(itemId: "elixir_dawn", price: 150, stock: 3),
             ]
         case "guard":
             return [
@@ -715,6 +711,7 @@ final class GameViewModel: ObservableObject {
                 ShopItem(itemId: "mana_major", price: 55, stock: -1),
                 ShopItem(itemId: "armor_chain", price: 250, stock: 1),
                 ShopItem(itemId: "sword_rune", price: 350, stock: 1),
+                ShopItem(itemId: "armor_storm", price: 390, stock: 1),
             ]
         case "spirit":
             return [
@@ -722,6 +719,8 @@ final class GameViewModel: ObservableObject {
                 ShopItem(itemId: "mana_major", price: 55, stock: -1),
                 ShopItem(itemId: "bomb", price: 45, stock: -1),
                 ShopItem(itemId: "amulet_blood", price: 450, stock: 1),
+                ShopItem(itemId: "sword_frost", price: 420, stock: 1),
+                ShopItem(itemId: "ring_vampire", price: 320, stock: 1),
             ]
         default:
             return [ShopItem(itemId: "potion_minor", price: 20, stock: -1)]

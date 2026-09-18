@@ -1,38 +1,688 @@
 [
-  {"id":"sword_iron","name":"Iron Sword","nameRu":"Железный меч","type":"weapon","rarity":"common","description":"A reliable soldier's blade.","descriptionRu":"Надёжный солдатский клинок.","stats":{"attack":4},"price":30,"icon":"sword","usable":false,"maxStack":1},
-  {"id":"sword_steel","name":"Steel Sword","nameRu":"Стальной меч","type":"weapon","rarity":"uncommon","description":"Well-balanced and sharp.","descriptionRu":"Хорошо сбалансирован и остр.","stats":{"attack":8},"price":120,"icon":"sword","usable":false,"maxStack":1},
-  {"id":"sword_rune","name":"Rune Sword","nameRu":"Рунический меч","type":"weapon","rarity":"rare","description":"Hums with old magic.","descriptionRu":"Гудит древней магией.","stats":{"attack":14,"magic":4},"price":350,"icon":"sword","usable":false,"maxStack":1},
-  {"id":"sword_dawn","name":"Dawnblade","nameRu":"Клинок рассвета","type":"weapon","rarity":"legendary","description":"Forged from the first light. Drinks the dark.","descriptionRu":"Выкован из первого света. Пьёт тьму.","stats":{"attack":26,"maxHealth":30,"lifesteal":0.08},"price":1200,"icon":"sword","usable":false,"maxStack":1},
-  {"id":"blade_ranger","name":"Ranger Blade","nameRu":"Клинок следопыта","type":"weapon","rarity":"common","description":"Light and quick.","descriptionRu":"Лёгкий и быстрый.","stats":{"attack":3,"crit":0.03},"price":30,"icon":"blade","usable":false,"maxStack":1},
-  {"id":"bow_hunter","name":"Hunter Bow","nameRu":"Охотничий лук","type":"weapon","rarity":"uncommon","description":"Favors patient aim.","descriptionRu":"Для терпеливых стрелков.","stats":{"attack":9,"crit":0.05},"price":140,"icon":"bow","usable":false,"maxStack":1},
-  {"id":"bow_storm","name":"Storm Bow","nameRu":"Лук бури","type":"weapon","rarity":"epic","description":"Each shot crackles with thunder.","descriptionRu":"Каждый выстрел трещит грозой.","stats":{"attack":16,"crit":0.1,"moveSpeed":20},"price":600,"icon":"bow","usable":false,"maxStack":1},
-  {"id":"staff_apprentice","name":"Apprentice Staff","nameRu":"Посох ученика","type":"weapon","rarity":"common","description":"Crackles faintly.","descriptionRu":"Слабо потрескивает.","stats":{"magic":5,"maxMana":10},"price":30,"icon":"staff","usable":false,"maxStack":1},
-  {"id":"staff_ember","name":"Ember Staff","nameRu":"Посох углей","type":"weapon","rarity":"rare","description":"Warm to the touch, always.","descriptionRu":"Всегда тёплый на ощупь.","stats":{"magic":12,"attack":4},"price":380,"icon":"staff","usable":false,"maxStack":1},
-  {"id":"staff_void","name":"Void Staff","nameRu":"Посох пустоты","type":"weapon","rarity":"legendary","description":"It drinks starlight and answers in thunder.","descriptionRu":"Пьёт звёздный свет и отвечает громом.","stats":{"magic":24,"maxMana":40,"crit":0.05},"price":1300,"icon":"staff","usable":false,"maxStack":1},
-  {"id":"axe_brutal","name":"Brutal Axe","nameRu":"Жестокая секира","type":"weapon","rarity":"rare","description":"Slow, ugly, final.","descriptionRu":"Медленная, уродливая, окончательная.","stats":{"attack":18,"moveSpeed":-10},"price":400,"icon":"axe","usable":false,"maxStack":1},
-  {"id":"armor_cloth","name":"Cloth Garb","nameRu":"Тканевая одежда","type":"armor","rarity":"common","description":"Better than bare skin.","descriptionRu":"Лучше, чем голая кожа.","stats":{"defense":2},"price":25,"icon":"cloak","usable":false,"maxStack":1},
-  {"id":"armor_leather","name":"Leather Armor","nameRu":"Кожаная броня","type":"armor","rarity":"common","description":"Supple and light.","descriptionRu":"Гибкая и лёгкая.","stats":{"defense":4,"moveSpeed":10},"price":80,"icon":"armor","usable":false,"maxStack":1},
-  {"id":"armor_chain","name":"Chainmail","nameRu":"Кольчуга","type":"armor","rarity":"uncommon","description":"Rings of stubborn steel.","descriptionRu":"Кольца упрямой стали.","stats":{"defense":8,"maxHealth":15},"price":250,"icon":"armor","usable":false,"maxStack":1},
-  {"id":"armor_plate","name":"Knight's Plate","nameRu":"Рыцарский латный доспех","type":"armor","rarity":"rare","description":"Heavy oath of steel.","descriptionRu":"Тяжёлая клятва из стали.","stats":{"defense":14,"maxHealth":30,"moveSpeed":-10},"price":550,"icon":"armor","usable":false,"maxStack":1},
-  {"id":"robe_moon","name":"Moonweave Robe","nameRu":"Мантия лунной ткани","type":"armor","rarity":"epic","description":"Woven from night mist.","descriptionRu":"Соткана из ночного тумана.","stats":{"defense":8,"magic":8,"maxMana":30},"price":700,"icon":"robe","usable":false,"maxStack":1},
-  {"id":"armor_dragonscale","name":"Dragonscale Mail","nameRu":"Доспех из чешуи дракона","type":"armor","rarity":"legendary","description":"Still warm. Still hungry.","descriptionRu":"Всё ещё тёплый. Всё ещё голодный.","stats":{"defense":20,"maxHealth":60,"lifesteal":0.05},"price":1500,"icon":"armor","usable":false,"maxStack":1},
-  {"id":"ring_copper","name":"Copper Ring","nameRu":"Медное кольцо","type":"trinket","rarity":"common","description":"A small comfort.","descriptionRu":"Маленькое утешение.","stats":{"maxHealth":10},"price":70,"icon":"ring","usable":false,"maxStack":1},
-  {"id":"ring_crit","name":"Hunter's Eye","nameRu":"Глаз охотника","type":"trinket","rarity":"uncommon","description":"Finds every weakness.","descriptionRu":"Находит каждую слабость.","stats":{"crit":0.08},"price":220,"icon":"ring","usable":false,"maxStack":1},
-  {"id":"amulet_blood","name":"Blood Amulet","nameRu":"Кровавый амулет","type":"trinket","rarity":"rare","description":"It drinks, then it gives.","descriptionRu":"Сначала пьёт, потом отдаёт.","stats":{"lifesteal":0.1,"maxHealth":20},"price":450,"icon":"amulet","usable":false,"maxStack":1},
-  {"id":"charm_wind","name":"Wind Charm","nameRu":"Оберег ветра","type":"trinket","rarity":"rare","description":"Your steps make no sound.","descriptionRu":"Твои шаги бесшумны.","stats":{"moveSpeed":40,"crit":0.03},"price":480,"icon":"charm","usable":false,"maxStack":1},
-  {"id":"charm_greed","name":"Gilded Charm","nameRu":"Позолоченный оберег","type":"trinket","rarity":"epic","description":"Fortune favors the bold.","descriptionRu":"Удача любит смелых.","stats":{"maxMana":20,"crit":0.05,"moveSpeed":20},"price":650,"icon":"charm","usable":false,"maxStack":1},
-  {"id":"potion_minor","name":"Minor Potion","nameRu":"Малое зелье","type":"consumable","rarity":"common","description":"Restores 50 HP.","descriptionRu":"Восстанавливает 50 ОЗ.","stats":{"heal":50},"price":20,"icon":"potion_hp","usable":true,"maxStack":9},
-  {"id":"potion_major","name":"Greater Potion","nameRu":"Большое зелье","type":"consumable","rarity":"uncommon","description":"Restores 140 HP.","descriptionRu":"Восстанавливает 140 ОЗ.","stats":{"heal":140},"price":60,"icon":"potion_hp","usable":true,"maxStack":9},
-  {"id":"mana_minor","name":"Minor Mana Crystal","nameRu":"Малый кристалл маны","type":"consumable","rarity":"common","description":"Restores 40 MP.","descriptionRu":"Восстанавливает 40 ОМ.","stats":{"mana":40},"price":20,"icon":"potion_mp","usable":true,"maxStack":9},
-  {"id":"mana_major","name":"Greater Mana Crystal","nameRu":"Большой кристалл маны","type":"consumable","rarity":"uncommon","description":"Restores 120 MP.","descriptionRu":"Восстанавливает 120 ОМ.","stats":{"mana":120},"price":55,"icon":"potion_mp","usable":true,"maxStack":9},
-  {"id":"bomb","name":"Fire Bomb","nameRu":"Огненная бомба","type":"consumable","rarity":"uncommon","description":"Use: 90 fire damage to all nearby enemies.","descriptionRu":"Использование: 90 ед. огненного урона всем врагам рядом.","stats":{"damage":90},"price":45,"icon":"bomb","usable":true,"maxStack":9},
-  {"id":"meat","name":"Smoked Meat","nameRu":"Копчёное мясо","type":"consumable","rarity":"common","description":"Restores 25 HP. Tasty.","descriptionRu":"Восстанавливает 25 ОЗ. Вкусно.","stats":{"heal":25},"price":10,"icon":"meat","usable":true,"maxStack":9},
-  {"id":"gel","name":"Slime Gel","nameRu":"Слизь слайма","type":"material","rarity":"common","description":"Wobbles alarmingly. Alchemists pay for it.","descriptionRu":"Тревожно дрожит. Алхимики за неё платят.","stats":{},"price":4,"icon":"gel","usable":false,"maxStack":99},
-  {"id":"wing","name":"Bat Wing","nameRu":"Крыло летучей мыши","type":"material","rarity":"common","description":"Leathery and light.","descriptionRu":"Кожистое и лёгкое.","stats":{},"price":6,"icon":"wing","usable":false,"maxStack":99},
-  {"id":"bone","name":"Old Bone","nameRu":"Старая кость","type":"material","rarity":"common","description":"Somebody's bad day.","descriptionRu":"Чей-то неудачный день.","stats":{},"price":8,"icon":"bone","usable":false,"maxStack":99},
-  {"id":"ore","name":"Echo Ore","nameRu":"Эхо-руда","type":"material","rarity":"uncommon","description":"Hums near the Rift.","descriptionRu":"Гудит рядом с Разломом.","stats":{},"price":15,"icon":"ore","usable":false,"maxStack":99},
-  {"id":"shard","name":"Crystal Shard","nameRu":"Осколок кристалла","type":"material","rarity":"rare","description":"A splinter of frozen starlight.","descriptionRu":"Осколок застывшего звёздного света.","stats":{},"price":25,"icon":"shard","usable":false,"maxStack":99},
-  {"id":"feather","name":"Sky Feather","nameRu":"Небесное перо","type":"material","rarity":"uncommon","description":"Warm wind lives inside.","descriptionRu":"Внутри живёт тёплый ветер.","stats":{},"price":12,"icon":"feather","usable":false,"maxStack":99},
-  {"id":"relic_echo","name":"Echo Relic","nameRu":"Реликвия эха","type":"keyItem","rarity":"epic","description":"The Elder would want to study this.","descriptionRu":"Старейшина захочет это изучить.","stats":{},"price":0,"icon":"relic","usable":false,"maxStack":1},
-  {"id":"key_rusty","name":"Rusty Key","nameRu":"Ржавый ключ","type":"keyItem","rarity":"uncommon","description":"Opens something in the castle...","descriptionRu":"Открывает что-то в замке...","stats":{},"price":0,"icon":"key","usable":false,"maxStack":1}
+  {
+    "id": "sword_iron",
+    "name": "Iron Sword",
+    "nameRu": "Железный меч",
+    "type": "weapon",
+    "rarity": "common",
+    "description": "A reliable soldier's blade.",
+    "descriptionRu": "Надёжный солдатский клинок.",
+    "stats": {
+      "attack": 4
+    },
+    "price": 30,
+    "icon": "sword",
+    "usable": false,
+    "maxStack": 1
+  },
+  {
+    "id": "sword_steel",
+    "name": "Steel Sword",
+    "nameRu": "Стальной меч",
+    "type": "weapon",
+    "rarity": "uncommon",
+    "description": "Well-balanced and sharp.",
+    "descriptionRu": "Хорошо сбалансирован и остр.",
+    "stats": {
+      "attack": 8
+    },
+    "price": 120,
+    "icon": "sword",
+    "usable": false,
+    "maxStack": 1
+  },
+  {
+    "id": "sword_rune",
+    "name": "Rune Sword",
+    "nameRu": "Рунический меч",
+    "type": "weapon",
+    "rarity": "rare",
+    "description": "Hums with old magic.",
+    "descriptionRu": "Гудит древней магией.",
+    "stats": {
+      "attack": 14,
+      "magic": 4
+    },
+    "price": 350,
+    "icon": "sword",
+    "usable": false,
+    "maxStack": 1
+  },
+  {
+    "id": "sword_dawn",
+    "name": "Dawnblade",
+    "nameRu": "Клинок рассвета",
+    "type": "weapon",
+    "rarity": "legendary",
+    "description": "Forged from the first light. Drinks the dark.",
+    "descriptionRu": "Выкован из первого света. Пьёт тьму.",
+    "stats": {
+      "attack": 26,
+      "maxHealth": 30,
+      "lifesteal": 0.08
+    },
+    "price": 1200,
+    "icon": "sword",
+    "usable": false,
+    "maxStack": 1
+  },
+  {
+    "id": "blade_ranger",
+    "name": "Ranger Blade",
+    "nameRu": "Клинок следопыта",
+    "type": "weapon",
+    "rarity": "common",
+    "description": "Light and quick.",
+    "descriptionRu": "Лёгкий и быстрый.",
+    "stats": {
+      "attack": 3,
+      "crit": 0.03
+    },
+    "price": 30,
+    "icon": "blade",
+    "usable": false,
+    "maxStack": 1
+  },
+  {
+    "id": "bow_hunter",
+    "name": "Hunter Bow",
+    "nameRu": "Охотничий лук",
+    "type": "weapon",
+    "rarity": "uncommon",
+    "description": "Favors patient aim.",
+    "descriptionRu": "Для терпеливых стрелков.",
+    "stats": {
+      "attack": 9,
+      "crit": 0.05
+    },
+    "price": 140,
+    "icon": "bow",
+    "usable": false,
+    "maxStack": 1
+  },
+  {
+    "id": "bow_storm",
+    "name": "Storm Bow",
+    "nameRu": "Лук бури",
+    "type": "weapon",
+    "rarity": "epic",
+    "description": "Each shot crackles with thunder.",
+    "descriptionRu": "Каждый выстрел трещит грозой.",
+    "stats": {
+      "attack": 16,
+      "crit": 0.1,
+      "moveSpeed": 20
+    },
+    "price": 600,
+    "icon": "bow",
+    "usable": false,
+    "maxStack": 1
+  },
+  {
+    "id": "staff_apprentice",
+    "name": "Apprentice Staff",
+    "nameRu": "Посох ученика",
+    "type": "weapon",
+    "rarity": "common",
+    "description": "Crackles faintly.",
+    "descriptionRu": "Слабо потрескивает.",
+    "stats": {
+      "magic": 5,
+      "maxMana": 10
+    },
+    "price": 30,
+    "icon": "staff",
+    "usable": false,
+    "maxStack": 1
+  },
+  {
+    "id": "staff_ember",
+    "name": "Ember Staff",
+    "nameRu": "Посох углей",
+    "type": "weapon",
+    "rarity": "rare",
+    "description": "Warm to the touch, always.",
+    "descriptionRu": "Всегда тёплый на ощупь.",
+    "stats": {
+      "magic": 12,
+      "attack": 4
+    },
+    "price": 380,
+    "icon": "staff",
+    "usable": false,
+    "maxStack": 1
+  },
+  {
+    "id": "staff_void",
+    "name": "Void Staff",
+    "nameRu": "Посох пустоты",
+    "type": "weapon",
+    "rarity": "legendary",
+    "description": "It drinks starlight and answers in thunder.",
+    "descriptionRu": "Пьёт звёздный свет и отвечает громом.",
+    "stats": {
+      "magic": 24,
+      "maxMana": 40,
+      "crit": 0.05
+    },
+    "price": 1300,
+    "icon": "staff",
+    "usable": false,
+    "maxStack": 1
+  },
+  {
+    "id": "axe_brutal",
+    "name": "Brutal Axe",
+    "nameRu": "Жестокая секира",
+    "type": "weapon",
+    "rarity": "rare",
+    "description": "Slow, ugly, final.",
+    "descriptionRu": "Медленная, уродливая, окончательная.",
+    "stats": {
+      "attack": 18,
+      "moveSpeed": -10
+    },
+    "price": 400,
+    "icon": "axe",
+    "usable": false,
+    "maxStack": 1
+  },
+  {
+    "id": "armor_cloth",
+    "name": "Cloth Garb",
+    "nameRu": "Тканевая одежда",
+    "type": "armor",
+    "rarity": "common",
+    "description": "Better than bare skin.",
+    "descriptionRu": "Лучше, чем голая кожа.",
+    "stats": {
+      "defense": 2
+    },
+    "price": 25,
+    "icon": "cloak",
+    "usable": false,
+    "maxStack": 1
+  },
+  {
+    "id": "armor_leather",
+    "name": "Leather Armor",
+    "nameRu": "Кожаная броня",
+    "type": "armor",
+    "rarity": "common",
+    "description": "Supple and light.",
+    "descriptionRu": "Гибкая и лёгкая.",
+    "stats": {
+      "defense": 4,
+      "moveSpeed": 10
+    },
+    "price": 80,
+    "icon": "armor",
+    "usable": false,
+    "maxStack": 1
+  },
+  {
+    "id": "armor_chain",
+    "name": "Chainmail",
+    "nameRu": "Кольчуга",
+    "type": "armor",
+    "rarity": "uncommon",
+    "description": "Rings of stubborn steel.",
+    "descriptionRu": "Кольца упрямой стали.",
+    "stats": {
+      "defense": 8,
+      "maxHealth": 15
+    },
+    "price": 250,
+    "icon": "armor",
+    "usable": false,
+    "maxStack": 1
+  },
+  {
+    "id": "armor_plate",
+    "name": "Knight's Plate",
+    "nameRu": "Рыцарский латный доспех",
+    "type": "armor",
+    "rarity": "rare",
+    "description": "Heavy oath of steel.",
+    "descriptionRu": "Тяжёлая клятва из стали.",
+    "stats": {
+      "defense": 14,
+      "maxHealth": 30,
+      "moveSpeed": -10
+    },
+    "price": 550,
+    "icon": "armor",
+    "usable": false,
+    "maxStack": 1
+  },
+  {
+    "id": "robe_moon",
+    "name": "Moonweave Robe",
+    "nameRu": "Мантия лунной ткани",
+    "type": "armor",
+    "rarity": "epic",
+    "description": "Woven from night mist.",
+    "descriptionRu": "Соткана из ночного тумана.",
+    "stats": {
+      "defense": 8,
+      "magic": 8,
+      "maxMana": 30
+    },
+    "price": 700,
+    "icon": "robe",
+    "usable": false,
+    "maxStack": 1
+  },
+  {
+    "id": "armor_dragonscale",
+    "name": "Dragonscale Mail",
+    "nameRu": "Доспех из чешуи дракона",
+    "type": "armor",
+    "rarity": "legendary",
+    "description": "Still warm. Still hungry.",
+    "descriptionRu": "Всё ещё тёплый. Всё ещё голодный.",
+    "stats": {
+      "defense": 20,
+      "maxHealth": 60,
+      "lifesteal": 0.05
+    },
+    "price": 1500,
+    "icon": "armor",
+    "usable": false,
+    "maxStack": 1
+  },
+  {
+    "id": "ring_copper",
+    "name": "Copper Ring",
+    "nameRu": "Медное кольцо",
+    "type": "trinket",
+    "rarity": "common",
+    "description": "A small comfort.",
+    "descriptionRu": "Маленькое утешение.",
+    "stats": {
+      "maxHealth": 10
+    },
+    "price": 70,
+    "icon": "ring",
+    "usable": false,
+    "maxStack": 1
+  },
+  {
+    "id": "ring_crit",
+    "name": "Hunter's Eye",
+    "nameRu": "Глаз охотника",
+    "type": "trinket",
+    "rarity": "uncommon",
+    "description": "Finds every weakness.",
+    "descriptionRu": "Находит каждую слабость.",
+    "stats": {
+      "crit": 0.08
+    },
+    "price": 220,
+    "icon": "ring",
+    "usable": false,
+    "maxStack": 1
+  },
+  {
+    "id": "amulet_blood",
+    "name": "Blood Amulet",
+    "nameRu": "Кровавый амулет",
+    "type": "trinket",
+    "rarity": "rare",
+    "description": "It drinks, then it gives.",
+    "descriptionRu": "Сначала пьёт, потом отдаёт.",
+    "stats": {
+      "lifesteal": 0.1,
+      "maxHealth": 20
+    },
+    "price": 450,
+    "icon": "amulet",
+    "usable": false,
+    "maxStack": 1
+  },
+  {
+    "id": "charm_wind",
+    "name": "Wind Charm",
+    "nameRu": "Оберег ветра",
+    "type": "trinket",
+    "rarity": "rare",
+    "description": "Your steps make no sound.",
+    "descriptionRu": "Твои шаги бесшумны.",
+    "stats": {
+      "moveSpeed": 40,
+      "crit": 0.03
+    },
+    "price": 480,
+    "icon": "charm",
+    "usable": false,
+    "maxStack": 1
+  },
+  {
+    "id": "charm_greed",
+    "name": "Gilded Charm",
+    "nameRu": "Позолоченный оберег",
+    "type": "trinket",
+    "rarity": "epic",
+    "description": "Fortune favors the bold.",
+    "descriptionRu": "Удача любит смелых.",
+    "stats": {
+      "maxMana": 20,
+      "crit": 0.05,
+      "moveSpeed": 20
+    },
+    "price": 650,
+    "icon": "charm",
+    "usable": false,
+    "maxStack": 1
+  },
+  {
+    "id": "potion_minor",
+    "name": "Minor Potion",
+    "nameRu": "Малое зелье",
+    "type": "consumable",
+    "rarity": "common",
+    "description": "Restores 50 HP.",
+    "descriptionRu": "Восстанавливает 50 ОЗ.",
+    "stats": {
+      "heal": 50
+    },
+    "price": 20,
+    "icon": "potion_hp",
+    "usable": true,
+    "maxStack": 9
+  },
+  {
+    "id": "potion_major",
+    "name": "Greater Potion",
+    "nameRu": "Большое зелье",
+    "type": "consumable",
+    "rarity": "uncommon",
+    "description": "Restores 140 HP.",
+    "descriptionRu": "Восстанавливает 140 ОЗ.",
+    "stats": {
+      "heal": 140
+    },
+    "price": 60,
+    "icon": "potion_hp",
+    "usable": true,
+    "maxStack": 9
+  },
+  {
+    "id": "mana_minor",
+    "name": "Minor Mana Crystal",
+    "nameRu": "Малый кристалл маны",
+    "type": "consumable",
+    "rarity": "common",
+    "description": "Restores 40 MP.",
+    "descriptionRu": "Восстанавливает 40 ОМ.",
+    "stats": {
+      "mana": 40
+    },
+    "price": 20,
+    "icon": "potion_mp",
+    "usable": true,
+    "maxStack": 9
+  },
+  {
+    "id": "mana_major",
+    "name": "Greater Mana Crystal",
+    "nameRu": "Большой кристалл маны",
+    "type": "consumable",
+    "rarity": "uncommon",
+    "description": "Restores 120 MP.",
+    "descriptionRu": "Восстанавливает 120 ОМ.",
+    "stats": {
+      "mana": 120
+    },
+    "price": 55,
+    "icon": "potion_mp",
+    "usable": true,
+    "maxStack": 9
+  },
+  {
+    "id": "bomb",
+    "name": "Fire Bomb",
+    "nameRu": "Огненная бомба",
+    "type": "consumable",
+    "rarity": "uncommon",
+    "description": "Use: 90 fire damage to all nearby enemies.",
+    "descriptionRu": "Использование: 90 ед. огненного урона всем врагам рядом.",
+    "stats": {
+      "damage": 90
+    },
+    "price": 45,
+    "icon": "bomb",
+    "usable": true,
+    "maxStack": 9
+  },
+  {
+    "id": "meat",
+    "name": "Smoked Meat",
+    "nameRu": "Копчёное мясо",
+    "type": "consumable",
+    "rarity": "common",
+    "description": "Restores 25 HP. Tasty.",
+    "descriptionRu": "Восстанавливает 25 ОЗ. Вкусно.",
+    "stats": {
+      "heal": 25
+    },
+    "price": 10,
+    "icon": "meat",
+    "usable": true,
+    "maxStack": 9
+  },
+  {
+    "id": "gel",
+    "name": "Slime Gel",
+    "nameRu": "Слизь слайма",
+    "type": "material",
+    "rarity": "common",
+    "description": "Wobbles alarmingly. Alchemists pay for it.",
+    "descriptionRu": "Тревожно дрожит. Алхимики за неё платят.",
+    "stats": {},
+    "price": 4,
+    "icon": "gel",
+    "usable": false,
+    "maxStack": 99
+  },
+  {
+    "id": "wing",
+    "name": "Bat Wing",
+    "nameRu": "Крыло летучей мыши",
+    "type": "material",
+    "rarity": "common",
+    "description": "Leathery and light.",
+    "descriptionRu": "Кожистое и лёгкое.",
+    "stats": {},
+    "price": 6,
+    "icon": "wing",
+    "usable": false,
+    "maxStack": 99
+  },
+  {
+    "id": "bone",
+    "name": "Old Bone",
+    "nameRu": "Старая кость",
+    "type": "material",
+    "rarity": "common",
+    "description": "Somebody's bad day.",
+    "descriptionRu": "Чей-то неудачный день.",
+    "stats": {},
+    "price": 8,
+    "icon": "bone",
+    "usable": false,
+    "maxStack": 99
+  },
+  {
+    "id": "ore",
+    "name": "Echo Ore",
+    "nameRu": "Эхо-руда",
+    "type": "material",
+    "rarity": "uncommon",
+    "description": "Hums near the Rift.",
+    "descriptionRu": "Гудит рядом с Разломом.",
+    "stats": {},
+    "price": 15,
+    "icon": "ore",
+    "usable": false,
+    "maxStack": 99
+  },
+  {
+    "id": "shard",
+    "name": "Crystal Shard",
+    "nameRu": "Осколок кристалла",
+    "type": "material",
+    "rarity": "rare",
+    "description": "A splinter of frozen starlight.",
+    "descriptionRu": "Осколок застывшего звёздного света.",
+    "stats": {},
+    "price": 25,
+    "icon": "shard",
+    "usable": false,
+    "maxStack": 99
+  },
+  {
+    "id": "feather",
+    "name": "Sky Feather",
+    "nameRu": "Небесное перо",
+    "type": "material",
+    "rarity": "uncommon",
+    "description": "Warm wind lives inside.",
+    "descriptionRu": "Внутри живёт тёплый ветер.",
+    "stats": {},
+    "price": 12,
+    "icon": "feather",
+    "usable": false,
+    "maxStack": 99
+  },
+  {
+    "id": "relic_echo",
+    "name": "Echo Relic",
+    "nameRu": "Реликвия эха",
+    "type": "keyItem",
+    "rarity": "epic",
+    "description": "The Elder would want to study this.",
+    "descriptionRu": "Старейшина захочет это изучить.",
+    "stats": {},
+    "price": 0,
+    "icon": "relic",
+    "usable": false,
+    "maxStack": 1
+  },
+  {
+    "id": "key_rusty",
+    "name": "Rusty Key",
+    "nameRu": "Ржавый ключ",
+    "type": "keyItem",
+    "rarity": "uncommon",
+    "description": "Opens something in the castle...",
+    "descriptionRu": "Открывает что-то в замке...",
+    "stats": {},
+    "price": 0,
+    "icon": "key",
+    "usable": false,
+    "maxStack": 1
+  },
+  {
+    "id": "elixir_dawn",
+    "name": "Dawn Elixir",
+    "nameRu": "Эликсир рассвета",
+    "type": "consumable",
+    "rarity": "epic",
+    "description": "Fully restores HP and mana.",
+    "descriptionRu": "Полностью восстанавливает ОЗ и ману.",
+    "stats": {
+      "heal": 9999,
+      "mana": 9999
+    },
+    "price": 150,
+    "icon": "shard",
+    "usable": true,
+    "maxStack": 5
+  },
+  {
+    "id": "sword_frost",
+    "name": "Frostbrand",
+    "nameRu": "Морозный клинок",
+    "type": "weapon",
+    "rarity": "rare",
+    "description": "A blade humming with winter magic.",
+    "descriptionRu": "Клинок, гудящий зимней магией.",
+    "stats": {
+      "attack": 9,
+      "magic": 6
+    },
+    "price": 420,
+    "icon": "sword",
+    "usable": false,
+    "maxStack": 1
+  },
+  {
+    "id": "bow_ember",
+    "name": "Ember Bow",
+    "nameRu": "Угольный лук",
+    "type": "weapon",
+    "rarity": "rare",
+    "description": "Every arrow lands where it hurts most.",
+    "descriptionRu": "Каждая стрела бьёт в самое больное место.",
+    "stats": {
+      "attack": 13,
+      "crit": 0.05
+    },
+    "price": 450,
+    "icon": "bow",
+    "usable": false,
+    "maxStack": 1
+  },
+  {
+    "id": "armor_storm",
+    "name": "Stormplate",
+    "nameRu": "Грозовой доспех",
+    "type": "armor",
+    "rarity": "rare",
+    "description": "Light as wind, hard as thunder.",
+    "descriptionRu": "Лёгок как ветер, твёрд как гром.",
+    "stats": {
+      "defense": 9,
+      "moveSpeed": 25
+    },
+    "price": 390,
+    "icon": "armor",
+    "usable": false,
+    "maxStack": 1
+  },
+  {
+    "id": "ring_vampire",
+    "name": "Vampire Ring",
+    "nameRu": "Кольцо вампира",
+    "type": "trinket",
+    "rarity": "epic",
+    "description": "Steals life from every wound you deal.",
+    "descriptionRu": "Крадёт жизнь каждой нанесённой раной.",
+    "stats": {
+      "lifesteal": 0.06,
+      "attack": 3
+    },
+    "price": 320,
+    "icon": "ring",
+    "usable": false,
+    "maxStack": 1
+  },
+  {
+    "id": "boots_swift",
+    "name": "Swift Boots",
+    "nameRu": "Быстрые сапоги",
+    "type": "armor",
+    "rarity": "uncommon",
+    "description": "The road itself hurries beneath you.",
+    "descriptionRu": "Сама дорога спешит под тобой.",
+    "stats": {
+      "defense": 4,
+      "moveSpeed": 50
+    },
+    "price": 270,
+    "icon": "feather",
+    "usable": false,
+    "maxStack": 1
+  }
 ]
