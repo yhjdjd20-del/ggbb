@@ -361,7 +361,7 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
             enemy.update(dt: dt, playerPos: player.position)
         }
         if let boss, bossIntroduced, !boss.isDead {
-            hud.setBossHp(cur: boss.hp, max: boss.maxHp)
+            hud.setBossHp(cur: boss.hp, maxHp: boss.maxHp)
         }
     }
 

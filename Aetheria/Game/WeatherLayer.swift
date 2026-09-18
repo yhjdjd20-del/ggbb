@@ -4,6 +4,7 @@ import SpriteKit
 final class WeatherLayer: SKNode {
     private var emitter: SKEmitterNode?
     private var tint: SKSpriteNode!
+    private var flash: SKSpriteNode!
     private var current = "none"
 
     func setup() {
@@ -11,10 +12,27 @@ final class WeatherLayer: SKNode {
         tint = SKSpriteNode(color: SKColor(white: 0, alpha: 0), size: CGSize(width: 2000, height: 2000))
         tint.zPosition = 2
         addChild(tint)
+        flash = SKSpriteNode(color: SKColor(red: 0.75, green: 0.85, blue: 1, alpha: 0),
+                             size: CGSize(width: 2000, height: 2000))
+        flash.zPosition = 3
+        flash.alpha = 0
+        addChild(flash)
+    }
+
+    /// Lightning double-strike. The scene plays the matching "thunder" SFX.
+    func thunder() {
+        flash.removeAction(forKey: "bolt")
+        flash.run(SKAction.sequence([
+            SKAction.fadeAlpha(to: 0.55, duration: 0.06),
+            SKAction.fadeAlpha(to: 0.1, duration: 0.09),
+            SKAction.fadeAlpha(to: 0.4, duration: 0.06),
+            SKAction.fadeOut(withDuration: 0.35),
+        ]), withKey: "bolt")
     }
 
     func layout(size: CGSize) {
         tint.size = CGSize(width: size.width + 200, height: size.height + 200)
+        flash.size = CGSize(width: size.width + 200, height: size.height + 200)
         emitter?.position = CGPoint(x: 0, y: size.height / 2)
         emitter?.particlePositionRange = CGVector(dx: size.width + 100, dy: 60)
     }

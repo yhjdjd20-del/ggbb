@@ -56,6 +56,14 @@ enum AchievementManager {
             descEn: "Dash 100 times.", descRu: "Сделай 100 рывков.", icon: "dash"),
         AchievementDefinition(id: "dawn", titleEn: "Dawnbreak", titleRu: "Рассвет",
             descEn: "Finish the game.", descRu: "Пройди игру до конца.", icon: "sun"),
+        AchievementDefinition(id: "clear_forest", titleEn: "Forest Cleansed", titleRu: "Лес очищен",
+            descEn: "Defeat every enemy in Whispering Forest.", descRu: "Победи всех врагов в Шепчущем лесу.", icon: "bow"),
+        AchievementDefinition(id: "clear_caves", titleEn: "Caves Cleansed", titleRu: "Пещеры очищены",
+            descEn: "Defeat every enemy in Echoing Caves.", descRu: "Победи всех врагов в Гулких пещерах.", icon: "ore"),
+        AchievementDefinition(id: "clear_castle", titleEn: "Castle Cleansed", titleRu: "Замок очищен",
+            descEn: "Defeat every enemy in Fallen Castle.", descRu: "Победи всех врагов в Павшем замке.", icon: "armor"),
+        AchievementDefinition(id: "clear_sky", titleEn: "Skies Cleansed", titleRu: "Небеса очищены",
+            descEn: "Defeat every enemy in Sky Rift.", descRu: "Победи всех врагов в Небесном разломе.", icon: "wing"),
     ]
 
     /// Returns newly unlocked achievement ids for the event.
@@ -86,8 +94,8 @@ enum AchievementManager {
             if d >= 5 { grant("persistent") }
         case .dash(let d):
             if d >= 100 { grant("acrobat") }
-        case .fullClear:
-            break
+        case .fullClear(let id):
+            grant("clear_\(id)")
         case .victory:
             grant("dawn")
         }

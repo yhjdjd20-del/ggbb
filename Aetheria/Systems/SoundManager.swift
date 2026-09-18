@@ -13,6 +13,7 @@ final class SoundManager {
     private let musicPlayer = AVAudioPlayerNode()
     private var sfxCache: [String: AVAudioPCMBuffer] = [:]
     private var musicCache: [String: AVAudioPCMBuffer] = [:]
+    private let musicLock = NSLock()
     private var currentTheme: String?
     private var isSetUp = false
 
@@ -96,7 +97,10 @@ final class SoundManager {
         if currentTheme == theme, musicPlayer.isPlaying { return }
         currentTheme = theme
         musicPlayer.stop()
-        if let cached = musicCache[theme] {
+        musicLock.lock()
+        let cached = musicCache[theme]
+        musicLock.unlock()
+        if let cached {
             musicPlayer.scheduleBuffer(cached, at: nil, options: .loops)
             musicPlayer.play()
             return
@@ -107,7 +111,9 @@ final class SoundManager {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self else { return }
             let buffer = self.buildMusic(theme: requested)
+            self.musicLock.lock()
             self.musicCache[requested] = buffer
+            self.musicLock.unlock()
             DispatchQueue.main.async { [weak self] in
                 guard let self, self.currentTheme == requested else { return }
                 self.musicPlayer.scheduleBuffer(buffer, at: nil, options: .loops)
@@ -236,6 +242,10 @@ final class SoundManager {
         case "select": return tone(f0: 700, f1: 900, duration: 0.07, type: .sine, volume: 0.3)
         case "land": return tone(f0: 180, f1: 120, duration: 0.07, type: .sine, volume: 0.25)
         case "splash": return tone(f0: 600, f1: 200, duration: 0.2, type: .noise, volume: 0.3)
+        case "thunder": return mix([
+            tone(f0: 90, f1: 40, duration: 1.2, type: .noise, volume: 0.5, attack: 0.02, decayPow: 0.7),
+            tone(f0: 70, f1: 35, duration: 1.4, type: .sine, volume: 0.5, attack: 0.02, decayPow: 0.7),
+        ])
         default: return nil
         }
     }

@@ -13,11 +13,14 @@ final class HUDLayer: SKNode {
     private var bossBar: SKNode!
     private var bossFg: SKSpriteNode!
     private var bossName: SKLabelNode!
+    private var bossHp: SKLabelNode!
     private var comboLabel: SKLabelNode!
     private var toastLabel: SKLabelNode!
     private var bannerTitle: SKLabelNode!
     private var bannerSub: SKLabelNode!
     private var lowHp: SKSpriteNode!
+    private var lowHpOn = false
+    private var critFlashNode: SKSpriteNode!
     private var toastQueue: [String] = []
     private var toastBusy = false
 
@@ -42,9 +45,12 @@ final class HUDLayer: SKNode {
         bossFg.position = CGPoint(x: -278, y: 0)
         bossName = makeLabel(fontSize: 22, bold: true)
         bossName.position = CGPoint(x: 0, y: 18)
+        bossHp = makeLabel(fontSize: 16, bold: true)
+        bossHp.position = CGPoint(x: 0, y: -24)
         bossBar.addChild(bossBg)
         bossBar.addChild(bossFg)
         bossBar.addChild(bossName)
+        bossBar.addChild(bossHp)
         bossBar.isHidden = true
         addChild(bossBar)
 
@@ -68,6 +74,10 @@ final class HUDLayer: SKNode {
         lowHp = SKSpriteNode(color: SKColor(red: 0.8, green: 0, blue: 0, alpha: 0), size: CGSize(width: 2000, height: 2000))
         lowHp.zPosition = -1
         addChild(lowHp)
+        critFlashNode = SKSpriteNode(color: SKColor(white: 1, alpha: 0), size: CGSize(width: 2000, height: 2000))
+        critFlashNode.zPosition = 10
+        critFlashNode.alpha = 0
+        addChild(critFlashNode)
     }
 
     private func makeBar(color: SKColor, height: CGFloat) -> (SKSpriteNode, SKSpriteNode) {
@@ -109,6 +119,8 @@ final class HUDLayer: SKNode {
         bannerSub.position = CGPoint(x: 0, y: -12)
         lowHp.position = .zero
         lowHp.size = CGSize(width: size.width + 200, height: size.height + 200)
+        critFlashNode.position = .zero
+        critFlashNode.size = CGSize(width: size.width + 200, height: size.height + 200)
     }
 
     // MARK: - Updates
@@ -137,8 +149,9 @@ final class HUDLayer: SKNode {
         bossBar.isHidden = false
     }
 
-    func setBossHp(_ frac: Double) {
-        bossFg.xScale = max(0.001, CGFloat(frac))
+    func setBossHp(cur: Double, maxHp: Double) {
+        bossFg.xScale = max(0.001, CGFloat(cur / max(1, maxHp)))
+        bossHp.text = "\(max(0, Int(cur))) / \(Int(maxHp))"
     }
 
     func hideBoss() {
@@ -147,7 +160,13 @@ final class HUDLayer: SKNode {
 
     func showCombo(_ count: Int) {
         comboLabel.isHidden = false
-        comboLabel.text = "\(count) \(L.t("hud.combo"))!"
+        var text = "\(count) \(L.t("hud.combo"))!"
+        let rank: String? = count >= 30 ? L.t("combo.r30")
+            : count >= 20 ? L.t("combo.r20")
+            : count >= 10 ? L.t("combo.r10")
+            : count >= 5 ? L.t("combo.r5") : nil
+        if let rank { text += " · \(rank)" }
+        comboLabel.text = text
         comboLabel.setScale(1.25)
         comboLabel.run(SKAction.scale(to: 1.0, duration: 0.15))
     }
@@ -190,7 +209,17 @@ final class HUDLayer: SKNode {
         }
     }
 
+    /// White screen flash for crits and Second Wind revives.
+    func critFlash() {
+        critFlashNode.removeAction(forKey: "flash")
+        critFlashNode.alpha = 0.28
+        critFlashNode.run(SKAction.fadeOut(withDuration: 0.18), withKey: "flash")
+    }
+
     func setLowHp(_ on: Bool) {
+        // Called every frame: only touch actions on state change.
+        guard on != lowHpOn else { return }
+        lowHpOn = on
         lowHp.removeAction(forKey: "pulse")
         if on {
             lowHp.run(SKAction.repeatForever(SKAction.sequence([
@@ -221,6 +250,7 @@ final class DamageLayer: SKNode {
     }
 
     func spawn(text: String, at pos: CGPoint, color: SKColor, big: Bool) {
+        guard AppSettings.shared.damageNumbers else { return }
         let label = pool[index]
         index = (index + 1) % pool.count
         label.removeAllActions()

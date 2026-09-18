@@ -66,6 +66,15 @@ final class AppSettings: ObservableObject {
     @Published var displayQuality: DisplayQuality {
         didSet { save() }
     }
+    @Published var screenShake: Bool {
+        didSet { save() }
+    }
+    @Published var damageNumbers: Bool {
+        didSet { save() }
+    }
+    @Published var autoPotion: Bool {
+        didSet { save() }
+    }
 
     private let defaults = UserDefaults.standard
 
@@ -87,6 +96,9 @@ final class AppSettings: ObservableObject {
         showMinimap = defaults.object(forKey: "showMinimap") as? Bool ?? true
         richEffects = defaults.object(forKey: "richEffects") as? Bool ?? true
         displayQuality = defaults.string(forKey: "displayQuality").flatMap(DisplayQuality.init(rawValue:)) ?? .auto
+        screenShake = defaults.object(forKey: "screenShake") as? Bool ?? true
+        damageNumbers = defaults.object(forKey: "damageNumbers") as? Bool ?? true
+        autoPotion = defaults.object(forKey: "autoPotion") as? Bool ?? false
     }
 
     /// Resolved quality (Auto -> device tier). Never `.auto`.
@@ -116,5 +128,8 @@ final class AppSettings: ObservableObject {
         defaults.set(showMinimap, forKey: "showMinimap")
         defaults.set(richEffects, forKey: "richEffects")
         defaults.set(displayQuality.rawValue, forKey: "displayQuality")
+        defaults.set(screenShake, forKey: "screenShake")
+        defaults.set(damageNumbers, forKey: "damageNumbers")
+        defaults.set(autoPotion, forKey: "autoPotion")
     }
 }
