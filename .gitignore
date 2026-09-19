@@ -1,0 +1,38 @@
+# Xcode
+DerivedData/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
+*.xccheckout
+*.moved-aside
+*.xcuserstate
+*.xcscmblueprint
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# Build artifacts (local + CI)
+build/
+Payload/
+*.ipa
+*.dSYM.zip
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Tools
+.venv/
+__pycache__/
+
+# Gemini CLI (local settings + GitHub App credentials)
+.gemini/
+gha-creds-*.json

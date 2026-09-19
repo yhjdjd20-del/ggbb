@@ -1,0 +1,119 @@
+name: iOS unsigned IPA
+
+# Builds the game on GitHub-hosted macOS runners and packages an
+# UNSIGNED .ipa (no Apple Developer certificates required).
+
+on:
+  push:
+    branches: ["**"]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PROJECT: Aetheria.xcodeproj
+  SCHEME: Aetheria
+  CONFIG: Release
+
+jobs:
+  validate:
+    name: Validate content & project
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate JSON content
+        run: |
+          python3 -c "
+          import json, glob
+          files = sorted(glob.glob('Aetheria/Resources/Data/*.json'))
+          assert files, 'no JSON files found'
+          for f in files:
+              json.load(open(f, encoding='utf-8'))
+              print('OK', f)
+          "
+
+      - name: Check Swift brace balance
+        run: |
+          python3 -c "
+          import glob, re
+          bad = []
+          files = sorted(glob.glob('Aetheria/**/*.swift', recursive=True))
+          for f in files:
+              t = open(f, encoding='utf-8').read()
+              t = re.sub(r'\"(\\\\.|[^\"\\\\])*\"', '', t)
+              t = re.sub(r'//.*', '', t)
+              t = re.sub(r'/\*.*?\*/', '', t, flags=re.S)
+              for name, a, b in [('{}', t.count('{'), t.count('}')), ('()', t.count('('), t.count(')')), ('[]', t.count('['), t.count(']'))]:
+                  if a != b:
+                      bad.append((f, name, a, b))
+          print('checked', len(files), 'files')
+          assert not bad, f'imbalanced: {bad}'
+          "
+
+      - name: Generate Xcode project
+        run: python3 tools/generate_project.py
+
+      # The project is generated from Aetheria/; generated output is not a
+      # hand-maintained source file. The build job regenerates it as well.
+      - name: Verify generated project is valid
+        run: test -s Aetheria.xcodeproj/project.pbxproj
+
+  build:
+    name: Build unsigned IPA
+    needs: validate
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate Xcode project
+        run: python3 tools/generate_project.py
+
+      - name: Show Xcode version
+        run: |
+          xcodebuild -version
+          xcodebuild -showsdks | head -20
+
+      - name: Build .app (no code signing)
+        run: |
+          set -o pipefail
+          mkdir -p build
+          xcodebuild -project "$PROJECT" -scheme "$SCHEME" -configuration "$CONFIG" \
+            -sdk iphoneos -derivedDataPath build/DerivedData \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO \
+            build | tee build/xcodebuild.log
+
+      - name: Diagnose on failure
+        if: failure()
+        run: |
+          echo "=== project schemes ==="
+          xcodebuild -project "$PROJECT" -list 2>&1 | head -25 || true
+          echo "=== error lines ==="
+          if [ -f build/xcodebuild.log ]; then
+            grep -iE "error:" build/xcodebuild.log | head -30 || echo "(no error: lines)"
+            grep -iE "error:" build/xcodebuild.log | head -8 | cut -c1-400 | while IFS= read -r line; do
+              echo "::error::$line"
+            done
+          else
+            echo "::error::build/xcodebuild.log was not created"
+          fi
+
+      - name: Package unsigned IPA
+        run: |
+          APP_PATH=$(find build/DerivedData/Build/Products/Release-iphoneos -maxdepth 1 -name "*.app" | head -1)
+          test -d "$APP_PATH"
+          rm -rf Payload Aetheria-unsigned.ipa
+          mkdir -p Payload
+          cp -R "$APP_PATH" Payload/
+          ditto -c -k --keepParent Payload Aetheria-unsigned.ipa
+
+      - name: Upload IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Aetheria-unsigned-ipa
+          path: Aetheria-unsigned.ipa
+          retention-days: 30

@@ -1,0 +1,344 @@
+[
+  {
+    "id": "m_strike",
+    "branch": "might",
+    "tier": 0,
+    "name": "Heavy Strike",
+    "nameRu": "Тяжёлый удар",
+    "description": "+6% melee damage per rank.",
+    "descriptionRu": "+6% к урону в ближнем бою за ранг.",
+    "maxRank": 5,
+    "requires": [],
+    "modifiers": {
+      "attackPct": 0.06
+    },
+    "unlock": null
+  },
+  {
+    "id": "m_tough",
+    "branch": "might",
+    "tier": 0,
+    "name": "Toughness",
+    "nameRu": "Закалённость",
+    "description": "+12 max HP per rank.",
+    "descriptionRu": "+12 к максимуму ОЗ за ранг.",
+    "maxRank": 5,
+    "requires": [],
+    "modifiers": {
+      "maxHealthFlat": 12
+    },
+    "unlock": null
+  },
+  {
+    "id": "m_cleave",
+    "branch": "might",
+    "tier": 1,
+    "name": "Cleave",
+    "nameRu": "Рассечение",
+    "description": "+3 attack per rank.",
+    "descriptionRu": "+3 к атаке за ранг.",
+    "maxRank": 3,
+    "requires": [
+      {
+        "skill": "m_strike",
+        "rank": 2
+      }
+    ],
+    "modifiers": {
+      "attackFlat": 3
+    },
+    "unlock": null
+  },
+  {
+    "id": "m_bulwark",
+    "branch": "might",
+    "tier": 1,
+    "name": "Bulwark",
+    "nameRu": "Оплот",
+    "description": "+2 armor per rank.",
+    "descriptionRu": "+2 к броне за ранг.",
+    "maxRank": 3,
+    "requires": [
+      {
+        "skill": "m_tough",
+        "rank": 2
+      }
+    ],
+    "modifiers": {
+      "defenseFlat": 2
+    },
+    "unlock": null
+  },
+  {
+    "id": "m_execute",
+    "branch": "might",
+    "tier": 2,
+    "name": "Executioner",
+    "nameRu": "Палач",
+    "description": "+3% crit chance per rank.",
+    "descriptionRu": "+3% к шансу крита за ранг.",
+    "maxRank": 3,
+    "requires": [
+      {
+        "skill": "m_cleave",
+        "rank": 2
+      }
+    ],
+    "modifiers": {
+      "critChance": 0.03
+    },
+    "unlock": null
+  },
+  {
+    "id": "m_secondwind",
+    "branch": "might",
+    "tier": 3,
+    "name": "Second Wind",
+    "nameRu": "Второе дыхание",
+    "description": "+15% max HP, drain life with every blow. Once per level, cheat death and revive at 30% HP.",
+    "descriptionRu": "+15% к максимуму ОЗ, вытягивание жизни каждым ударом. Раз за уровень: восстать из мёртвых с 30% ОЗ.",
+    "maxRank": 1,
+    "requires": [
+      {
+        "skill": "m_execute",
+        "rank": 2
+      },
+      {
+        "skill": "m_bulwark",
+        "rank": 2
+      }
+    ],
+    "modifiers": {
+      "maxHealthPct": 0.15,
+      "lifesteal": 0.03
+    },
+    "unlock": "secondWind"
+  },
+  {
+    "id": "s_swift",
+    "branch": "shadow",
+    "tier": 0,
+    "name": "Swiftness",
+    "nameRu": "Проворство",
+    "description": "+4% move speed per rank.",
+    "descriptionRu": "+4% к скорости движения за ранг.",
+    "maxRank": 5,
+    "requires": [],
+    "modifiers": {
+      "moveSpeedPct": 0.04
+    },
+    "unlock": null
+  },
+  {
+    "id": "s_precise",
+    "branch": "shadow",
+    "tier": 0,
+    "name": "Precision",
+    "nameRu": "Точность",
+    "description": "+2% crit chance per rank.",
+    "descriptionRu": "+2% к шансу крита за ранг.",
+    "maxRank": 5,
+    "requires": [],
+    "modifiers": {
+      "critChance": 0.02
+    },
+    "unlock": null
+  },
+  {
+    "id": "s_dash",
+    "branch": "shadow",
+    "tier": 1,
+    "name": "Shadow Dash",
+    "nameRu": "Теневой рывок",
+    "description": "Dash recharges much faster. +5% move speed.",
+    "descriptionRu": "Рывок перезаряжается намного быстрее. +5% к скорости.",
+    "maxRank": 1,
+    "requires": [
+      {
+        "skill": "s_swift",
+        "rank": 2
+      }
+    ],
+    "modifiers": {
+      "dashCooldownFlat": -0.6,
+      "moveSpeedPct": 0.05
+    },
+    "unlock": "dash"
+  },
+  {
+    "id": "s_doublejump",
+    "branch": "shadow",
+    "tier": 1,
+    "name": "Sky Step",
+    "nameRu": "Небесный шаг",
+    "description": "Unlock double jump.",
+    "descriptionRu": "Открывает двойной прыжок.",
+    "maxRank": 1,
+    "requires": [
+      {
+        "skill": "s_swift",
+        "rank": 2
+      }
+    ],
+    "modifiers": {},
+    "unlock": "doubleJump"
+  },
+  {
+    "id": "s_air",
+    "branch": "shadow",
+    "tier": 2,
+    "name": "Aerial Arts",
+    "nameRu": "Воздушный бой",
+    "description": "Attack while airborne.",
+    "descriptionRu": "Атака в прыжке.",
+    "maxRank": 1,
+    "requires": [
+      {
+        "skill": "s_doublejump",
+        "rank": 1
+      }
+    ],
+    "modifiers": {},
+    "unlock": "airAttack"
+  },
+  {
+    "id": "s_assassin",
+    "branch": "shadow",
+    "tier": 3,
+    "name": "Assassin",
+    "nameRu": "Ассасин",
+    "description": "+5% damage, +2% crit per rank.",
+    "descriptionRu": "+5% к урону, +2% к криту за ранг.",
+    "maxRank": 3,
+    "requires": [
+      {
+        "skill": "s_air",
+        "rank": 1
+      },
+      {
+        "skill": "s_precise",
+        "rank": 3
+      }
+    ],
+    "modifiers": {
+      "attackPct": 0.05,
+      "critChance": 0.02
+    },
+    "unlock": null
+  },
+  {
+    "id": "a_bolt",
+    "branch": "arcane",
+    "tier": 0,
+    "name": "Empowered Bolt",
+    "nameRu": "Усиленный болт",
+    "description": "+8% spell power per rank.",
+    "descriptionRu": "+8% к силе заклинаний за ранг.",
+    "maxRank": 5,
+    "requires": [],
+    "modifiers": {
+      "magicPct": 0.08
+    },
+    "unlock": null
+  },
+  {
+    "id": "a_flow",
+    "branch": "arcane",
+    "tier": 0,
+    "name": "Mana Flow",
+    "nameRu": "Поток маны",
+    "description": "+8 max mana per rank.",
+    "descriptionRu": "+8 к максимуму маны за ранг.",
+    "maxRank": 5,
+    "requires": [],
+    "modifiers": {
+      "maxManaFlat": 8
+    },
+    "unlock": null
+  },
+  {
+    "id": "a_efficiency",
+    "branch": "arcane",
+    "tier": 1,
+    "name": "Efficiency",
+    "nameRu": "Эффективность",
+    "description": "Spells cost 8% less mana per rank.",
+    "descriptionRu": "Заклинания дешевле на 8% маны за ранг.",
+    "maxRank": 3,
+    "requires": [
+      {
+        "skill": "a_flow",
+        "rank": 2
+      }
+    ],
+    "modifiers": {
+      "spellCostPct": -0.08
+    },
+    "unlock": null
+  },
+  {
+    "id": "a_scholar",
+    "branch": "arcane",
+    "tier": 1,
+    "name": "Scholar",
+    "nameRu": "Учёный",
+    "description": "+6% XP per rank.",
+    "descriptionRu": "+6% к опыту за ранг.",
+    "maxRank": 3,
+    "requires": [
+      {
+        "skill": "a_bolt",
+        "rank": 2
+      }
+    ],
+    "modifiers": {
+      "xpPct": 0.06
+    },
+    "unlock": null
+  },
+  {
+    "id": "a_greed",
+    "branch": "arcane",
+    "tier": 2,
+    "name": "Golden Touch",
+    "nameRu": "Золотое касание",
+    "description": "+10% gold per rank.",
+    "descriptionRu": "+10% к золоту за ранг.",
+    "maxRank": 3,
+    "requires": [
+      {
+        "skill": "a_scholar",
+        "rank": 2
+      }
+    ],
+    "modifiers": {
+      "goldPct": 0.1
+    },
+    "unlock": null
+  },
+  {
+    "id": "a_archmage",
+    "branch": "arcane",
+    "tier": 3,
+    "name": "Archmage",
+    "nameRu": "Архимаг",
+    "description": "+10% spell power, +15 max mana.",
+    "descriptionRu": "+10% к силе заклинаний, +15 к мане.",
+    "maxRank": 1,
+    "requires": [
+      {
+        "skill": "a_efficiency",
+        "rank": 2
+      },
+      {
+        "skill": "a_greed",
+        "rank": 2
+      }
+    ],
+    "modifiers": {
+      "magicPct": 0.1,
+      "maxManaFlat": 15
+    },
+    "unlock": null
+  }
+]

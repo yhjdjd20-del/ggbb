@@ -1,0 +1,1014 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		04623CF914F5F65921E38DF4 /* skills.json in Resources */ = {
+			isa = PBXBuildFile;
+			fileRef = 36F5DD1A47339358A793BFFF /* skills.json */;
+		};
+		07A46149C78226D734EC944F /* WeatherLayer.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 0432375C3CC35BAD01523610 /* WeatherLayer.swift */;
+		};
+		08929556E1764C607ECA0968 /* GameModels.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 8447A2B5992BA9B9C41EB986 /* GameModels.swift */;
+		};
+		08F607E85EC529565BB71242 /* AVFoundation.framework in Frameworks */ = {
+			isa = PBXBuildFile;
+			fileRef = A02F7098694FEA0D0D6A6D62 /* AVFoundation.framework */;
+		};
+		093E31893AC8EF40C15454B4 /* MinimapView.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 5DC9C15AA80C013FE5A7CFFC /* MinimapView.swift */;
+		};
+		0C4AF34EAD608C322FF97D0F /* level_castle.json in Resources */ = {
+			isa = PBXBuildFile;
+			fileRef = F061AB033A3974DD025B3971 /* level_castle.json */;
+		};
+		0E80CC076314A652377D34D3 /* ContentLoader.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 393134C849EACEA1690235A5 /* ContentLoader.swift */;
+		};
+		1265219D284FC70D04694F82 /* level_sky.json in Resources */ = {
+			isa = PBXBuildFile;
+			fileRef = 69E16992DC9680B9068C2A64 /* level_sky.json */;
+		};
+		13E8DFC1A1369FE4AC1662AF /* GameContainerView.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 9F24EEB0B7E5EEEE59E9F995 /* GameContainerView.swift */;
+		};
+		14CDCF575667344FF2CE55A8 /* SkillTreeView.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 19811DF01835DBF17BD45557 /* SkillTreeView.swift */;
+		};
+		159C04E4432390F56FA9B67E /* AetheriaApp.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 56D9A5F8D6492ACE026F45ED /* AetheriaApp.swift */;
+		};
+		23CD902EDEB07620EFCBC49F /* WorldObjects.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = ECB618DD576898488C15E0B6 /* WorldObjects.swift */;
+		};
+		2840BAAD9818D1AF0DFCDD96 /* GameViewModel.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 7CA52B69C0C47A2F07F9EB09 /* GameViewModel.swift */;
+		};
+		2E01376B4C401F0963FF0340 /* CharacterCreateView.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = A61DD70568AEFD3AC8F14ECE /* CharacterCreateView.swift */;
+		};
+		3C23BE2BE30A99DFC664D39F /* SpriteKit.framework in Frameworks */ = {
+			isa = PBXBuildFile;
+			fileRef = 1CDDECEBBF8061980578764F /* SpriteKit.framework */;
+		};
+		3DB31EFE138A14ED9B4C0A99 /* InventoryView.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = D38D851C58B8EA30E6063ED9 /* InventoryView.swift */;
+		};
+		478D7985F9949884B2AF85FC /* HapticManager.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 50126DDC1B93801EB7C9845F /* HapticManager.swift */;
+		};
+		4EAD3B69B12BB4FF7A90F0F2 /* AppSettings.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 7E2C5BEF020734716382EA90 /* AppSettings.swift */;
+		};
+		4F299816B7D59B44E3E8BB09 /* DeviceProfile.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 0367A2450C79C229E26A817D /* DeviceProfile.swift */;
+		};
+		5123748BC0D3658CAEC68CFC /* level_forest.json in Resources */ = {
+			isa = PBXBuildFile;
+			fileRef = D959ACE1671F3D00FECCDD80 /* level_forest.json */;
+		};
+		543259DC325EADFC7EE9B9D5 /* dialogues.json in Resources */ = {
+			isa = PBXBuildFile;
+			fileRef = 096EF4C2B6A9A53770C4C6FC /* dialogues.json */;
+		};
+		5C4BE45E6FE645EF2BA514E2 /* PhysicsCategories.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 75DFBE12D65721A5F42A4E98 /* PhysicsCategories.swift */;
+		};
+		5E3BC3938B4029D67AC904B6 /* SharedViews.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = DC48FF2AB301F27EB214179B /* SharedViews.swift */;
+		};
+		60BDDB6BE75661471E3D4F0F /* EnemyNode.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 014384399CE7223B10107AAA /* EnemyNode.swift */;
+		};
+		68597716FEBF0E569C94B11A /* TextureFactory+World.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 8E888A2193308B2C5D36DD87 /* TextureFactory+World.swift */;
+		};
+		77E2B89981237A1EAAE297C5 /* GameScene+VFX.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = EE1341246D36700CC244E6BB /* GameScene+VFX.swift */;
+		};
+		78F6007696E8E47C2AAEA7F6 /* OverlaysView.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 6FC946BAC5150C6119DCC754 /* OverlaysView.swift */;
+		};
+		7AA7536425A987A37E43450D /* MainMenuView.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = FB3B7298D1792520A0213819 /* MainMenuView.swift */;
+		};
+		7CB7E12A3A03201ED89DA060 /* GameScene.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 14FD4D9A7B53B5934144A246 /* GameScene.swift */;
+		};
+		80C301B140D386E5C0D5A997 /* AchievementManager.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 04C1E101D8AA68FDDF0828A2 /* AchievementManager.swift */;
+		};
+		82A7E8CE73292E02CDC6CF97 /* SoundManager.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 6C4FF0D367D749F865721602 /* SoundManager.swift */;
+		};
+		8952009BF9A9DD1B9806A1F8 /* quests.json in Resources */ = {
+			isa = PBXBuildFile;
+			fileRef = E1E3FA2D58D10C49510F0459 /* quests.json */;
+		};
+		8ADCEA70419B4C2B02B5AA2B /* Strings.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = A62075418FACA346904CEB9C /* Strings.swift */;
+		};
+		8D69F71079F2BE68CB471B47 /* enemies.json in Resources */ = {
+			isa = PBXBuildFile;
+			fileRef = 4E52079397C8E04B3839DA54 /* enemies.json */;
+		};
+		8EBC5EC70C65748875B93863 /* SaveSlotView.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 2241B6A5B2026825A5FB2D16 /* SaveSlotView.swift */;
+		};
+		927E8AAF4F75D533867AA95B /* SettingsView.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 045825A94CDEC5618DEDEAEF /* SettingsView.swift */;
+		};
+		93571491BF6F698F6611976D /* SwiftUI.framework in Frameworks */ = {
+			isa = PBXBuildFile;
+			fileRef = A1DC934157111B6BFC20461D /* SwiftUI.framework */;
+		};
+		9A65FFD01E6B0DC8DC47FD1A /* DialogueOverlayView.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 2853280B0C2DBA9C196E689C /* DialogueOverlayView.swift */;
+		};
+		9B54B87BCE841635CA442C3D /* GameController.framework in Frameworks */ = {
+			isa = PBXBuildFile;
+			fileRef = 64B082ACCA8584D12F9F96EC /* GameController.framework */;
+		};
+		9B7D06011D6E4080B28731A5 /* level_caves.json in Resources */ = {
+			isa = PBXBuildFile;
+			fileRef = 48E3EDA040A088C23EEBE39A /* level_caves.json */;
+		};
+		9FC9A04E4AA910A5AD0C621F /* TouchControlsView.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = A430250C9779C9A940AD836D /* TouchControlsView.swift */;
+		};
+		A51B09C8A7011942B2063B79 /* BossNode.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = FE4A7B1C4BC4803448641D13 /* BossNode.swift */;
+		};
+		A65B28510B47E4672C330EEE /* LevelBuilder.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 76AE65BA1B8FE33A9C064772 /* LevelBuilder.swift */;
+		};
+		B5BF68D43B648E9240C2AD63 /* QuestLogView.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = CF1C8D2E8291A4320A01A28D /* QuestLogView.swift */;
+		};
+		B5DA90E70CBBBD2365F13901 /* InputState.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 4F7AE639E0B41D120DD84DF4 /* InputState.swift */;
+		};
+		BCDEA934D2501353B4C4CE9F /* Assets.xcassets in Resources */ = {
+			isa = PBXBuildFile;
+			fileRef = CFDBAC21689581B04CB7ABB5 /* Assets.xcassets */;
+		};
+		C05DD017275DED94A2B44155 /* SaveManager.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 84CF57750D36B92D90B84DB3 /* SaveManager.swift */;
+		};
+		C0E6A9600A27FDDCC7A886C5 /* AchievementsView.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 075B9A1CE9148F0A0278CBF8 /* AchievementsView.swift */;
+		};
+		C69E4A646F05207699788C44 /* CombatFormulas.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 62D5E11B8A717BAD863778B3 /* CombatFormulas.swift */;
+		};
+		C83B510EFC6D4985E6B4B604 /* PlayerNode.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = E38E7E8C49DE599DF51F06E9 /* PlayerNode.swift */;
+		};
+		CAFC631B6CE3E23D1790F73A /* TextureFactory.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 3E1CADD8749405F107A00941 /* TextureFactory.swift */;
+		};
+		D02DE6EF74F2A8A26C5A72C8 /* HUDLayer.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = DE80F8F4140050CA06A8AE59 /* HUDLayer.swift */;
+		};
+		D25B9A9D30D350E115C45E83 /* Extensions.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 1AEB5B177C6BD1142C934BF2 /* Extensions.swift */;
+		};
+		DBD4386059C77F88128C43D2 /* items.json in Resources */ = {
+			isa = PBXBuildFile;
+			fileRef = 5DA032FEE740325E563D05C9 /* items.json */;
+		};
+		EF17D1A1AFD0661404D82278 /* ShopView.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = E5C64436BB217ABF1ED9AF84 /* ShopView.swift */;
+		};
+		F1425662EE99DB5324410676 /* PauseMenuView.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = B048C9B184D504AEBCF2CA56 /* PauseMenuView.swift */;
+		};
+		F46C941CF91B24EB497A2CD1 /* HowToPlayView.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 6F39D8566A7B0A58B9E44E10 /* HowToPlayView.swift */;
+		};
+		F7B811176C3B6504A91D84B6 /* GameControllerManager.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = 62D269C1190926DFABEF7FD3 /* GameControllerManager.swift */;
+		};
+		FD6C7D1711C5ABAE119B5E22 /* VisualFX.swift in Sources */ = {
+			isa = PBXBuildFile;
+			fileRef = AFAFCE462F4D5B2B80C7FA58 /* VisualFX.swift */;
+		};
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		014384399CE7223B10107AAA /* EnemyNode.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = EnemyNode.swift;
+			sourceTree = "<group>";
+		};
+		0367A2450C79C229E26A817D /* DeviceProfile.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = DeviceProfile.swift;
+			sourceTree = "<group>";
+		};
+		0432375C3CC35BAD01523610 /* WeatherLayer.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = WeatherLayer.swift;
+			sourceTree = "<group>";
+		};
+		045825A94CDEC5618DEDEAEF /* SettingsView.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = SettingsView.swift;
+			sourceTree = "<group>";
+		};
+		04C1E101D8AA68FDDF0828A2 /* AchievementManager.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = AchievementManager.swift;
+			sourceTree = "<group>";
+		};
+		075B9A1CE9148F0A0278CBF8 /* AchievementsView.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = AchievementsView.swift;
+			sourceTree = "<group>";
+		};
+		096EF4C2B6A9A53770C4C6FC /* dialogues.json */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.json;
+			path = dialogues.json;
+			sourceTree = "<group>";
+		};
+		14FD4D9A7B53B5934144A246 /* GameScene.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = GameScene.swift;
+			sourceTree = "<group>";
+		};
+		19811DF01835DBF17BD45557 /* SkillTreeView.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = SkillTreeView.swift;
+			sourceTree = "<group>";
+		};
+		1AEB5B177C6BD1142C934BF2 /* Extensions.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = Extensions.swift;
+			sourceTree = "<group>";
+		};
+		1CDDECEBBF8061980578764F /* SpriteKit.framework */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			path = SpriteKit.framework;
+			sourceTree = SDKROOT;
+		};
+		2241B6A5B2026825A5FB2D16 /* SaveSlotView.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = SaveSlotView.swift;
+			sourceTree = "<group>";
+		};
+		2853280B0C2DBA9C196E689C /* DialogueOverlayView.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = DialogueOverlayView.swift;
+			sourceTree = "<group>";
+		};
+		36F5DD1A47339358A793BFFF /* skills.json */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.json;
+			path = skills.json;
+			sourceTree = "<group>";
+		};
+		393134C849EACEA1690235A5 /* ContentLoader.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = ContentLoader.swift;
+			sourceTree = "<group>";
+		};
+		3E1CADD8749405F107A00941 /* TextureFactory.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = TextureFactory.swift;
+			sourceTree = "<group>";
+		};
+		3FB6BD64A997C517BC11CC6E /* Info.plist */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.xml;
+			path = Info.plist;
+			sourceTree = "<group>";
+		};
+		48E3EDA040A088C23EEBE39A /* level_caves.json */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.json;
+			path = level_caves.json;
+			sourceTree = "<group>";
+		};
+		4E52079397C8E04B3839DA54 /* enemies.json */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.json;
+			path = enemies.json;
+			sourceTree = "<group>";
+		};
+		4F7AE639E0B41D120DD84DF4 /* InputState.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = InputState.swift;
+			sourceTree = "<group>";
+		};
+		50126DDC1B93801EB7C9845F /* HapticManager.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = HapticManager.swift;
+			sourceTree = "<group>";
+		};
+		56D9A5F8D6492ACE026F45ED /* AetheriaApp.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = AetheriaApp.swift;
+			sourceTree = "<group>";
+		};
+		5DA032FEE740325E563D05C9 /* items.json */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.json;
+			path = items.json;
+			sourceTree = "<group>";
+		};
+		5DC9C15AA80C013FE5A7CFFC /* MinimapView.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = MinimapView.swift;
+			sourceTree = "<group>";
+		};
+		62D269C1190926DFABEF7FD3 /* GameControllerManager.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = GameControllerManager.swift;
+			sourceTree = "<group>";
+		};
+		62D5E11B8A717BAD863778B3 /* CombatFormulas.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = CombatFormulas.swift;
+			sourceTree = "<group>";
+		};
+		64B082ACCA8584D12F9F96EC /* GameController.framework */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			path = GameController.framework;
+			sourceTree = SDKROOT;
+		};
+		69E16992DC9680B9068C2A64 /* level_sky.json */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.json;
+			path = level_sky.json;
+			sourceTree = "<group>";
+		};
+		6C4FF0D367D749F865721602 /* SoundManager.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = SoundManager.swift;
+			sourceTree = "<group>";
+		};
+		6F39D8566A7B0A58B9E44E10 /* HowToPlayView.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = HowToPlayView.swift;
+			sourceTree = "<group>";
+		};
+		6FC946BAC5150C6119DCC754 /* OverlaysView.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = OverlaysView.swift;
+			sourceTree = "<group>";
+		};
+		75DFBE12D65721A5F42A4E98 /* PhysicsCategories.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = PhysicsCategories.swift;
+			sourceTree = "<group>";
+		};
+		76AE65BA1B8FE33A9C064772 /* LevelBuilder.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = LevelBuilder.swift;
+			sourceTree = "<group>";
+		};
+		7CA52B69C0C47A2F07F9EB09 /* GameViewModel.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = GameViewModel.swift;
+			sourceTree = "<group>";
+		};
+		7E2C5BEF020734716382EA90 /* AppSettings.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = AppSettings.swift;
+			sourceTree = "<group>";
+		};
+		8447A2B5992BA9B9C41EB986 /* GameModels.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = GameModels.swift;
+			sourceTree = "<group>";
+		};
+		84CF57750D36B92D90B84DB3 /* SaveManager.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = SaveManager.swift;
+			sourceTree = "<group>";
+		};
+		8E888A2193308B2C5D36DD87 /* TextureFactory+World.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "TextureFactory+World.swift";
+			sourceTree = "<group>";
+		};
+		9D107A8E6B8703D2B43D8307 /* Aetheria.app */ = {
+			isa = PBXFileReference;
+			explicitFileType = wrapper.application;
+			includeInIndex = 0;
+			path = Aetheria.app;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9F24EEB0B7E5EEEE59E9F995 /* GameContainerView.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = GameContainerView.swift;
+			sourceTree = "<group>";
+		};
+		A02F7098694FEA0D0D6A6D62 /* AVFoundation.framework */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			path = AVFoundation.framework;
+			sourceTree = SDKROOT;
+		};
+		A1DC934157111B6BFC20461D /* SwiftUI.framework */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			path = SwiftUI.framework;
+			sourceTree = SDKROOT;
+		};
+		A430250C9779C9A940AD836D /* TouchControlsView.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = TouchControlsView.swift;
+			sourceTree = "<group>";
+		};
+		A61DD70568AEFD3AC8F14ECE /* CharacterCreateView.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = CharacterCreateView.swift;
+			sourceTree = "<group>";
+		};
+		A62075418FACA346904CEB9C /* Strings.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = Strings.swift;
+			sourceTree = "<group>";
+		};
+		AFAFCE462F4D5B2B80C7FA58 /* VisualFX.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = VisualFX.swift;
+			sourceTree = "<group>";
+		};
+		B048C9B184D504AEBCF2CA56 /* PauseMenuView.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = PauseMenuView.swift;
+			sourceTree = "<group>";
+		};
+		CF1C8D2E8291A4320A01A28D /* QuestLogView.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = QuestLogView.swift;
+			sourceTree = "<group>";
+		};
+		CFDBAC21689581B04CB7ABB5 /* Assets.xcassets */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = folder.assetcatalog;
+			path = Assets.xcassets;
+			sourceTree = "<group>";
+		};
+		D38D851C58B8EA30E6063ED9 /* InventoryView.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = InventoryView.swift;
+			sourceTree = "<group>";
+		};
+		D959ACE1671F3D00FECCDD80 /* level_forest.json */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.json;
+			path = level_forest.json;
+			sourceTree = "<group>";
+		};
+		DC48FF2AB301F27EB214179B /* SharedViews.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = SharedViews.swift;
+			sourceTree = "<group>";
+		};
+		DE80F8F4140050CA06A8AE59 /* HUDLayer.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = HUDLayer.swift;
+			sourceTree = "<group>";
+		};
+		E1E3FA2D58D10C49510F0459 /* quests.json */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.json;
+			path = quests.json;
+			sourceTree = "<group>";
+		};
+		E38E7E8C49DE599DF51F06E9 /* PlayerNode.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = PlayerNode.swift;
+			sourceTree = "<group>";
+		};
+		E5C64436BB217ABF1ED9AF84 /* ShopView.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = ShopView.swift;
+			sourceTree = "<group>";
+		};
+		ECB618DD576898488C15E0B6 /* WorldObjects.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = WorldObjects.swift;
+			sourceTree = "<group>";
+		};
+		EE1341246D36700CC244E6BB /* GameScene+VFX.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "GameScene+VFX.swift";
+			sourceTree = "<group>";
+		};
+		F061AB033A3974DD025B3971 /* level_castle.json */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.json;
+			path = level_castle.json;
+			sourceTree = "<group>";
+		};
+		FB3B7298D1792520A0213819 /* MainMenuView.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = MainMenuView.swift;
+			sourceTree = "<group>";
+		};
+		FE4A7B1C4BC4803448641D13 /* BossNode.swift */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = BossNode.swift;
+			sourceTree = "<group>";
+		};
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CF5BDB0BEAFE176F9629192A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3C23BE2BE30A99DFC664D39F /* SpriteKit.framework in Frameworks */,
+				93571491BF6F698F6611976D /* SwiftUI.framework in Frameworks */,
+				08F607E85EC529565BB71242 /* AVFoundation.framework in Frameworks */,
+				9B54B87BCE841635CA442C3D /* GameController.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		16786F89E0CCDD34FDE2DDF7 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				096EF4C2B6A9A53770C4C6FC /* dialogues.json */,
+				4E52079397C8E04B3839DA54 /* enemies.json */,
+				5DA032FEE740325E563D05C9 /* items.json */,
+				F061AB033A3974DD025B3971 /* level_castle.json */,
+				48E3EDA040A088C23EEBE39A /* level_caves.json */,
+				D959ACE1671F3D00FECCDD80 /* level_forest.json */,
+				69E16992DC9680B9068C2A64 /* level_sky.json */,
+				E1E3FA2D58D10C49510F0459 /* quests.json */,
+				36F5DD1A47339358A793BFFF /* skills.json */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		243796D439945433A3243F2D /* Systems */ = {
+			isa = PBXGroup;
+			children = (
+				04C1E101D8AA68FDDF0828A2 /* AchievementManager.swift */,
+				62D5E11B8A717BAD863778B3 /* CombatFormulas.swift */,
+				0367A2450C79C229E26A817D /* DeviceProfile.swift */,
+				1AEB5B177C6BD1142C934BF2 /* Extensions.swift */,
+				62D269C1190926DFABEF7FD3 /* GameControllerManager.swift */,
+				50126DDC1B93801EB7C9845F /* HapticManager.swift */,
+				84CF57750D36B92D90B84DB3 /* SaveManager.swift */,
+				6C4FF0D367D749F865721602 /* SoundManager.swift */,
+				8E888A2193308B2C5D36DD87 /* TextureFactory+World.swift */,
+				3E1CADD8749405F107A00941 /* TextureFactory.swift */,
+				AFAFCE462F4D5B2B80C7FA58 /* VisualFX.swift */,
+			);
+			path = Systems;
+			sourceTree = "<group>";
+		};
+		2D17C89EB2C5B87E8B0EC3B6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1CDDECEBBF8061980578764F /* SpriteKit.framework */,
+				A1DC934157111B6BFC20461D /* SwiftUI.framework */,
+				A02F7098694FEA0D0D6A6D62 /* AVFoundation.framework */,
+				64B082ACCA8584D12F9F96EC /* GameController.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5151B46607EBC8890D8DFCC2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9D107A8E6B8703D2B43D8307 /* Aetheria.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		639557522EC0330532806C96 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				FE4A7B1C4BC4803448641D13 /* BossNode.swift */,
+				014384399CE7223B10107AAA /* EnemyNode.swift */,
+				EE1341246D36700CC244E6BB /* GameScene+VFX.swift */,
+				14FD4D9A7B53B5934144A246 /* GameScene.swift */,
+				DE80F8F4140050CA06A8AE59 /* HUDLayer.swift */,
+				76AE65BA1B8FE33A9C064772 /* LevelBuilder.swift */,
+				75DFBE12D65721A5F42A4E98 /* PhysicsCategories.swift */,
+				E38E7E8C49DE599DF51F06E9 /* PlayerNode.swift */,
+				0432375C3CC35BAD01523610 /* WeatherLayer.swift */,
+				ECB618DD576898488C15E0B6 /* WorldObjects.swift */,
+			);
+			path = Game;
+			sourceTree = "<group>";
+		};
+		7CB16F446C9A5C4626EF3FF9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				393134C849EACEA1690235A5 /* ContentLoader.swift */,
+				8447A2B5992BA9B9C41EB986 /* GameModels.swift */,
+				A62075418FACA346904CEB9C /* Strings.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		85683069669F2670F6206B73 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				075B9A1CE9148F0A0278CBF8 /* AchievementsView.swift */,
+				A61DD70568AEFD3AC8F14ECE /* CharacterCreateView.swift */,
+				2853280B0C2DBA9C196E689C /* DialogueOverlayView.swift */,
+				9F24EEB0B7E5EEEE59E9F995 /* GameContainerView.swift */,
+				6F39D8566A7B0A58B9E44E10 /* HowToPlayView.swift */,
+				D38D851C58B8EA30E6063ED9 /* InventoryView.swift */,
+				FB3B7298D1792520A0213819 /* MainMenuView.swift */,
+				5DC9C15AA80C013FE5A7CFFC /* MinimapView.swift */,
+				6FC946BAC5150C6119DCC754 /* OverlaysView.swift */,
+				B048C9B184D504AEBCF2CA56 /* PauseMenuView.swift */,
+				CF1C8D2E8291A4320A01A28D /* QuestLogView.swift */,
+				2241B6A5B2026825A5FB2D16 /* SaveSlotView.swift */,
+				045825A94CDEC5618DEDEAEF /* SettingsView.swift */,
+				DC48FF2AB301F27EB214179B /* SharedViews.swift */,
+				E5C64436BB217ABF1ED9AF84 /* ShopView.swift */,
+				19811DF01835DBF17BD45557 /* SkillTreeView.swift */,
+				A430250C9779C9A940AD836D /* TouchControlsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		9460960CEF8AAE5008DD7363 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				56D9A5F8D6492ACE026F45ED /* AetheriaApp.swift */,
+				7E2C5BEF020734716382EA90 /* AppSettings.swift */,
+				7CA52B69C0C47A2F07F9EB09 /* GameViewModel.swift */,
+				4F7AE639E0B41D120DD84DF4 /* InputState.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		AD0FC22F185996D2957FE1EC /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				16786F89E0CCDD34FDE2DDF7 /* Data */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		ADCF10F76EBF2A74473E9DC4 /* main */ = {
+			isa = PBXGroup;
+			children = (
+				D83994A8E9D3A4BA54F272C9 /* Aetheria */,
+				2D17C89EB2C5B87E8B0EC3B6 /* Frameworks */,
+				5151B46607EBC8890D8DFCC2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D83994A8E9D3A4BA54F272C9 /* Aetheria */ = {
+			isa = PBXGroup;
+			children = (
+				9460960CEF8AAE5008DD7363 /* App */,
+				639557522EC0330532806C96 /* Game */,
+				7CB16F446C9A5C4626EF3FF9 /* Models */,
+				AD0FC22F185996D2957FE1EC /* Resources */,
+				243796D439945433A3243F2D /* Systems */,
+				85683069669F2670F6206B73 /* Views */,
+				CFDBAC21689581B04CB7ABB5 /* Assets.xcassets */,
+				3FB6BD64A997C517BC11CC6E /* Info.plist */,
+			);
+			path = Aetheria;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		29C7B681C8D62CBAC94D51C0 /* Aetheria */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7ADE71700E9404B10E13B577 /* Build configuration list for PBXNativeTarget "Aetheria" */;
+			buildPhases = (
+				1CDF2F71A52B082132B04DFF /* Sources */,
+				CF5BDB0BEAFE176F9629192A /* Frameworks */,
+				C02F1309AF4906C92F1EAD44 /* Resources */,
+			);
+			buildRules = ();
+			dependencies = ();
+			name = Aetheria;
+			productName = Aetheria;
+			productReference = 9D107A8E6B8703D2B43D8307 /* Aetheria.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		98F54143AB4E86B28C3AFEE0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					29C7B681C8D62CBAC94D51C0 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+				};
+			};
+			buildConfigurationList = 12D04D787E90C9B967248BFD /* Build configuration list for PBXProject */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = ADCF10F76EBF2A74473E9DC4 /* main */;
+			productRefGroup = 5151B46607EBC8890D8DFCC2 /* Products */;
+			projectDirPath = "";
+			targets = (
+				29C7B681C8D62CBAC94D51C0 /* Aetheria */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C02F1309AF4906C92F1EAD44 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				543259DC325EADFC7EE9B9D5 /* dialogues.json in Resources */,
+				8D69F71079F2BE68CB471B47 /* enemies.json in Resources */,
+				DBD4386059C77F88128C43D2 /* items.json in Resources */,
+				0C4AF34EAD608C322FF97D0F /* level_castle.json in Resources */,
+				9B7D06011D6E4080B28731A5 /* level_caves.json in Resources */,
+				5123748BC0D3658CAEC68CFC /* level_forest.json in Resources */,
+				1265219D284FC70D04694F82 /* level_sky.json in Resources */,
+				8952009BF9A9DD1B9806A1F8 /* quests.json in Resources */,
+				04623CF914F5F65921E38DF4 /* skills.json in Resources */,
+				BCDEA934D2501353B4C4CE9F /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1CDF2F71A52B082132B04DFF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				159C04E4432390F56FA9B67E /* AetheriaApp.swift in Sources */,
+				4EAD3B69B12BB4FF7A90F0F2 /* AppSettings.swift in Sources */,
+				2840BAAD9818D1AF0DFCDD96 /* GameViewModel.swift in Sources */,
+				B5DA90E70CBBBD2365F13901 /* InputState.swift in Sources */,
+				A51B09C8A7011942B2063B79 /* BossNode.swift in Sources */,
+				60BDDB6BE75661471E3D4F0F /* EnemyNode.swift in Sources */,
+				77E2B89981237A1EAAE297C5 /* GameScene+VFX.swift in Sources */,
+				7CB7E12A3A03201ED89DA060 /* GameScene.swift in Sources */,
+				D02DE6EF74F2A8A26C5A72C8 /* HUDLayer.swift in Sources */,
+				A65B28510B47E4672C330EEE /* LevelBuilder.swift in Sources */,
+				5C4BE45E6FE645EF2BA514E2 /* PhysicsCategories.swift in Sources */,
+				C83B510EFC6D4985E6B4B604 /* PlayerNode.swift in Sources */,
+				07A46149C78226D734EC944F /* WeatherLayer.swift in Sources */,
+				23CD902EDEB07620EFCBC49F /* WorldObjects.swift in Sources */,
+				0E80CC076314A652377D34D3 /* ContentLoader.swift in Sources */,
+				08929556E1764C607ECA0968 /* GameModels.swift in Sources */,
+				8ADCEA70419B4C2B02B5AA2B /* Strings.swift in Sources */,
+				80C301B140D386E5C0D5A997 /* AchievementManager.swift in Sources */,
+				C69E4A646F05207699788C44 /* CombatFormulas.swift in Sources */,
+				4F299816B7D59B44E3E8BB09 /* DeviceProfile.swift in Sources */,
+				D25B9A9D30D350E115C45E83 /* Extensions.swift in Sources */,
+				F7B811176C3B6504A91D84B6 /* GameControllerManager.swift in Sources */,
+				478D7985F9949884B2AF85FC /* HapticManager.swift in Sources */,
+				C05DD017275DED94A2B44155 /* SaveManager.swift in Sources */,
+				82A7E8CE73292E02CDC6CF97 /* SoundManager.swift in Sources */,
+				68597716FEBF0E569C94B11A /* TextureFactory+World.swift in Sources */,
+				CAFC631B6CE3E23D1790F73A /* TextureFactory.swift in Sources */,
+				FD6C7D1711C5ABAE119B5E22 /* VisualFX.swift in Sources */,
+				C0E6A9600A27FDDCC7A886C5 /* AchievementsView.swift in Sources */,
+				2E01376B4C401F0963FF0340 /* CharacterCreateView.swift in Sources */,
+				9A65FFD01E6B0DC8DC47FD1A /* DialogueOverlayView.swift in Sources */,
+				13E8DFC1A1369FE4AC1662AF /* GameContainerView.swift in Sources */,
+				F46C941CF91B24EB497A2CD1 /* HowToPlayView.swift in Sources */,
+				3DB31EFE138A14ED9B4C0A99 /* InventoryView.swift in Sources */,
+				7AA7536425A987A37E43450D /* MainMenuView.swift in Sources */,
+				093E31893AC8EF40C15454B4 /* MinimapView.swift in Sources */,
+				78F6007696E8E47C2AAEA7F6 /* OverlaysView.swift in Sources */,
+				F1425662EE99DB5324410676 /* PauseMenuView.swift in Sources */,
+				B5BF68D43B648E9240C2AD63 /* QuestLogView.swift in Sources */,
+				8EBC5EC70C65748875B93863 /* SaveSlotView.swift in Sources */,
+				927E8AAF4F75D533867AA95B /* SettingsView.swift in Sources */,
+				5E3BC3938B4029D67AC904B6 /* SharedViews.swift in Sources */,
+				EF17D1A1AFD0661404D82278 /* ShopView.swift in Sources */,
+				14CDCF575667344FF2CE55A8 /* SkillTreeView.swift in Sources */,
+				9FC9A04E4AA910A5AD0C621F /* TouchControlsView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1E0DDAF384B911BF23BC77ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Aetheria/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ggbb.aetheria;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		877A6BA951A2EA0025A2ABE8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		959134B361DD7E21ADEA3164 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		A1EFC270D4D6011185E1BD4D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Aetheria/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ggbb.aetheria;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		12D04D787E90C9B967248BFD /* Build configuration list for PBXProject */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				877A6BA951A2EA0025A2ABE8 /* Debug */,
+				959134B361DD7E21ADEA3164 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7ADE71700E9404B10E13B577 /* Build configuration list for PBXNativeTarget "Aetheria" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1E0DDAF384B911BF23BC77ED /* Debug */,
+				A1EFC270D4D6011185E1BD4D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 98F54143AB4E86B28C3AFEE0 /* Project object */;
+}

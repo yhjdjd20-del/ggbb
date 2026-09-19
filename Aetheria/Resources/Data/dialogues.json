@@ -1,0 +1,65 @@
+[
+  {"npcId":"elder","start":"start","nodes":[
+    {"id":"start","speaker":"Elder Maren","speakerRu":"Старейшина Марен","text":"So the dream found you too. The Rift eats our sky, traveler — but you... you smell of dawn.","textRu":"Значит, сон нашёл и тебя. Разлом пожирает наше небо, путник, — но от тебя... пахнет рассветом.","choices":[
+      {"text":"The Rift called me here.","textRu":"Разлом позвал меня сюда.","next":"m1_hint","requiresQuest":"q_main1"},
+      {"text":"[Complete: Echoes Wake]","textRu":"[Завершить: Пробуждение эха]","next":"m1_done","turnInQuest":"q_main1"},
+      {"text":"Any work for me?","textRu":"Есть ли работа для меня?","next":"m2_offer","requiresQuestDone":"q_main1","givesQuest":"q_main2"},
+      {"text":"[Complete: Thin the Swarm]","textRu":"[Завершить: Проредить рой]","next":"m2_done","turnInQuest":"q_main2"},
+      {"text":"About that relic...","textRu":"Насчёт той реликвии...","next":"relic_offer","requiresQuestDone":"q_main4","givesQuest":"q_side_relic"},
+      {"text":"[Give: Echo Relic]","textRu":"[Отдать: реликвию эха]","next":"relic_done","turnInQuest":"q_side_relic"},
+      {"text":"Rest and heal","textRu":"Отдохнуть и вылечиться","next":"healed","action":"heal"},
+      {"text":"Farewell.","textRu":"Прощай.","next":null}
+    ]},
+    {"id":"m1_hint","speaker":"Elder Maren","speakerRu":"Старейшина Марен","text":"Then listen well: slimes pour from the cracks, and worse things brew below. Prove your steel first.","textRu":"Тогда слушай: слаймы лезут из трещин, а внизу зреет нечто похуже. Сначала докажи, что твой клинок крепок.","choices":[{"text":"I understand.","textRu":"Я понял.","next":null}]},
+    {"id":"m1_done","speaker":"Elder Maren","speakerRu":"Старейшина Марен","text":"The dream spoke true. Take this potion — and a task. The east road drowns in slime.","textRu":"Сон не солгал. Возьми это зелье — и задание. Восточная дорога тонет в слизи.","choices":[
+      {"text":"I'll thin the swarm.","textRu":"Я прорежу рой.","next":null,"givesQuest":"q_main2"},
+      {"text":"Later.","textRu":"Позже.","next":null}
+    ]},
+    {"id":"m2_offer","speaker":"Elder Maren","speakerRu":"Старейшина Марен","text":"Six of the beasts will do. Push east to the old watch stone — the checkpoint flame will guide you.","textRu":"Шести тварей хватит. Пробейся на восток к старому дозорному камню — пламя путевого огня укажет путь.","choices":[{"text":"On my way.","textRu":"Уже в пути.","next":null}]},
+    {"id":"m2_done","speaker":"Elder Maren","speakerRu":"Старейшина Марен","text":"The road breathes again! The eastern portal is yours. Below, in the Echo Caves, the Golem dreams of crushing.","textRu":"Дорога снова дышит! Восточный портал твой. Внизу, в пещерах Эха, голем грезит сокрушением.","choices":[{"text":"To the caves!","textRu":"В пещеры!","next":null}]},
+    {"id":"relic_offer","speaker":"Elder Maren","speakerRu":"Старейшина Марен","text":"In the Silent Keep sleeps an Echo Relic — a memory of the world before. Bring it to me, whole.","textRu":"В Тихой крепости спит реликвия эха — память о мире «до». Принеси её мне целой.","choices":[{"text":"I'll find it.","textRu":"Я найду её.","next":null}]},
+    {"id":"relic_done","speaker":"Elder Maren","speakerRu":"Старейшина Марен","text":"It hums... it remembers sunrise! You have my thanks — and this charm of the four winds.","textRu":"Она гудит... она помнит восход! Прими мою благодарность — и этот оберег четырёх ветров.","choices":[{"text":"Thank you.","textRu":"Спасибо.","next":null}]},
+    {"id":"healed","speaker":"Elder Maren","speakerRu":"Старейшина Марен","text":"Breathe. The forest mends those who protect it.","textRu":"Дыши. Лес врачует тех, кто его защищает.","choices":[{"text":"Thank you.","textRu":"Спасибо.","next":null}]}
+  ]},
+  {"npcId":"merchant","start":"start","nodes":[
+    {"id":"start","speaker":"Sella the Merchant","speakerRu":"Торговка Селла","text":"Blades, brews, bargains! The end of the world is terrible for business — buy something!","textRu":"Клинки, зелья, выгодные сделки! Конец света ужасен для торговли — купи хоть что-нибудь!","choices":[
+      {"text":"Show me your wares.","textRu":"Покажи товары.","next":null,"openShop":true},
+      {"text":"Got any work?","textRu":"Есть работёнка?","next":"gel_offer","givesQuest":"q_side_gel"},
+      {"text":"[Deliver 5 slime gel]","textRu":"[Отдать 5 кусков слизи]","next":"gel_done","turnInQuest":"q_side_gel"},
+      {"text":"Just browsing.","textRu":"Просто смотрю.","next":null}
+    ]},
+    {"id":"gel_offer","speaker":"Sella the Merchant","speakerRu":"Торговка Селла","text":"Alchemists pay silly money for slime gel — five lumps, no questions asked.","textRu":"Алхимики платят глупые деньги за слизь слаймов — пять кусков, без лишних вопросов.","choices":[{"text":"Deal.","textRu":"Договорились.","next":null}]},
+    {"id":"gel_done","speaker":"Sella the Merchant","speakerRu":"Торговка Селла","text":"Lovely and wobbly! Pleasure doing business, hero.","textRu":"Прекрасная, дрожит как надо! Приятно иметь с тобой дело, герой.","choices":[{"text":"Pleasure.","textRu":"Взаимно.","next":null}]}
+  ]},
+  {"npcId":"hermit","start":"start","nodes":[
+    {"id":"start","speaker":"Cave Hermit","speakerRu":"Пещерный отшельник","text":"Bats. Bats bats bats. Flap flap ALL NIGHT. My mushrooms weep with me.","textRu":"Мыши. Мыши мыши мыши. Хлоп-хлоп ВСЮ НОЧЬ. Мои грибы плачут вместе со мной.","choices":[
+      {"text":"I'll quiet the caves.","textRu":"Я утихомирю пещеры.","next":"bats_offer","givesQuest":"q_side_bats"},
+      {"text":"[Complete: Wings in the Dark]","textRu":"[Завершить: Крылья во тьме]","next":"bats_done","turnInQuest":"q_side_bats"},
+      {"text":"Rest and heal","textRu":"Отдохнуть и вылечиться","next":"healed","action":"heal"},
+      {"text":"Stay weird.","textRu":"Оставайся чудаком.","next":null}
+    ]},
+    {"id":"bats_offer","speaker":"Cave Hermit","speakerRu":"Пещерный отшельник","text":"Eight of the flappy nightmares. Then — silence. Glorious, glorious silence.","textRu":"Восемь хлопочущих кошмаров. И тогда — тишина. Великолепная, великолепная тишина.","choices":[{"text":"Consider it done.","textRu":"Считай, сделано.","next":null}]},
+    {"id":"bats_done","speaker":"Cave Hermit","speakerRu":"Пещерный отшельник","text":"...Do you hear that? NOTHING. Beautiful nothing. Take my lucky ring.","textRu":"...Слышишь? НИЧЕГО. Прекрасное ничего. Возьми моё счастливое кольцо.","choices":[{"text":"Sleep well.","textRu":"Спи спокойно.","next":null}]},
+    {"id":"healed","speaker":"Cave Hermit","speakerRu":"Пещерный отшельник","text":"Mushroom tea fixes everything. EVERYTHING.","textRu":"Грибной чай лечит всё. ВСЁ.","choices":[{"text":"...Thanks.","textRu":"...Спасибо.","next":null}]}
+  ]},
+  {"npcId":"guard","start":"start","nodes":[
+    {"id":"start","speaker":"Captain Vessa","speakerRu":"Капитан Весса","text":"Hold, traveler. The Keep fell, my company fell — but the post stands while I stand.","textRu":"Стой, путник. Крепость пала, мой отряд пал — но пост стоит, пока стою я.","choices":[
+      {"text":"How can I help?","textRu":"Чем я могу помочь?","next":"bones_offer","givesQuest":"q_side_bones"},
+      {"text":"[Complete: Rest for the Risen]","textRu":"[Завершить: Покой восставшим]","next":"bones_done","turnInQuest":"q_side_bones"},
+      {"text":"What happened here?","textRu":"Что здесь случилось?","next":"lore"},
+      {"text":"Stand strong.","textRu":"Держись.","next":null}
+    ]},
+    {"id":"bones_offer","speaker":"Captain Vessa","speakerRu":"Капитан Весса","text":"My archers... they rise and draw on the living. Give eight of them rest. Please.","textRu":"Мои лучники... они встают и целятся в живых. Даруй покой восьмерым. Пожалуйста.","choices":[{"text":"They'll rest.","textRu":"Они упокоятся.","next":null}]},
+    {"id":"bones_done","speaker":"Captain Vessa","speakerRu":"Капитан Весса","text":"At ease, soldiers... You did what I could not. Take my spare chainmail.","textRu":"Вольно, солдаты... Ты сделала то, чего не смогла я. Возьми мою запасную кольчугу.","choices":[{"text":"Honor to them.","textRu":"Честь им.","next":null}]},
+    {"id":"lore","speaker":"Captain Vessa","speakerRu":"Капитан Весса","text":"The Knight — our Knight! — knelt to the Rift. Now nothing with a heartbeat is welcome past the gate.","textRu":"Рыцарь — наш Рыцарь! — преклонил колено перед Разломом. Теперь ничто с бьющимся сердцем не пройдёт за ворота.","choices":[{"text":"I'll end his watch.","textRu":"Я прерву его дозор.","next":null}]}
+  ]},
+  {"npcId":"spirit","start":"start","nodes":[
+    {"id":"start","speaker":"Cloud Spirit","speakerRu":"Облачный дух","text":"Mortal... so close to the wound of the world. The Dragon coils around it, dreaming ash.","textRu":"Смертный... так близко к ране мира. Дракон обвил её кольцами и грезит пеплом.","choices":[
+      {"text":"What is the Rift?","textRu":"Что такое Разлом?","next":"lore"},
+      {"text":"Rest and heal","textRu":"Отдохнуть и вылечиться","next":"healed","action":"heal"},
+      {"text":"I must go.","textRu":"Мне пора.","next":null}
+    ]},
+    {"id":"lore","speaker":"Cloud Spirit","speakerRu":"Облачный дух","text":"A door we should never have knocked on. It answers only in echoes — of you, of me, of everything hungry.","textRu":"Дверь, в которую не следовало стучать. Она отвечает лишь эхом — тобой, мной, всем голодным.","choices":[{"text":"Then I'll shut it.","textRu":"Тогда я её закрою.","next":null}]},
+    {"id":"healed","speaker":"Cloud Spirit","speakerRu":"Облачный дух","text":"Cloudstuff knits bone. Go softly, strike hard.","textRu":"Облака сращивают кости. Ступай мягко, бей жёстко.","choices":[{"text":"Thank you.","textRu":"Спасибо.","next":null}]}
+  ]}
+]
