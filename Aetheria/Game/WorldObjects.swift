@@ -16,6 +16,7 @@ final class ProjectileNode: SKSpriteNode {
         case "arrow_red": texKey = "arrow_red"
         case "fireball": texKey = "fireball_0"
         case "bolt": texKey = "bolt"
+        case "arcane": texKey = "bolt"
         case "bone": texKey = "bone"
         case "slimeball": texKey = "slimeball"
         case "rock": texKey = "rock"
@@ -31,11 +32,12 @@ final class ProjectileNode: SKSpriteNode {
                 with: [TextureFactory.get("fireball_0"), TextureFactory.get("fireball_1")],
                 timePerFrame: 0.12)))
         }
-        if kind == "bolt" || kind == "fireball" || kind == "slimeball" {
+        if kind == "bolt" || kind == "arcane" || kind == "fireball" || kind == "slimeball" {
             // Cheap magic glow: one cached tinted sprite, no per-frame cost.
             let glow = SKSpriteNode(texture: TextureFactory.get("glow"))
             glow.colorBlendFactor = 1.0
             glow.color = kind == "bolt" ? SKColor(red: 0.5, green: 0.95, blue: 1, alpha: 1)
+                : kind == "arcane" ? SKColor(red: 0.75, green: 0.4, blue: 1, alpha: 1)
                 : kind == "fireball" ? SKColor(red: 1, green: 0.6, blue: 0.25, alpha: 1)
                 : SKColor(red: 0.5, green: 1, blue: 0.4, alpha: 1)
             glow.alpha = 0.55

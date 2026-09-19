@@ -425,7 +425,23 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
                     if hypot(proj.position.x - enemy.position.x, proj.position.y - enemy.position.y) < r {
                         let dmg = proj.damage * (critRoll() ? derived.critDamage : 1.0)
                         hitEnemy(enemy, damage: dmg, crit: dmg > proj.damage * 1.2, fromX: player.position.x)
-                        puff(at: proj.position, big: false, color: SKColor(red: 0.5, green: 0.95, blue: 1, alpha: 1))
+                        let puffColor: SKColor
+                        if proj.kind == "arrow" {
+                            puffColor = .white
+                        } else if proj.kind == "arcane" {
+                            puffColor = SKColor(red: 0.75, green: 0.4, blue: 1, alpha: 1)
+                        } else {
+                            puffColor = SKColor(red: 0.5, green: 0.95, blue: 1, alpha: 1)
+                        }
+                        puff(at: proj.position, big: false, color: puffColor)
+                        if proj.kind == "arrow" || proj.kind == "arcane" {
+                            combo += 1
+                            comboTimer = 2.2
+                            hud.showCombo(combo)
+                            if combo >= 10 {
+                                viewModel?.grantComboAchievement(combo: combo)
+                            }
+                        }
                         consumed = true
                         break
                     }
@@ -823,6 +839,16 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
     }
 
     func playerDidAttack(combo: Int) {
+        switch viewModel?.session.hero.id ?? "knight" {
+        case "ranger":
+            fireArrow()
+            return
+        case "mage":
+            fireArcane(combo: combo)
+            return
+        default:
+            break
+        }
         SoundManager.shared.play("swing")
         let slash = SKSpriteNode(texture: TextureFactory.get("slash_\(combo % 3)"))
         slash.position = player.position + CGPoint(x: player.facing * 55, y: 5)
@@ -835,6 +861,36 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
         ]))
         performMeleeHit(combo: combo)
         spawnImpactRing(at: player.position + CGPoint(x: player.facing * 42, y: 5), color: .yellow, radius: 20)
+    }
+
+    /// Ranger basic attack: a fast arrow dealing melee-equivalent damage.
+    private func fireArrow() {
+        let (damage, _) = CombatFormulas.meleeDamage(derived: derived, comboIndex: 0)
+        let arrow = ProjectileNode.create(kind: "arrow", hostile: false)
+        arrow.position = player.position + CGPoint(x: player.facing * 40, y: 10)
+        arrow.velocity = aimVelocity(from: arrow.position, speed: 700)
+        arrow.damage = damage
+        arrow.life = 1.1
+        world.addChild(arrow)
+        projectiles.append(arrow)
+        SoundManager.shared.play("shoot")
+        spawnDustBurst(at: arrow.position, color: .white, count: 4, radius: 16, upward: 6)
+    }
+
+    /// Mage basic attack: a free arcane bolt scaling with magic power.
+    private func fireArcane(combo: Int) {
+        let comboMult = [1.0, 1.05, 1.5][min(max(combo, 0), 2)]
+        let damage = derived.magicPower * comboMult * Double.random(in: 0.9...1.1)
+        let bolt = ProjectileNode.create(kind: "arcane", hostile: false)
+        bolt.position = player.position + CGPoint(x: player.facing * 40, y: 10)
+        bolt.velocity = aimVelocity(from: bolt.position, speed: 600)
+        bolt.damage = damage
+        bolt.life = 1.4
+        world.addChild(bolt)
+        projectiles.append(bolt)
+        SoundManager.shared.play("shoot")
+        spawnImpactRing(at: bolt.position, color: .purple, radius: 18)
+        spawnDustBurst(at: bolt.position, color: .purple, count: 5, radius: 20, upward: 8)
     }
 
     func playerDidCast() {
