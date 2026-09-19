@@ -785,7 +785,17 @@ final class GameViewModel: ObservableObject {
         SoundManager.shared.play("defeat")
         checkAchievements(.death(count: session.stats.deaths))
         saveGame(silent: true)
-        showDeath = true
+        // Let the death burst play before the overlay pauses the scene.
+        if let scene {
+            scene.playerDeathBurst()
+            scene.run(SKAction.sequence([
+                SKAction.wait(forDuration: 0.8),
+                // Guard: the player may have quit to menu during the delay.
+                SKAction.run { [weak self] in if self?.inGame == true { self?.showDeath = true } },
+            ]))
+        } else {
+            showDeath = true
+        }
     }
 
     func deathPenalty() -> Int {
@@ -801,6 +811,7 @@ final class GameViewModel: ObservableObject {
         if let scene {
             scene.player.position = scene.spawnPoint()
             scene.player.physicsBody?.velocity = .zero
+            scene.player.alpha = 1
             scene.player.resetGroundTracking()
             scene.player.invulnerable = 2.0
             scene.cameraNode.position = scene.player.position

@@ -178,6 +178,7 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
             player.delegate = self
         } else {
             player.removeFromParent()
+            player.alpha = 1
             player.resetGroundTracking()
             player.climbing = false
             secondWindUsed = false
@@ -263,17 +264,20 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
 
         // Ladders.
         player.onLadder = ladders.contains { $0.insetBy(dx: -8, dy: 0).contains(player.position) }
-        player.update(dt: dt, input: input, derived: derived)
+        // No control while dead (death overlay arrives 0.8s after the burst).
+        if vm.hp > 0 {
+            player.update(dt: dt, input: input, derived: derived)
 
-        // Queued potion from the HUD heart button.
-        if input.potionQueued {
-            _ = vm.drinkPotion()
-        }
-        // Air attack locked: explain instead of silently dropping the press.
-        if input.attackQueued && !player.grounded && !player.climbing && !derived.canAirAttack {
-            if let skill = ContentDatabase.shared.skills.values.first(where: { $0.unlock == "airAttack" }) {
-                hud.toast(String(format: L.t("hud.noAir"), skill.displayName))
-                SoundManager.shared.play("error")
+            // Queued potion from the HUD heart button.
+            if input.potionQueued {
+                _ = vm.drinkPotion()
+            }
+            // Air attack locked: explain instead of silently dropping the press.
+            if input.attackQueued && !player.grounded && !player.climbing && !derived.canAirAttack {
+                if let skill = ContentDatabase.shared.skills.values.first(where: { $0.unlock == "airAttack" }) {
+                    hud.toast(String(format: L.t("hud.noAir"), skill.displayName))
+                    SoundManager.shared.play("error")
+                }
             }
         }
 
@@ -609,6 +613,8 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
         vm.restoreMana(derived.maxMana * 0.5)
         vm.questEvent(.reach(checkpointId: cp.checkpointId))
         vm.saveGame(silent: true)
+        puff(at: cp.position + CGPoint(x: 0, y: 30), big: true, color: SKColor(red: 0.5, green: 1, blue: 0.6, alpha: 1))
+        spawnImpactRing(at: cp.position + CGPoint(x: 0, y: 20), color: .green, radius: 40)
         hud.toast("\(L.t("hud.checkpoint")) ✓")
         SoundManager.shared.play("checkpoint")
         Haptics.notification(.success)
@@ -788,10 +794,13 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
     }
 
     func playerDidLand(fallSpeed: CGFloat) {
-        if fallSpeed < -900 {
-            SoundManager.shared.play("land")
+        if fallSpeed < -350 {
             puff(at: player.position + CGPoint(x: 0, y: -30), big: false, color: SKColor(white: 1, alpha: 0.7))
             spawnDustBurst(at: player.position + CGPoint(x: 0, y: -22), color: .gray, count: 10, radius: 36, upward: 8)
+        }
+        if fallSpeed < -900 {
+            SoundManager.shared.play("land")
+            addShake(3)
         }
     }
 
@@ -971,6 +980,7 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
     // MARK: - EnemyDelegate
 
     func enemyShoot(from: CGPoint, velocity: CGVector, damage: Double, kind: String) {
+        puff(at: from, big: false, color: SKColor(red: 1, green: 0.5, blue: 0.4, alpha: 1))
         let proj = ProjectileNode.create(kind: kind, hostile: true)
         proj.position = from
         proj.velocity = velocity
@@ -1144,13 +1154,16 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
         switch pickup.kind {
         case .coin(let amount):
             vm.addGold(amount)
+            spawnDustBurst(at: pickup.position, color: .yellow, count: 4, radius: 22, upward: 14)
             SoundManager.shared.play("coin")
         case .heart(let amount):
+            spawnDustBurst(at: pickup.position, color: .green, count: 5, radius: 24, upward: 16)
             vm.healPlayer(amount)
             damageLayer.spawn(text: "+\(Int(amount))", at: player.position + CGPoint(x: 0, y: 50),
                               color: SKColor(red: 0.4, green: 1, blue: 0.5, alpha: 1), big: false)
             SoundManager.shared.play("pickup")
         case .mana(let amount):
+            spawnDustBurst(at: pickup.position, color: .cyan, count: 5, radius: 24, upward: 16)
             vm.restoreMana(amount)
             damageLayer.spawn(text: "+\(Int(amount))", at: player.position + CGPoint(x: 0, y: 50),
                               color: SKColor(red: 0.4, green: 0.7, blue: 1, alpha: 1), big: false)
@@ -1214,6 +1227,15 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
             }
         }
         _ = vm
+    }
+
+    /// Death burst; the overlay appears 0.8s later (see onPlayerDeath).
+    func playerDeathBurst() {
+        puff(at: player.position, big: true, color: SKColor(red: 1, green: 0.3, blue: 0.35, alpha: 1))
+        spawnImpactRing(at: player.position, color: .red, radius: 60)
+        spawnDustBurst(at: player.position, color: .red, count: 14, radius: 60, upward: 30)
+        player.alpha = 0
+        addShake(14)
     }
 
     func onLevelUp() {
