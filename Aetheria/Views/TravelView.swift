@@ -13,7 +13,7 @@ struct TravelView: View {
         ZStack {
             FullscreenDim()
             Panel(title: L.t("travel.title")) {
-                VStack(spacing: 10) {
+                VStack(spacing: 8) {
                     if stones.isEmpty {
                         Text(L.t("travel.empty"))
                             .font(.subheadline)
@@ -36,16 +36,16 @@ struct TravelView: View {
                                     }
                                 }
                             }
-                            .padding(8)
+                            .padding(6)
                             .background(Color(hex: "#1E2438"))
-                            .cornerRadius(10)
+                            .cornerRadius(8)
                         }
                     }
                     MenuButton(label: L.t("common.back"), icon: "chevron.left") {
                         vm.showTravel = false
                     }
                 }
-                .frame(width: 420)
+                .frame(width: 340)
             }
         }
     }

@@ -17,13 +17,13 @@ struct SkillTreeView: View {
         ZStack {
             FullscreenDim()
             Panel(title: L.t("skill.title")) {
-                VStack(spacing: 10) {
+                VStack(spacing: 8) {
                     Picker("", selection: $tab) {
                         Text(L.t("skill.tabs.skills")).tag(0)
                         Text(L.t("skill.tabs.attrs")).tag(1)
                     }
                     .pickerStyle(.segmented)
-                    .frame(width: 320)
+                    .frame(width: 260)
                     if tab == 0 {
                         skillsTab
                     } else {
@@ -33,7 +33,7 @@ struct SkillTreeView: View {
                         vm.showSkills = false
                     }
                 }
-                .frame(width: 640)
+                .frame(width: 510)
             }
         }
     }
@@ -47,7 +47,7 @@ struct SkillTreeView: View {
     }
 
     private var skillsTab: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 8) {
             HStack {
                 Text("\(L.t("skill.points")): \(vm.session.skillPoints)")
                     .font(.headline)
@@ -59,16 +59,16 @@ struct SkillTreeView: View {
                     }
                 }
                 .pickerStyle(.segmented)
-                .frame(width: 300)
+                .frame(width: 240)
             }
             ScrollView {
-                VStack(spacing: 8) {
+                VStack(spacing: 6) {
                     ForEach(branchSkills) { skill in
                         skillRow(skill)
                     }
                 }
             }
-            .frame(height: 300)
+            .frame(height: 240)
             powerSummary
         }
     }
@@ -77,7 +77,7 @@ struct SkillTreeView: View {
         let rank = vm.session.skills[skill.id] ?? 0
         let maxed = rank >= skill.maxRank
         let canLearn = vm.canLearn(skill)
-        return HStack(spacing: 12) {
+        return HStack(spacing: 10) {
             VStack(alignment: .leading, spacing: 2) {
                 HStack {
                     Text(skill.displayName)
@@ -107,7 +107,7 @@ struct SkillTreeView: View {
                 ForEach(0..<skill.maxRank, id: \.self) { i in
                     Circle()
                         .fill(i < rank ? branchColors[branch]! : Color(hex: "#2A3350"))
-                        .frame(width: 10, height: 10)
+                        .frame(width: 8, height: 8)
                 }
             }
             SmallButton(label: maxed ? L.t("common.maxed") : (rank == 0 ? L.t("skill.learn") : L.t("skill.improve")),
@@ -115,14 +115,14 @@ struct SkillTreeView: View {
                 vm.learnSkill(skill)
             }
         }
-        .padding(8)
+        .padding(6)
         .background(Color(hex: "#1E2438"))
-        .cornerRadius(10)
+        .cornerRadius(8)
     }
 
     private var powerSummary: some View {
         let derived = vm.derivedStats()
-        return HStack(spacing: 16) {
+        return HStack(spacing: 12) {
             Text(L.t("skill.summary") + ":")
                 .font(.caption)
                 .foregroundColor(.dimText)
@@ -138,10 +138,10 @@ struct SkillTreeView: View {
         Text(text)
             .font(.caption.bold())
             .foregroundColor(.white)
-            .padding(.horizontal, 8)
-            .padding(.vertical, 4)
+            .padding(.horizontal, 6)
+            .padding(.vertical, 3)
             .background(Color(hex: "#2A3350"))
-            .cornerRadius(8)
+            .cornerRadius(7)
     }
 
     private func reqNames(_ skill: SkillDefinition) -> String {
@@ -154,7 +154,7 @@ struct SkillTreeView: View {
     // MARK: - Attributes
 
     private var attributesTab: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 8) {
             Text("\(L.t("skill.attrPoints")): \(vm.session.statPoints)")
                 .font(.headline)
                 .foregroundColor(.gold)
@@ -184,8 +184,8 @@ struct SkillTreeView: View {
                 vm.addStatPoint(keyPath)
             }
         }
-        .padding(8)
+        .padding(6)
         .background(Color(hex: "#1E2438"))
-        .cornerRadius(10)
+        .cornerRadius(8)
     }
 }

@@ -31,24 +31,24 @@ struct InventoryView: View {
         ZStack {
             FullscreenDim()
             Panel(title: "\(L.t("inv.title"))  ● \(vm.session.gold)") {
-                HStack(alignment: .top, spacing: 16) {
+                HStack(alignment: .top, spacing: 12) {
                     // Left: equipment + filters + grid.
-                    VStack(alignment: .leading, spacing: 10) {
+                    VStack(alignment: .leading, spacing: 8) {
                         equipmentRow
                         filterRow
                         ScrollView {
-                            LazyVGrid(columns: Array(repeating: GridItem(.fixed(56), spacing: 8), count: 6), spacing: 8) {
+                            LazyVGrid(columns: Array(repeating: GridItem(.fixed(46), spacing: 6), count: 6), spacing: 6) {
                                 ForEach(filteredItems) { item in
                                     itemCell(item)
                                 }
                             }
                             .padding(2)
                         }
-                        .frame(width: 400, height: 250)
+                        .frame(width: 330, height: 205)
                     }
                     // Right: details.
                     detailPanel
-                        .frame(width: 280)
+                        .frame(width: 230)
                 }
                 SmallButton(label: L.t("common.close")) {
                     vm.showInventory = false
@@ -60,7 +60,7 @@ struct InventoryView: View {
     // MARK: - Equipment
 
     private var equipmentRow: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: 10) {
             Text(L.t("inv.equipment") + ":")
                 .font(.subheadline)
                 .foregroundColor(.dimText)
@@ -74,16 +74,16 @@ struct InventoryView: View {
         VStack(spacing: 2) {
             if let item, let def = ContentDatabase.shared.items[item.itemId] {
                 Button(action: { vm.unequip(slot: slot) }) {
-                    ItemIconView(icon: def.icon, rarity: def.rarity, size: 46)
+                    ItemIconView(icon: def.icon, rarity: def.rarity, size: 38)
                 }
             } else {
-                RoundedRectangle(cornerRadius: 10)
+                RoundedRectangle(cornerRadius: 8)
                     .stroke(Color.panelBorder, lineWidth: 1)
-                    .frame(width: 46, height: 46)
+                    .frame(width: 38, height: 38)
                     .overlay(Image(systemName: "questionmark").foregroundColor(.dimText))
             }
             Text(label)
-                .font(.system(size: 9))
+                .font(.system(size: 8))
                 .foregroundColor(.dimText)
         }
     }
@@ -91,17 +91,17 @@ struct InventoryView: View {
     // MARK: - Grid
 
     private var filterRow: some View {
-        HStack(spacing: 6) {
+        HStack(spacing: 5) {
             ForEach([("all", L.t("inv.all")), ("gear", "⚔"), ("consumable", L.t("inv.consumable")),
                      ("material", L.t("inv.material")), ("keyItem", L.t("inv.keyItem"))], id: \.0) { key, label in
                 Button(action: { filter = key }) {
                     Text(label)
                         .font(.caption.bold())
                         .foregroundColor(filter == key ? .white : .dimText)
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 6)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 5)
                         .background(filter == key ? Color(hex: "#4DA3FF").opacity(0.4) : Color(hex: "#1E2438"))
-                        .cornerRadius(8)
+                        .cornerRadius(7)
                 }
             }
         }
@@ -118,17 +118,17 @@ struct InventoryView: View {
                 selectedId = item.id
             }) {
                 ZStack(alignment: .bottomTrailing) {
-                    ItemIconView(icon: def.icon, rarity: def.rarity, size: 52)
+                    ItemIconView(icon: def.icon, rarity: def.rarity, size: 42)
                     if item.quantity > 1 {
                         Text("\(item.quantity)")
                             .font(.caption2.bold())
                             .foregroundColor(.white)
-                            .padding(4)
+                            .padding(3)
                             .background(Color.black.opacity(0.75))
                             .clipShape(Circle())
                     }
                 }
-                .overlay(RoundedRectangle(cornerRadius: 10).stroke(selected ? Color.white : Color.clear, lineWidth: 2))
+                .overlay(RoundedRectangle(cornerRadius: 8).stroke(selected ? Color.white : Color.clear, lineWidth: 2))
             }
         )
     }
@@ -136,10 +136,10 @@ struct InventoryView: View {
     // MARK: - Details
 
     private var detailPanel: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 6) {
             if let item = selectedItem, let def = ContentDatabase.shared.items[item.itemId] {
                 HStack {
-                    ItemIconView(icon: def.icon, rarity: def.rarity, size: 56)
+                    ItemIconView(icon: def.icon, rarity: def.rarity, size: 46)
                     VStack(alignment: .leading) {
                         Text(def.displayName)
                             .font(.headline)
@@ -152,7 +152,7 @@ struct InventoryView: View {
                 Text(def.displayDescription)
                     .font(.caption)
                     .foregroundColor(.dimText)
-                    .frame(minHeight: 40, alignment: .top)
+                    .frame(minHeight: 34, alignment: .top)
                 ForEach(statLines(def), id: \.self) { line in
                     Text(line)
                         .font(.caption)
@@ -166,7 +166,7 @@ struct InventoryView: View {
                 Text("\(L.t("inv.sell")): \(def.price / 2) \(L.t("common.gold"))")
                     .font(.caption)
                     .foregroundColor(.dimText)
-                HStack(spacing: 8) {
+                HStack(spacing: 6) {
                     if def.usable {
                         SmallButton(label: L.t("inv.use")) {
                             _ = vm.useItem(item)
@@ -195,7 +195,7 @@ struct InventoryView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
-        .padding(12)
+        .padding(10)
         .background(Color(hex: "#1E2438"))
         .cornerRadius(12)
         .frame(minHeight: 300)

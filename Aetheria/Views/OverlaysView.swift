@@ -8,11 +8,11 @@ struct DeathView: View {
     var body: some View {
         ZStack {
             Color(hex: "#30060C").opacity(0.92).ignoresSafeArea()
-            VStack(spacing: 10) {
+            VStack(spacing: 8) {
                 Text("☠")
-                    .font(.system(size: 64))
+                    .font(.system(size: 48))
                 Text(L.t("death.title"))
-                    .font(.system(size: 52, weight: .black))
+                    .font(.system(size: 40, weight: .black))
                     .foregroundColor(Color(hex: "#FF4D6D"))
                 Text(L.t("death.sub"))
                     .foregroundColor(.dimText)
@@ -30,7 +30,7 @@ struct DeathView: View {
                         vm.quitToMenu()
                     }
                 }
-                .frame(width: 440)
+                .frame(width: 360)
                 .padding(.top, 8)
             }
         }
@@ -45,11 +45,11 @@ struct VictoryView: View {
     var body: some View {
         ZStack {
             Color(hex: "#0A1A2E").opacity(0.94).ignoresSafeArea()
-            VStack(spacing: 10) {
+            VStack(spacing: 8) {
                 Text("☀")
-                    .font(.system(size: 64))
+                    .font(.system(size: 48))
                 Text(L.t("victory.title"))
-                    .font(.system(size: 52, weight: .black))
+                    .font(.system(size: 40, weight: .black))
                     .foregroundStyle(
                         LinearGradient(colors: [Color(hex: "#FFD95E"), Color(hex: "#FF7B2E")], startPoint: .leading, endPoint: .trailing)
                     )
@@ -63,7 +63,7 @@ struct VictoryView: View {
                         StatRow(label: L.t("victory.chests"), value: "\(vm.session.stats.chestsOpened)")
                         StatRow(label: L.t("victory.time"), value: formatPlayTime(vm.session.stats.playTime))
                     }
-                    .frame(width: 340)
+                    .frame(width: 280)
                 }
                 HStack(spacing: 12) {
                     MenuButton(label: "🗺 " + L.t("common.continue"), icon: "play.fill", accent: Color(hex: "#3FD97C")) {
@@ -73,7 +73,7 @@ struct VictoryView: View {
                         vm.quitToMenu()
                     }
                 }
-                .frame(width: 440)
+                .frame(width: 360)
             }
         }
     }
@@ -88,17 +88,17 @@ struct SignView: View {
         ZStack {
             FullscreenDim()
             Panel {
-                VStack(spacing: 12) {
+                VStack(spacing: 8) {
                     Image(uiImage: TextureFactory.uiImage("sign"))
                         .resizable()
                         .interpolation(.none)
                         .scaledToFit()
-                        .frame(height: 68)
+                        .frame(height: 54)
                     Text(vm.signText)
                         .font(.body)
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
-                        .frame(width: 420)
+                        .frame(width: 340)
                     SmallButton(label: L.t("common.close")) {
                         vm.closeSign()
                     }

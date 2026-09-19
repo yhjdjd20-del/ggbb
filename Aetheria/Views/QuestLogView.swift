@@ -22,16 +22,16 @@ struct QuestLogView: View {
         ZStack {
             FullscreenDim()
             Panel(title: L.t("quest.title")) {
-                VStack(spacing: 10) {
+                VStack(spacing: 8) {
                     Picker("", selection: $tab) {
                         Text(L.t("quest.main")).tag(0)
                         Text(L.t("quest.side")).tag(1)
                         Text(L.t("quest.done")).tag(2)
                     }
                     .pickerStyle(.segmented)
-                    .frame(width: 380)
+                    .frame(width: 300)
                     ScrollView {
-                        VStack(spacing: 8) {
+                        VStack(spacing: 6) {
                             if quests.isEmpty {
                                 Text(L.t("common.empty"))
                                     .foregroundColor(.dimText.opacity(0.6))
@@ -42,7 +42,7 @@ struct QuestLogView: View {
                             }
                         }
                     }
-                    .frame(width: 620, height: 330)
+                    .frame(width: 500, height: 270)
                     SmallButton(label: L.t("common.close")) {
                         vm.showQuests = false
                     }
@@ -55,7 +55,7 @@ struct QuestLogView: View {
         let progress = vm.session.quests[quest.id]
         let tracked = vm.session.trackedQuest == quest.id
         let ready = progress?.state == .readyToTurnIn
-        return VStack(alignment: .leading, spacing: 6) {
+        return VStack(alignment: .leading, spacing: 5) {
             HStack {
                 Text(quest.displayTitle)
                     .font(.headline)
@@ -64,10 +64,10 @@ struct QuestLogView: View {
                     Text(L.t("quest.ready"))
                         .font(.caption2.bold())
                         .foregroundColor(.black)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 3)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
                         .background(Color.gold)
-                        .cornerRadius(8)
+                        .cornerRadius(7)
                 }
                 Spacer()
                 if progress?.state == .active || ready {
@@ -82,7 +82,7 @@ struct QuestLogView: View {
             if let progress {
                 ForEach(Array(zip(quest.objectives, progress.counts).enumerated()), id: \.offset) { _, pair in
                     let (obj, count) = pair
-                    HStack(spacing: 6) {
+                    HStack(spacing: 5) {
                         Image(systemName: count >= obj.count ? "checkmark.circle.fill" : "circle")
                             .foregroundColor(count >= obj.count ? Color(hex: "#3FD97C") : .dimText)
                             .font(.caption)
@@ -98,11 +98,11 @@ struct QuestLogView: View {
                     .foregroundColor(.gold)
             }
         }
-        .padding(10)
+        .padding(8)
         .background(Color(hex: "#1E2438"))
-        .cornerRadius(10)
+        .cornerRadius(8)
         .overlay(
-            RoundedRectangle(cornerRadius: 10)
+            RoundedRectangle(cornerRadius: 8)
                 .stroke(tracked ? Color.gold.opacity(0.6) : Color.clear, lineWidth: 1.5)
         )
     }

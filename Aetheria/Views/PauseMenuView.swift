@@ -8,7 +8,7 @@ struct PauseMenuView: View {
         ZStack {
             FullscreenDim()
             Panel(title: L.t("pause.title")) {
-                VStack(spacing: 10) {
+                VStack(spacing: 8) {
                     Text("\(vm.session.heroName) · \(L.t("common.level")) \(vm.session.level) · \(formatPlayTime(vm.session.stats.playTime))")
                         .font(.subheadline)
                         .foregroundColor(.dimText)
@@ -16,7 +16,7 @@ struct PauseMenuView: View {
                     MenuButton(label: L.t("pause.resume"), icon: "play.fill", accent: Color(hex: "#3FD97C")) {
                         vm.showPause = false
                     }
-                    HStack(spacing: 10) {
+                    HStack(spacing: 8) {
                         MenuButton(label: L.t("inv.title"), icon: "bag.fill") {
                             vm.showPause = false
                             vm.showInventory = true
@@ -44,7 +44,7 @@ struct PauseMenuView: View {
                         vm.quitToMenu()
                     }
                 }
-                .frame(width: 420)
+                .frame(width: 340)
             }
         }
     }
@@ -68,9 +68,9 @@ struct PauseMenuView: View {
         Text(text)
             .font(.caption.bold())
             .foregroundColor(.white)
-            .padding(.horizontal, 8)
-            .padding(.vertical, 4)
+            .padding(.horizontal, 6)
+            .padding(.vertical, 3)
             .background(Color(hex: "#2A3350"))
-            .cornerRadius(8)
+            .cornerRadius(7)
     }
 }

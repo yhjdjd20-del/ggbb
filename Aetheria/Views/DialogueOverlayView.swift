@@ -10,15 +10,15 @@ struct DialogueOverlayView: View {
             VStack {
                 Spacer()
                 if let node = vm.currentDialogueNode(), let dlg = vm.activeDialogue {
-                    HStack(alignment: .top, spacing: 16) {
+                    HStack(alignment: .top, spacing: 12) {
                         Image(uiImage: TextureFactory.uiImage("npc_\(dlg.npcId)"))
                             .resizable()
                             .interpolation(.none)
                             .scaledToFit()
-                            .frame(width: 90, height: 130)
+                            .frame(width: 72, height: 104)
                             .background(Color(hex: "#1E2438"))
-                            .cornerRadius(12)
-                        VStack(alignment: .leading, spacing: 8) {
+                            .cornerRadius(8)
+                        VStack(alignment: .leading, spacing: 6) {
                             Text(node.displaySpeaker)
                                 .font(.headline)
                                 .foregroundColor(.gold)
@@ -28,23 +28,23 @@ struct DialogueOverlayView: View {
                                     .foregroundColor(.white)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                             }
-                            .frame(height: 70)
+                            .frame(height: 56)
                             choiceList
                         }
                     }
-                    .padding(18)
-                    .frame(width: 700)
+                    .padding(14)
+                    .frame(width: 560)
                     .background(Color.panelBg)
-                    .cornerRadius(18)
-                    .overlay(RoundedRectangle(cornerRadius: 18).stroke(Color.panelBorder, lineWidth: 2))
-                    .padding(.bottom, 24)
+                    .cornerRadius(14)
+                    .overlay(RoundedRectangle(cornerRadius: 14).stroke(Color.panelBorder, lineWidth: 2))
+                    .padding(.bottom, 20)
                 }
             }
         }
     }
 
     private var choiceList: some View {
-        VStack(spacing: 6) {
+        VStack(spacing: 5) {
             if vm.visibleChoices().isEmpty {
                 // All choices gated by unmet requirements: never soft-lock.
                 leaveButton
@@ -66,11 +66,11 @@ struct DialogueOverlayView: View {
                     .font(.caption)
             }
             .foregroundColor(.white)
-            .padding(.horizontal, 14)
-            .padding(.vertical, 9)
+            .padding(.horizontal, 11)
+            .padding(.vertical, 7)
             .frame(maxWidth: .infinity)
             .background(Color(hex: "#2A3350"))
-            .cornerRadius(10)
+            .cornerRadius(8)
         }
     }
 
@@ -94,13 +94,13 @@ struct DialogueOverlayView: View {
                     .font(.caption)
             }
             .foregroundColor(.white)
-            .padding(.horizontal, 14)
-            .padding(.vertical, 9)
+            .padding(.horizontal, 11)
+            .padding(.vertical, 7)
             .frame(maxWidth: .infinity)
             .background(special ? Color(hex: "#B45CFF").opacity(0.3) : Color(hex: "#2A3350"))
-            .cornerRadius(10)
+            .cornerRadius(8)
             .overlay(
-                RoundedRectangle(cornerRadius: 10)
+                RoundedRectangle(cornerRadius: 8)
                     .stroke(special ? Color(hex: "#B45CFF") : Color.panelBorder, lineWidth: 1)
             )
         }

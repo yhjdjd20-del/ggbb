@@ -8,15 +8,15 @@ struct ShopView: View {
         ZStack {
             FullscreenDim()
             Panel(title: "\(L.t("shop.title"))  ● \(vm.session.gold)") {
-                VStack(spacing: 10) {
+                VStack(spacing: 8) {
                     ScrollView {
-                        VStack(spacing: 8) {
+                        VStack(spacing: 6) {
                             ForEach(vm.shopItems) { item in
                                 shopRow(item)
                             }
                         }
                     }
-                    .frame(width: 560, height: 340)
+                    .frame(width: 460, height: 280)
                     SmallButton(label: L.t("dlg.leave")) {
                         vm.closeShop()
                     }
@@ -32,8 +32,8 @@ struct ShopView: View {
         let affordable = vm.session.gold >= item.price
         let soldOut = item.stock == 0
         return AnyView(
-            HStack(spacing: 12) {
-                ItemIconView(icon: def.icon, rarity: def.rarity, size: 46)
+            HStack(spacing: 10) {
+                ItemIconView(icon: def.icon, rarity: def.rarity, size: 38)
                 VStack(alignment: .leading, spacing: 2) {
                     Text(def.displayName)
                         .font(.subheadline.bold())
@@ -52,14 +52,14 @@ struct ShopView: View {
                 Text("● \(item.price)")
                     .font(.subheadline.bold())
                     .foregroundColor(affordable ? .gold : .red.opacity(0.8))
-                    .frame(width: 80, alignment: .trailing)
+                    .frame(width: 66, alignment: .trailing)
                 SmallButton(label: soldOut ? "—" : L.t("shop.buy"), enabled: affordable && !soldOut) {
                     vm.buyItem(item)
                 }
             }
-            .padding(8)
+            .padding(6)
             .background(Color(hex: "#1E2438"))
-            .cornerRadius(10)
+            .cornerRadius(8)
         )
     }
 }
