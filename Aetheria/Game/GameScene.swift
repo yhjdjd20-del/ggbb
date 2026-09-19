@@ -536,7 +536,8 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
         switch target {
         case .npc(let npc):
             let name = viewModel?.npcName(npc.npcId) ?? ""
-            return name.isEmpty ? L.t("hud.talk") : "\(L.t("hud.talk")) — \(name)"
+            let talk = L.t("hud.talk")
+            return name.isEmpty ? talk : talk + " — " + name
         case .chest: return L.t("hud.open")
         case .portal: return L.t("hud.enter")
         case .sign: return L.t("hud.read")
@@ -1189,7 +1190,7 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
 
     func onLevelUp() {
         SoundManager.shared.play("levelup")
-        hud.toast("\(L.t("hud.levelUp")) (\(L.t("hud.levelUpDetail")))")
+        hud.toast(L.t("hud.levelUp") + " (" + L.t("hud.levelUpDetail") + ")")
         Haptics.notification(.success)
         puff(at: player.position, big: true, color: SKColor(red: 1, green: 0.85, blue: 0.3, alpha: 1))
         let ring = SKSpriteNode(texture: TextureFactory.get("glow"))

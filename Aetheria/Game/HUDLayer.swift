@@ -160,7 +160,7 @@ final class HUDLayer: SKNode {
 
     func showCombo(_ count: Int) {
         comboLabel.isHidden = false
-        var text = "\(count) \(L.t("hud.combo"))!"
+        var text = "\(count) " + L.t("hud.combo") + "!"
         let rank: String? = count >= 30 ? L.t("combo.r30")
             : count >= 20 ? L.t("combo.r20")
             : count >= 10 ? L.t("combo.r10")

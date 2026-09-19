@@ -70,7 +70,8 @@ struct MainMenuView: View {
     }
 
     private var appVersion: String {
-        "v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0")"
+        let v = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+        return "v\(v)"
     }
 
     private var mainScreen: some View {

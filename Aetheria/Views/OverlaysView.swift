@@ -66,7 +66,7 @@ struct VictoryView: View {
                     .frame(width: 340)
                 }
                 HStack(spacing: 12) {
-                    MenuButton(label: "🗺 \(L.t("common.continue")")", icon: "play.fill", accent: Color(hex: "#3FD97C")) {
+                    MenuButton(label: "🗺 " + L.t("common.continue"), icon: "play.fill", accent: Color(hex: "#3FD97C")) {
                         vm.continueAfterVictory()
                     }
                     MenuButton(label: L.t("victory.menu"), icon: "house.fill", accent: Color(hex: "#9AA3B2")) {

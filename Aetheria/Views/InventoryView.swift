@@ -215,9 +215,11 @@ struct InventoryView: View {
         for key in ["attack", "magic", "defense", "maxHealth", "maxMana", "crit", "moveSpeed"] {
             let d = (def.stats[key] ?? 0) - (old.stats[key] ?? 0)
             if d != 0 {
+                let sign = Int(d) > 0 ? "+" : ""
                 let num = d.truncatingRemainder(dividingBy: 1) == 0
-                    ? "\(Int(d) > 0 ? "+" : "")\(Int(d))" : String(format: "%+.2f", d)
-                out.append(("\(key): \(num) \(d > 0 ? "▲" : "▼")",
+                    ? sign + "\(Int(d))" : String(format: "%+.2f", d)
+                let arrow = d > 0 ? "▲" : "▼"
+                out.append(("\(key): \(num) \(arrow)",
                             d > 0 ? Color(hex: "#3FD97C") : Color(hex: "#FF6B6B")))
             }
         }

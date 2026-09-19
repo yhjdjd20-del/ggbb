@@ -313,7 +313,7 @@ final class GameViewModel: ObservableObject {
         guard removeItem(itemId: item.itemId, quantity: qty) else { return }
         let gain = max(1, def.price / 2) * qty
         addGold(gain)
-        toast("\(L.t("shop.sold")): +\(gain) \(L.t("common.gold"))")
+        toast(L.t("shop.sold") + ": +\(gain) " + L.t("common.gold"))
         SoundManager.shared.play("coin")
         syncBadges()
     }

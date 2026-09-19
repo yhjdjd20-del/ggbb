@@ -22,7 +22,7 @@ struct TravelView: View {
                     } else {
                         ForEach(Array(stones.enumerated()), id: \.offset) { i, cp in
                             HStack {
-                                Text("◆ \(L.t("travel.title")) \(i + 1)")
+                                Text("◆ " + L.t("travel.title") + " \(i + 1)")
                                     .foregroundColor(.white)
                                 Spacer()
                                 if cp == vm.session.checkpointId {
