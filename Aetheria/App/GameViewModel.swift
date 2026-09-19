@@ -30,6 +30,7 @@ final class GameViewModel: ObservableObject {
     @Published var showDeath = false { didSet { refreshPause() } }
     @Published var showVictory = false { didSet { refreshPause() } }
     @Published var showTravel = false { didSet { refreshPause() } }
+    @Published var showCraft = false { didSet { refreshPause() } }
     @Published var activeDialogue: ActiveDialogue?
     @Published var shopItems: [ShopItem] = []
     @Published var signText = ""
@@ -42,7 +43,7 @@ final class GameViewModel: ObservableObject {
 
     var modalOpen: Bool {
         showInventory || showSkills || showQuests || showPause || showDialogue
-            || showShop || showSign || showDeath || showVictory || showTravel
+            || showShop || showSign || showDeath || showVictory || showTravel || showCraft
     }
 
     init() {
@@ -123,6 +124,7 @@ final class GameViewModel: ObservableObject {
         showDeath = false
         showVictory = false
         showTravel = false
+        showCraft = false
         activeDialogue = nil
     }
 
@@ -311,7 +313,8 @@ final class GameViewModel: ObservableObject {
         }
         let qty = item.quantity
         guard removeItem(itemId: item.itemId, quantity: qty) else { return }
-        let gain = max(1, def.price / 2) * qty
+        let bonus = 1.0 + 0.25 * Double(item.upgradeLevel)
+        let gain = max(1, Int(Double(def.price / 2) * bonus)) * qty
         addGold(gain)
         toast(L.t("shop.sold") + ": +\(gain) " + L.t("common.gold"))
         SoundManager.shared.play("coin")
@@ -321,6 +324,89 @@ final class GameViewModel: ObservableObject {
     func dropItem(_ item: InventoryItem) {
         session.inventory.removeAll { $0.id == item.id }
         SoundManager.shared.play("click")
+        syncBadges()
+    }
+
+    // MARK: - Crafting & upgrades
+
+    struct CraftRecipe {
+        let result: String
+        let quantity: Int
+        let materials: [(itemId: String, count: Int)]
+        let gold: Int
+    }
+
+    static let maxUpgradeLevel = 5
+
+    static let recipes: [CraftRecipe] = [
+        CraftRecipe(result: "potion_minor", quantity: 1, materials: [("gel", 3)], gold: 5),
+        CraftRecipe(result: "mana_minor", quantity: 1, materials: [("wing", 3)], gold: 5),
+        CraftRecipe(result: "potion_major", quantity: 1, materials: [("gel", 6), ("meat", 2)], gold: 20),
+        CraftRecipe(result: "mana_major", quantity: 1, materials: [("shard", 4)], gold: 20),
+        CraftRecipe(result: "bomb", quantity: 2, materials: [("ore", 2), ("gel", 2)], gold: 25),
+        CraftRecipe(result: "elixir_dawn", quantity: 1, materials: [("shard", 5), ("ore", 1)], gold: 100),
+    ]
+
+    /// Thematic upgrade catalyst per gear type.
+    static func upgradeMaterial(for type: ItemType) -> String {
+        switch type {
+        case .weapon: return "ore"
+        case .armor: return "bone"
+        case .trinket: return "shard"
+        default: return "gel"
+        }
+    }
+
+    func upgradeCost(for item: InventoryItem) -> (material: String, gold: Int)? {
+        guard let def = ContentDatabase.shared.items[item.itemId],
+              def.type == .weapon || def.type == .armor || def.type == .trinket,
+              item.upgradeLevel < Self.maxUpgradeLevel else { return nil }
+        return (Self.upgradeMaterial(for: def.type), 40 * (item.upgradeLevel + 1))
+    }
+
+    func upgradeItem(_ item: InventoryItem) {
+        guard let cost = upgradeCost(for: item) else {
+            SoundManager.shared.play("error")
+            return
+        }
+        guard session.inventoryCount(itemId: cost.material) > 0, session.gold >= cost.gold else {
+            toast(L.t("craft.poor"))
+            SoundManager.shared.play("error")
+            return
+        }
+        removeItem(itemId: cost.material)
+        addGold(-cost.gold)
+        if let i = session.inventory.firstIndex(where: { $0.id == item.id }) {
+            session.inventory[i].upgradeLevel += 1
+        } else if session.equipment.weapon?.id == item.id {
+            session.equipment.weapon?.upgradeLevel += 1
+        } else if session.equipment.armor?.id == item.id {
+            session.equipment.armor?.upgradeLevel += 1
+        } else if session.equipment.trinket?.id == item.id {
+            session.equipment.trinket?.upgradeLevel += 1
+        }
+        toast(L.t("craft.upgraded") + " +\(item.upgradeLevel + 1)")
+        SoundManager.shared.play("checkpoint")
+        syncBadges()
+    }
+
+    func canCraft(_ recipe: CraftRecipe) -> Bool {
+        guard session.gold >= recipe.gold else { return false }
+        return recipe.materials.allSatisfy { session.inventoryCount(itemId: $0.itemId) >= $0.count }
+    }
+
+    func craftItem(_ recipe: CraftRecipe) {
+        guard canCraft(recipe) else {
+            toast(L.t("craft.poor"))
+            SoundManager.shared.play("error")
+            return
+        }
+        for mat in recipe.materials { removeItem(itemId: mat.itemId, quantity: mat.count) }
+        addGold(-recipe.gold)
+        addItem(itemId: recipe.result, quantity: recipe.quantity)
+        let name = ContentDatabase.shared.items[recipe.result]?.displayName ?? recipe.result
+        toast(L.t("craft.crafted") + ": " + name)
+        SoundManager.shared.play("checkpoint")
         syncBadges()
     }
 

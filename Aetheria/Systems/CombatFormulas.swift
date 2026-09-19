@@ -51,14 +51,15 @@ enum CombatFormulas {
         // Equipment
         for slot in [session.equipment.weapon, session.equipment.armor, session.equipment.trinket] {
             guard let slot, let def = db.items[slot.itemId] else { continue }
-            attack += def.stats["attack"] ?? 0
-            magic += def.stats["magic"] ?? 0
-            defense += def.stats["defense"] ?? 0
-            maxHP += def.stats["maxHealth"] ?? 0
-            maxMana += def.stats["maxMana"] ?? 0
-            crit += def.stats["crit"] ?? 0
-            moveSpeed += def.stats["moveSpeed"] ?? 0
-            lifesteal += def.stats["lifesteal"] ?? 0
+            let mult = 1.0 + 0.12 * Double(slot.upgradeLevel)
+            attack += (def.stats["attack"] ?? 0) * mult
+            magic += (def.stats["magic"] ?? 0) * mult
+            defense += (def.stats["defense"] ?? 0) * mult
+            maxHP += (def.stats["maxHealth"] ?? 0) * mult
+            maxMana += (def.stats["maxMana"] ?? 0) * mult
+            crit += (def.stats["crit"] ?? 0) * mult
+            moveSpeed += (def.stats["moveSpeed"] ?? 0) * mult
+            lifesteal += (def.stats["lifesteal"] ?? 0) * mult
         }
 
         // Skills
