@@ -37,18 +37,18 @@ struct Panel<Content: View>: View {
     }
 
     var body: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 10) {
             if let title {
                 Text(title)
-                    .font(.title2.bold())
+                    .font(.title3.bold())
                     .foregroundColor(.white)
             }
             content()
         }
-        .padding(20)
+        .padding(16)
         .background(Color.panelBg)
-        .cornerRadius(18)
-        .overlay(RoundedRectangle(cornerRadius: 18).stroke(Color.panelBorder, lineWidth: 2))
+        .cornerRadius(14)
+        .overlay(RoundedRectangle(cornerRadius: 14).stroke(Color.panelBorder, lineWidth: 2))
         .shadow(radius: 20)
     }
 }
@@ -74,10 +74,10 @@ struct MenuButton: View {
             }
             .foregroundColor(.white)
             .frame(maxWidth: .infinity)
-            .padding(.vertical, 13)
+            .padding(.vertical, 10)
             .background(accent.opacity(0.25))
-            .cornerRadius(12)
-            .overlay(RoundedRectangle(cornerRadius: 12).stroke(accent, lineWidth: 1.5))
+            .cornerRadius(10)
+            .overlay(RoundedRectangle(cornerRadius: 10).stroke(accent, lineWidth: 1.5))
         }
     }
 }
@@ -97,11 +97,11 @@ struct SmallButton: View {
             Text(label)
                 .font(.subheadline.bold())
                 .foregroundColor(enabled ? .white : .gray)
-                .padding(.horizontal, 14)
-                .padding(.vertical, 8)
+                .padding(.horizontal, 11)
+                .padding(.vertical, 6)
                 .background(Color(hex: "#2A3350"))
-                .cornerRadius(9)
-                .overlay(RoundedRectangle(cornerRadius: 9).stroke(enabled ? Color.panelBorder : Color.clear, lineWidth: 1))
+                .cornerRadius(8)
+                .overlay(RoundedRectangle(cornerRadius: 8).stroke(enabled ? Color.panelBorder : Color.clear, lineWidth: 1))
         }
         .opacity(enabled ? 1 : 0.5)
     }
