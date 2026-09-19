@@ -21,7 +21,7 @@ struct SaveSlotView: View {
                         onBack()
                     }
                 }
-                .frame(width: 440)
+                .frame(width: 360)
             }
             Spacer()
         }
@@ -56,7 +56,7 @@ struct SaveSlotView: View {
                     .resizable()
                     .interpolation(.none)
                     .scaledToFit()
-                    .frame(width: 44, height: 60)
+                    .frame(width: 36, height: 50)
                 VStack(alignment: .leading, spacing: 2) {
                     Text(session.heroName)
                         .font(.headline)

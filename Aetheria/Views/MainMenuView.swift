@@ -56,9 +56,9 @@ struct MainMenuView: View {
                     .resizable()
                     .interpolation(.none)
                     .scaledToFit()
-                    .frame(height: 420)
+                    .frame(height: 340)
                     .opacity(0.85)
-                    .padding(.trailing, 60)
+                    .padding(.trailing, 48)
                 Spacer()
             }
             .opacity(0.5)
@@ -80,7 +80,7 @@ struct MainMenuView: View {
             VStack(alignment: .leading, spacing: 8) {
                 Spacer()
                 Text("AETHERIA")
-                    .font(.system(size: 72, weight: .black, design: .rounded))
+                    .font(.system(size: 56, weight: .black, design: .rounded))
                     .foregroundStyle(
                         LinearGradient(colors: [Color(hex: "#B45CFF"), Color(hex: "#7DF9FF")], startPoint: .leading, endPoint: .trailing)
                     )
@@ -93,11 +93,11 @@ struct MainMenuView: View {
                     .font(.caption)
                     .foregroundColor(.dimText.opacity(0.7))
             }
-            .padding(40)
+            .padding(32)
             .frame(maxWidth: .infinity, alignment: .leading)
 
             // Buttons side.
-            VStack(spacing: 12) {
+            VStack(spacing: 10) {
                 Spacer()
                 if hasAnySave {
                     MenuButton(label: L.t("menu.continue"), icon: "play.fill", accent: Color(hex: "#3FD97C")) {
@@ -118,7 +118,7 @@ struct MainMenuView: View {
                 }
                 Spacer()
             }
-            .padding(40)
+            .padding(32)
             .frame(maxWidth: 380)
         }
     }

@@ -20,7 +20,7 @@ struct SettingsView: View {
                             Text("Русский").tag(AppLanguage.ru)
                         }
                         .pickerStyle(.segmented)
-                        .frame(width: 220)
+                        .frame(width: 180)
                     }
                     // Difficulty.
                     VStack(alignment: .leading, spacing: 4) {
@@ -34,7 +34,7 @@ struct SettingsView: View {
                                 }
                             }
                             .pickerStyle(.segmented)
-                            .frame(width: 330)
+                            .frame(width: 270)
                         }
                         Text(settings.difficulty.details)
                             .font(.caption)
@@ -64,7 +64,7 @@ struct SettingsView: View {
                             }
                         }
                         .pickerStyle(.segmented)
-                        .frame(width: 330)
+                        .frame(width: 270)
                     }
                     Text("\(L.t("set.device")): \(DeviceProfile.marketingName)")
                         .font(.caption)
@@ -77,7 +77,7 @@ struct SettingsView: View {
                         onBack()
                     }
                 }
-                .frame(width: 520)
+                .frame(width: 430)
             }
             Spacer()
         }
@@ -88,12 +88,12 @@ struct SettingsView: View {
         HStack {
             Text(label)
                 .foregroundColor(.dimText)
-                .frame(width: 180, alignment: .leading)
+                .frame(width: 150, alignment: .leading)
             Slider(value: value, in: 0...1)
             Text("\(Int(value.wrappedValue * 100))%")
                 .font(.caption.monospacedDigit())
                 .foregroundColor(.dimText)
-                .frame(width: 44)
+                .frame(width: 36)
         }
     }
 

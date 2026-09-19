@@ -23,7 +23,7 @@ struct HowToPlayView: View {
                         HStack(alignment: .top, spacing: 12) {
                             Image(systemName: row.icon)
                                 .foregroundColor(Color(hex: "#7DF9FF"))
-                                .frame(width: 28)
+                                .frame(width: 24)
                             Text(L.t(row.key))
                                 .foregroundColor(.white)
                                 .font(.subheadline)
@@ -34,7 +34,7 @@ struct HowToPlayView: View {
                     }
                     .padding(.top, 6)
                 }
-                .frame(width: 520)
+                .frame(width: 430)
             }
             Spacer()
         }

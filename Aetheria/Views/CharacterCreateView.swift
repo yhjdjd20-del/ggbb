@@ -15,20 +15,20 @@ struct CharacterCreateView: View {
         HStack {
             Spacer()
             Panel(title: L.t("char.title")) {
-                VStack(spacing: 14) {
+                VStack(spacing: 12) {
                     // Name row.
                     HStack {
                         Text(L.t("char.name") + ":")
                             .foregroundColor(.dimText)
                         TextField(L.t("char.namePh"), text: $heroName)
                             .textFieldStyle(.roundedBorder)
-                            .frame(width: 220)
+                            .frame(width: 180)
                         SmallButton(label: "🎲 \(L.t("char.random"))") {
                             heroName = vm.randomHeroName()
                         }
                     }
                     // Class cards.
-                    HStack(spacing: 12) {
+                    HStack(spacing: 10) {
                         ForEach(HeroClass.all) { cls in
                             classCard(cls)
                         }
@@ -41,7 +41,7 @@ struct CharacterCreateView: View {
                         StatRow(label: L.t("char.bonus"), value: skill.displayName, valueColor: Color(hex: "#B45CFF"))
                     }
                     // Actions.
-                    HStack(spacing: 12) {
+                    HStack(spacing: 10) {
                         MenuButton(label: L.t("common.back"), icon: "chevron.left", accent: Color(hex: "#9AA3B2")) {
                             onBack()
                         }
@@ -50,7 +50,7 @@ struct CharacterCreateView: View {
                         }
                     }
                 }
-                .frame(width: 560)
+                .frame(width: 450)
             }
             Spacer()
         }
@@ -71,7 +71,7 @@ struct CharacterCreateView: View {
                     .resizable()
                     .interpolation(.none)
                     .scaledToFit()
-                    .frame(height: 84)
+                    .frame(height: 68)
                 Text(cls.displayName)
                     .font(.headline)
                     .foregroundColor(selected ? .white : .dimText)
@@ -79,7 +79,7 @@ struct CharacterCreateView: View {
                     .font(.caption)
                     .foregroundColor(.dimText)
                     .multilineTextAlignment(.center)
-                    .frame(height: 56)
+                    .frame(height: 46)
                 HStack(spacing: 8) {
                     attrChip(L.t("char.str"), cls.stats.strength)
                     attrChip(L.t("char.agi"), cls.stats.agility)
@@ -87,12 +87,12 @@ struct CharacterCreateView: View {
                     attrChip(L.t("char.int"), cls.stats.intelligence)
                 }
             }
-            .padding(10)
+            .padding(8)
             .frame(maxWidth: .infinity)
             .background(selected ? Color(hex: cls.colorHex).opacity(0.18) : Color(hex: "#1E2438"))
-            .cornerRadius(12)
+            .cornerRadius(10)
             .overlay(
-                RoundedRectangle(cornerRadius: 12)
+                RoundedRectangle(cornerRadius: 10)
                     .stroke(selected ? Color(hex: cls.colorHex) : Color.panelBorder, lineWidth: selected ? 2.5 : 1)
             )
         }

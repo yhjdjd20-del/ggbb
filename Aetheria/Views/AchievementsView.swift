@@ -18,12 +18,12 @@ struct AchievementsView: View {
                             }
                         }
                     }
-                    .frame(height: 380)
+                    .frame(height: 310)
                     MenuButton(label: L.t("common.back"), icon: "chevron.left") {
                         onBack()
                     }
                 }
-                .frame(width: 620)
+                .frame(width: 500)
             }
             Spacer()
         }
@@ -33,7 +33,7 @@ struct AchievementsView: View {
     private func achievementRow(_ def: AchievementDefinition) -> some View {
         let got = unlocked.contains(def.id)
         return HStack(spacing: 12) {
-            ItemIconView(icon: def.icon, rarity: got ? .legendary : nil, size: 44)
+            ItemIconView(icon: def.icon, rarity: got ? .legendary : nil, size: 36)
                 .opacity(got ? 1 : 0.4)
                 .grayscale(got ? 0 : 1)
             VStack(alignment: .leading, spacing: 2) {
