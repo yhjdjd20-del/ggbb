@@ -17,6 +17,10 @@ final class PlayerNode: SKSpriteNode {
     var groundedContacts = 0
     var grounded = false
     private var groundBodies = Set<ObjectIdentifier>()
+    private var oneWayBodies = Set<ObjectIdentifier>()
+    var dropTimer = 0.0
+    var noCutTimer = 0.0
+    var onOneWay: Bool { !oneWayBodies.isEmpty }
     var onLadder = false
     var climbing = false
     var coyote = 0.0
@@ -34,8 +38,11 @@ final class PlayerNode: SKSpriteNode {
 
     func resetGroundTracking() {
         groundBodies.removeAll()
+        oneWayBodies.removeAll()
         groundedContacts = 0
         grounded = false
+        dropTimer = 0
+        noCutTimer = 0
     }
 
     private var animTime = 0.0
@@ -71,6 +78,8 @@ final class PlayerNode: SKSpriteNode {
         dashCooldown = max(0, dashCooldown - d)
         invulnerable = max(0, invulnerable - d)
         hurtFlash = max(0, hurtFlash - d)
+        dropTimer = max(0, dropTimer - d)
+        noCutTimer = max(0, noCutTimer - d)
         coyote = grounded ? 0.12 : max(0, coyote - d)
         if input.jumpQueued { jumpBuffer = 0.12 } else { jumpBuffer = max(0, jumpBuffer - d) }
 
@@ -108,7 +117,14 @@ final class PlayerNode: SKSpriteNode {
             let accel: CGFloat = grounded ? 14 : 8
             body.velocity.dx += (target - body.velocity.dx) * min(1, CGFloat(d) * accel)
             if jumpBuffer > 0 {
-                if grounded || coyote > 0 {
+                let onlyOneWay = !groundBodies.isEmpty && groundBodies.count == oneWayBodies.count
+                if input.axisY < -0.5 && grounded && onlyOneWay && dropTimer <= 0 {
+                    // Drop through one-way platforms (down + jump).
+                    jumpBuffer = 0
+                    resetGroundTracking()
+                    dropTimer = 0.3
+                    body.velocity.dy = min(body.velocity.dy, -60)
+                } else if grounded || coyote > 0 {
                     body.velocity.dy = 740
                     grounded = false
                     groundedContacts = 0
@@ -123,16 +139,21 @@ final class PlayerNode: SKSpriteNode {
                     delegate?.playerDidJump(doubleJump: true)
                 }
             }
-            if !input.jumpHeld && body.velocity.dy > 300 {
+            if !input.jumpHeld && body.velocity.dy > 300 && noCutTimer <= 0 {
                 body.velocity.dy = 300
             }
             // One-way platforms: collide only when falling / standing.
-            if body.velocity.dy > 60 {
+            if dropTimer > 0 {
+                body.collisionBitMask = PhysicsCategory.ground
+            } else if body.velocity.dy > 60 {
                 body.collisionBitMask = PhysicsCategory.ground
             } else {
                 body.collisionBitMask = PhysicsCategory.ground | PhysicsCategory.platform | PhysicsCategory.moving
             }
         }
+
+        // Terminal velocity: no tunneling through thin floors on long falls.
+        body.velocity.dy = max(body.velocity.dy, -1400)
 
         if input.dashQueued && dashCooldown <= 0 && derived.canDash && !climbing {
             dashTime = 0.18
@@ -163,11 +184,12 @@ final class PlayerNode: SKSpriteNode {
 
     // MARK: - Ground contact (called by the scene)
 
-    func landed(body: SKPhysicsBody, contactY: CGFloat) {
+    func landed(body: SKPhysicsBody, contactY: CGFloat, oneWay: Bool) {
         // Only top contacts count; side scrapes must not steal ground counts later.
         guard position.y > contactY + 6 else { return }
         let wasAirborne = !grounded
         groundBodies.insert(ObjectIdentifier(body))
+        if oneWay { oneWayBodies.insert(ObjectIdentifier(body)) }
         groundedContacts = groundBodies.count
         grounded = true
         if wasAirborne {
@@ -176,8 +198,9 @@ final class PlayerNode: SKSpriteNode {
         }
     }
 
-    func leftGround(body: SKPhysicsBody) {
+    func leftGround(body: SKPhysicsBody, oneWay: Bool) {
         groundBodies.remove(ObjectIdentifier(body))
+        if oneWay { oneWayBodies.remove(ObjectIdentifier(body)) }
         groundedContacts = groundBodies.count
         if groundBodies.isEmpty { grounded = false }
     }

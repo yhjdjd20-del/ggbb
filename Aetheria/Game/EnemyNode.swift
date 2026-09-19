@@ -93,8 +93,9 @@ class EnemyNode: SKSpriteNode {
         }
 
         if d > 1600 {
-            // Far away: freeze to save CPU.
-            physicsBody?.velocity = .zero
+            // Far away: freeze horizontal drift, but let gravity keep working
+            // so hoppers frozen mid-air don't hang in the sky forever.
+            physicsBody?.velocity.dx = 0
             return
         }
 

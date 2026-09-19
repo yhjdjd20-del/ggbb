@@ -360,6 +360,31 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
             enemy.speedMul = snowSlow
             enemy.update(dt: dt, playerPos: player.position)
         }
+        // Leash reset: anything living that fell out of the world returns to
+        // its anchor (pits can't soft-block kills / area-clear anymore).
+        for enemy in enemies where !enemy.isDead && !enemy.isBoss {
+            if enemy.position.y < -200 {
+                enemy.position = enemy.anchor
+                enemy.physicsBody?.velocity = .zero
+                enemy.hp = enemy.maxHp
+                enemy.state = .patrol
+                enemy.touchCd = 0
+            }
+        }
+        // Separation so ground enemies don't stack into one blob.
+        let crowd = enemies.filter { !$0.isDead && !$0.isBoss && $0.physicsBody != nil }
+        for i in crowd.indices {
+            for j in crowd.indices where j > i {
+                let a = crowd[i], b = crowd[j]
+                let dx = b.position.x - a.position.x
+                let dy = b.position.y - a.position.y
+                if abs(dx) < 44 && abs(dy) < 70 {
+                    let push: CGFloat = (dx >= 0 ? 1 : -1) * 130 * CGFloat(dt)
+                    a.position.x -= push
+                    b.position.x += push
+                }
+            }
+        }
         if let boss, bossIntroduced, !boss.isDead {
             hud.setBossHp(cur: boss.hp, maxHp: boss.maxHp)
         }
@@ -460,6 +485,7 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
                 let hurt = damagePlayer(CombatFormulas.mitigated(raw: hazard.damage, defense: derived.defense), from: player.position + CGPoint(x: 0, y: -40))
                 if hurt {
                     player.physicsBody?.velocity.dy = 480
+                    player.noCutTimer = 0.3
                 }
                 break
             }
@@ -481,6 +507,7 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
             damagePlayer(25, from: player.position)
             player.position = lastSafe + CGPoint(x: 0, y: 40)
             player.physicsBody?.velocity = .zero
+            player.resetGroundTracking()
             player.invulnerable = max(player.invulnerable, 1.5)
         }
     }
@@ -731,7 +758,8 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
         guard playerBody != nil else { return }
         let mask = other.categoryBitMask
         if mask == PhysicsCategory.ground || mask == PhysicsCategory.platform || mask == PhysicsCategory.moving {
-            player.landed(body: other, contactY: contact.contactPoint.y)
+            player.landed(body: other, contactY: contact.contactPoint.y,
+                          oneWay: mask != PhysicsCategory.ground)
         }
     }
 
@@ -742,7 +770,7 @@ final class GameScene: SKScene, SKPhysicsContactDelegate, PlayerDelegate, EnemyD
         let other = a.categoryBitMask == PhysicsCategory.player ? b : a
         let mask = other.categoryBitMask
         if mask == PhysicsCategory.ground || mask == PhysicsCategory.platform || mask == PhysicsCategory.moving {
-            player.leftGround(body: other)
+            player.leftGround(body: other, oneWay: mask != PhysicsCategory.ground)
         }
     }
 

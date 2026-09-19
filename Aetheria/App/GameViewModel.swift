@@ -801,6 +801,7 @@ final class GameViewModel: ObservableObject {
         if let scene {
             scene.player.position = scene.spawnPoint()
             scene.player.physicsBody?.velocity = .zero
+            scene.player.resetGroundTracking()
             scene.player.invulnerable = 2.0
             scene.cameraNode.position = scene.player.position
             scene.projectiles.filter { $0.hostile }.forEach { $0.removeFromParent() }
@@ -887,6 +888,7 @@ final class GameViewModel: ObservableObject {
         session.checkpointId = checkpointId
         scene.player.position = node.position + CGPoint(x: 0, y: 40)
         scene.player.physicsBody?.velocity = .zero
+        scene.player.resetGroundTracking()
         scene.player.invulnerable = 1.5
         scene.cameraNode.position = scene.player.position
         scene.puff(at: scene.player.position, big: true, color: SKColor(red: 0.7, green: 0.5, blue: 1, alpha: 1))
