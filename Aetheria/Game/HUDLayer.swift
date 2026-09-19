@@ -24,29 +24,29 @@ final class HUDLayer: SKNode {
     private var toastQueue: [String] = []
     private var toastBusy = false
 
-    private let barW: CGFloat = 300
+    private let barW: CGFloat = 240
 
     func setup() {
         zPosition = 50
-        (hpBg, hpFg) = makeBar(color: SKColor(red: 0.95, green: 0.25, blue: 0.3, alpha: 1), height: 18)
-        (mpBg, mpFg) = makeBar(color: SKColor(red: 0.25, green: 0.55, blue: 1, alpha: 1), height: 18)
-        (xpBg, xpFg) = makeBar(color: SKColor(red: 0.7, green: 0.5, blue: 1, alpha: 1), height: 10)
-        levelLabel = makeLabel(fontSize: 22, bold: true)
+        (hpBg, hpFg) = makeBar(color: SKColor(red: 0.95, green: 0.25, blue: 0.3, alpha: 1), height: 14)
+        (mpBg, mpFg) = makeBar(color: SKColor(red: 0.25, green: 0.55, blue: 1, alpha: 1), height: 14)
+        (xpBg, xpFg) = makeBar(color: SKColor(red: 0.7, green: 0.5, blue: 1, alpha: 1), height: 8)
+        levelLabel = makeLabel(fontSize: 17, bold: true)
         levelLabel.horizontalAlignmentMode = .left
         addChild(levelLabel)
-        goldLabel = makeLabel(fontSize: 22, bold: true)
+        goldLabel = makeLabel(fontSize: 17, bold: true)
         goldLabel.horizontalAlignmentMode = .right
         addChild(goldLabel)
 
         bossBar = SKNode()
-        let bossBg = SKSpriteNode(color: SKColor(white: 0, alpha: 0.55), size: CGSize(width: 560, height: 22))
-        bossFg = SKSpriteNode(color: SKColor(red: 0.9, green: 0.15, blue: 0.2, alpha: 1), size: CGSize(width: 556, height: 16))
+        let bossBg = SKSpriteNode(color: SKColor(white: 0, alpha: 0.55), size: CGSize(width: 440, height: 18))
+        bossFg = SKSpriteNode(color: SKColor(red: 0.9, green: 0.15, blue: 0.2, alpha: 1), size: CGSize(width: 436, height: 13))
         bossFg.anchorPoint = CGPoint(x: 0, y: 0.5)
-        bossFg.position = CGPoint(x: -278, y: 0)
-        bossName = makeLabel(fontSize: 22, bold: true)
-        bossName.position = CGPoint(x: 0, y: 18)
-        bossHp = makeLabel(fontSize: 16, bold: true)
-        bossHp.position = CGPoint(x: 0, y: -24)
+        bossFg.position = CGPoint(x: -218, y: 0)
+        bossName = makeLabel(fontSize: 17, bold: true)
+        bossName.position = CGPoint(x: 0, y: 15)
+        bossHp = makeLabel(fontSize: 13, bold: true)
+        bossHp.position = CGPoint(x: 0, y: -20)
         bossBar.addChild(bossBg)
         bossBar.addChild(bossFg)
         bossBar.addChild(bossName)
@@ -54,18 +54,18 @@ final class HUDLayer: SKNode {
         bossBar.isHidden = true
         addChild(bossBar)
 
-        comboLabel = makeLabel(fontSize: 30, bold: true)
+        comboLabel = makeLabel(fontSize: 24, bold: true)
         comboLabel.fontColor = SKColor(red: 1, green: 0.8, blue: 0.25, alpha: 1)
         comboLabel.horizontalAlignmentMode = .right
         comboLabel.isHidden = true
         addChild(comboLabel)
 
-        toastLabel = makeLabel(fontSize: 24, bold: true)
+        toastLabel = makeLabel(fontSize: 19, bold: true)
         toastLabel.alpha = 0
         addChild(toastLabel)
 
-        bannerTitle = makeLabel(fontSize: 64, bold: true)
-        bannerSub = makeLabel(fontSize: 26, bold: false)
+        bannerTitle = makeLabel(fontSize: 48, bold: true)
+        bannerSub = makeLabel(fontSize: 20, bold: false)
         bannerTitle.alpha = 0
         bannerSub.alpha = 0
         addChild(bannerTitle)
@@ -101,22 +101,22 @@ final class HUDLayer: SKNode {
     /// `safeArea` is already converted to the same world units.
     func layout(size: CGSize, safeArea: UIEdgeInsets = .zero) {
         let hw = size.width / 2, hh = size.height / 2
-        let leftX = -hw + 24 + safeArea.left
+        let leftX = -hw + 20 + safeArea.left
         let topY = hh - safeArea.top
-        let rightX = hw - 30 - safeArea.right
-        hpBg.position = CGPoint(x: leftX + barW / 2, y: topY - 30)
-        hpFg.position = CGPoint(x: leftX, y: topY - 30)
-        mpBg.position = CGPoint(x: leftX + barW / 2, y: topY - 58)
-        mpFg.position = CGPoint(x: leftX, y: topY - 58)
-        xpBg.position = CGPoint(x: leftX + barW / 2, y: topY - 80)
-        xpFg.position = CGPoint(x: leftX, y: topY - 80)
-        levelLabel.position = CGPoint(x: leftX, y: topY - 108)
-        goldLabel.position = CGPoint(x: leftX + barW, y: topY - 108)
-        bossBar.position = CGPoint(x: 0, y: topY - 72)
-        comboLabel.position = CGPoint(x: rightX, y: topY - 190)
-        toastLabel.position = CGPoint(x: 0, y: topY - 132)
-        bannerTitle.position = CGPoint(x: 0, y: 40)
-        bannerSub.position = CGPoint(x: 0, y: -12)
+        let rightX = hw - 24 - safeArea.right
+        hpBg.position = CGPoint(x: leftX + barW / 2, y: topY - 24)
+        hpFg.position = CGPoint(x: leftX, y: topY - 24)
+        mpBg.position = CGPoint(x: leftX + barW / 2, y: topY - 46)
+        mpFg.position = CGPoint(x: leftX, y: topY - 46)
+        xpBg.position = CGPoint(x: leftX + barW / 2, y: topY - 64)
+        xpFg.position = CGPoint(x: leftX, y: topY - 64)
+        levelLabel.position = CGPoint(x: leftX, y: topY - 86)
+        goldLabel.position = CGPoint(x: leftX + barW, y: topY - 86)
+        bossBar.position = CGPoint(x: 0, y: topY - 58)
+        comboLabel.position = CGPoint(x: rightX, y: topY - 152)
+        toastLabel.position = CGPoint(x: 0, y: topY - 106)
+        bannerTitle.position = CGPoint(x: 0, y: 32)
+        bannerSub.position = CGPoint(x: 0, y: -10)
         lowHp.position = .zero
         lowHp.size = CGSize(width: size.width + 200, height: size.height + 200)
         critFlashNode.position = .zero
@@ -242,7 +242,7 @@ final class DamageLayer: SKNode {
         zPosition = 20
         for _ in 0..<28 {
             let label = SKLabelNode(fontNamed: "Helvetica-Bold")
-            label.fontSize = 22
+            label.fontSize = 17
             label.alpha = 0
             addChild(label)
             pool.append(label)
@@ -256,7 +256,7 @@ final class DamageLayer: SKNode {
         label.removeAllActions()
         label.text = text
         label.fontColor = color
-        label.fontSize = big ? 32 : 21
+        label.fontSize = big ? 25 : 17
         label.position = pos + CGPoint(x: CGFloat.random(in: -10...10), y: 10)
         label.alpha = 1
         label.setScale(big ? 1.3 : 1.0)

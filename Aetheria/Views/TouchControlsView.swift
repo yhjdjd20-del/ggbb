@@ -10,56 +10,56 @@ struct TouchControlsView: View {
             Spacer()
             HStack(alignment: .bottom) {
                 JoystickView(vm: vm)
-                    .padding(.leading, 24)
-                    .padding(.bottom, 24)
+                    .padding(.leading, 20)
+                    .padding(.bottom, 20)
                 Spacer()
                 actionButtons
-                    .padding(.trailing, 20)
-                    .padding(.bottom, 20)
+                    .padding(.trailing, 16)
+                    .padding(.bottom, 16)
             }
         }
     }
 
     private var actionButtons: some View {
-        VStack(alignment: .trailing, spacing: 10) {
+        VStack(alignment: .trailing, spacing: 8) {
             // Contextual interact button.
             if let prompt = vm.interactPrompt {
                 Button(action: { vm.input.queueInteract() }) {
-                    HStack(spacing: 6) {
+                    HStack(spacing: 5) {
                         Image(systemName: "hand.raised.fill")
                         Text(prompt)
                             .font(.subheadline.bold())
                     }
                     .foregroundColor(.white)
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 12)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 9)
                     .background(Color(hex: "#B45CFF").opacity(0.55))
-                    .cornerRadius(24)
-                    .overlay(RoundedRectangle(cornerRadius: 24).stroke(Color(hex: "#B45CFF"), lineWidth: 1.5))
+                    .cornerRadius(20)
+                    .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color(hex: "#B45CFF"), lineWidth: 1.5))
                 }
             }
-            HStack(alignment: .bottom, spacing: 12) {
+            HStack(alignment: .bottom, spacing: 10) {
                 // Potion with count badge.
                 ZStack(alignment: .topTrailing) {
-                    ControlButton(icon: "heart.fill", size: 56, color: Color(hex: "#FF4D6D")) {
+                    ControlButton(icon: "heart.fill", size: 46, color: Color(hex: "#FF4D6D")) {
                         if vm.drinkPotion() { Haptics.impact(.light) }
                     }
                     Text("\(vm.potionCount)")
                         .font(.caption2.bold())
                         .foregroundColor(.white)
-                        .padding(5)
+                        .padding(4)
                         .background(Color.black.opacity(0.7))
                         .clipShape(Circle())
-                        .offset(x: 6, y: -6)
+                        .offset(x: 5, y: -5)
                 }
-                ControlButton(icon: "sparkles", size: 60, color: Color(hex: "#7DF9FF")) {
+                ControlButton(icon: "sparkles", size: 48, color: Color(hex: "#7DF9FF")) {
                     vm.input.queueSpell()
                 }
-                ControlButton(icon: "wind", size: 60, color: Color(hex: "#9AA3B2")) {
+                ControlButton(icon: "wind", size: 48, color: Color(hex: "#9AA3B2")) {
                     vm.input.queueDash()
                 }
                 JumpButton(vm: vm)
-                ControlButton(icon: "flame.fill", size: 84, color: Color(hex: "#FF7B2E")) {
+                ControlButton(icon: "flame.fill", size: 68, color: Color(hex: "#FF7B2E")) {
                     vm.input.queueAttack()
                 }
             }
@@ -94,9 +94,9 @@ struct JumpButton: View {
 
     var body: some View {
         Image(systemName: "arrow.up")
-            .font(.system(size: 26, weight: .bold))
+            .font(.system(size: 21, weight: .bold))
             .foregroundColor(.white)
-            .frame(width: 72, height: 72)
+            .frame(width: 58, height: 58)
             .background(Color(hex: "#3FD97C").opacity(pressed ? 0.75 : 0.45))
             .clipShape(Circle())
             .overlay(Circle().stroke(Color(hex: "#3FD97C"), lineWidth: 2))
@@ -121,7 +121,7 @@ struct JumpButton: View {
 struct JoystickView: View {
     @ObservedObject var vm: GameViewModel
     @State private var knob = CGSize.zero
-    private let radius: CGFloat = 52
+    private let radius: CGFloat = 42
 
     var body: some View {
         GeometryReader { geo in
@@ -131,7 +131,7 @@ struct JoystickView: View {
                     .frame(width: radius * 2 + 44, height: radius * 2 + 44)
                 Circle()
                     .fill(Color.white.opacity(0.28))
-                    .frame(width: 62, height: 62)
+                    .frame(width: 50, height: 50)
                     .offset(knob)
             }
             .frame(width: geo.size.width, height: geo.size.height)
@@ -158,6 +158,6 @@ struct JoystickView: View {
                     }
             )
         }
-        .frame(width: 170, height: 170)
+        .frame(width: 140, height: 140)
     }
 }

@@ -47,9 +47,9 @@ struct MinimapView: View {
             context.stroke(Path(ellipseIn: CGRect(x: pl.x - 3, y: pl.y - 3, width: 6, height: 6)),
                            with: .color(.black), lineWidth: 1)
         }
-        .frame(width: 230, height: 66)
+        .frame(width: 185, height: 55)
         .background(Color.black.opacity(0.5))
-        .cornerRadius(8)
-        .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.panelBorder, lineWidth: 1))
+        .cornerRadius(7)
+        .overlay(RoundedRectangle(cornerRadius: 7).stroke(Color.panelBorder, lineWidth: 1))
     }
 }

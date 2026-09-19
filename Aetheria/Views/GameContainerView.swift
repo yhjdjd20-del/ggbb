@@ -96,10 +96,10 @@ struct GameContainerView: View {
                                 .foregroundColor(.dimText)
                         }
                     }
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 6)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 5)
                     .background(Color.black.opacity(0.45))
-                    .cornerRadius(8)
+                    .cornerRadius(7)
                 }
                 .padding(.top, max(54, 94 - topInset))
             }
@@ -107,14 +107,14 @@ struct GameContainerView: View {
     }
 
     private var menuButtons: some View {
-        VStack(spacing: 6) {
+        VStack(spacing: 5) {
             hudButton(icon: "bag.fill") { vm.showInventory = true }
             ZStack(alignment: .topTrailing) {
                 hudButton(icon: "star.fill") { vm.showSkills = true }
                 if vm.session.skillPoints > 0 || vm.session.statPoints > 0 {
                     Circle()
                         .fill(Color.red)
-                        .frame(width: 12, height: 12)
+                        .frame(width: 10, height: 10)
                         .offset(x: 4, y: -4)
                 }
             }
@@ -129,9 +129,9 @@ struct GameContainerView: View {
             action()
         }) {
             Image(systemName: icon)
-                .font(.system(size: 16, weight: .bold))
+                .font(.system(size: 13, weight: .bold))
                 .foregroundColor(.white)
-                .frame(width: 42, height: 42)
+                .frame(width: 34, height: 34)
                 .background(Color.black.opacity(0.45))
                 .clipShape(Circle())
                 .overlay(Circle().stroke(Color.panelBorder, lineWidth: 1))
