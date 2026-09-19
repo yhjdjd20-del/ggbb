@@ -57,13 +57,16 @@ extension SKNode {
                   radius: CGFloat = 50,
                   duration: TimeInterval = 0.55,
                   upward: CGFloat = 10) {
+        // NOTE: uses the cached white "spark" texture (tinted) instead of
+        // rendering a new texture per particle (was a CPU spike on every burst).
+        let tex = TextureFactory.get("spark")
         for _ in 0..<count {
-            let s = SKSpriteNode(texture: VisualFX.sparkTexture(color: color))
+            let s = SKSpriteNode(texture: tex)
             s.position = position
             s.zPosition = zPosition + 1
             s.setScale(CGFloat.random(in: 0.5...1.2))
             s.alpha = 0.9
-            s.colorBlendFactor = 0.5
+            s.colorBlendFactor = 1.0
             s.color = color
             addChild(s)
             let dx = CGFloat.random(in: -radius...radius)

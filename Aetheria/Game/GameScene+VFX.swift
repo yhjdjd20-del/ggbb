@@ -12,15 +12,18 @@ extension GameScene {
     }
 
     func spawnDashTrail(at pos: CGPoint, color: SKColor) {
-        let glow = SKSpriteNode(texture: VisualFX.glowTexture(color: color, size: 26))
+        // Cached 64px "glow" tinted (no per-spawn texture render).
+        let glow = SKSpriteNode(texture: TextureFactory.get("glow"))
         glow.position = pos
         glow.alpha = 0.65
         glow.zPosition = 9
-        glow.setScale(0.5)
+        glow.colorBlendFactor = 1.0
+        glow.color = color
+        glow.setScale(0.2)
         world.addChild(glow)
         glow.run(SKAction.sequence([
             SKAction.group([
-                SKAction.scale(to: 1.8, duration: 0.2),
+                SKAction.scale(to: 0.75, duration: 0.2),
                 SKAction.fadeOut(withDuration: 0.2),
             ]),
             SKAction.removeFromParent(),
@@ -28,15 +31,19 @@ extension GameScene {
     }
 
     func spawnImpactRing(at pos: CGPoint, color: SKColor, radius: CGFloat = 42) {
-        let ring = SKSpriteNode(texture: VisualFX.glowTexture(color: color, size: radius * 2))
+        // Cached 64px "glow" tinted (no per-spawn texture render).
+        let ring = SKSpriteNode(texture: TextureFactory.get("glow"))
         ring.position = pos
         ring.alpha = 0.75
         ring.zPosition = 11
-        ring.setScale(0.25)
+        ring.colorBlendFactor = 1.0
+        ring.color = color
+        let base = radius * 2 / 64
+        ring.setScale(base * 0.25)
         world.addChild(ring)
         ring.run(SKAction.sequence([
             SKAction.group([
-                SKAction.scale(to: 1.35, duration: 0.18),
+                SKAction.scale(to: base * 1.35, duration: 0.18),
                 SKAction.fadeOut(withDuration: 0.18),
             ]),
             SKAction.removeFromParent(),
