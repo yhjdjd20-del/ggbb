@@ -97,6 +97,7 @@ enum Strings {
         "craft.crafted": [.en: "Crafted", .ru: "Создано"],
         "craft.upgraded": [.en: "Upgraded", .ru: "Улучшено"],
         "craft.poor": [.en: "Not enough materials", .ru: "Не хватает материалов"],
+        "craft.make": [.en: "Craft", .ru: "Создать"],
         "inv.unequip": [.en: "Take off", .ru: "Снять"],
         "inv.use": [.en: "Use", .ru: "Использовать"],
         "inv.drop": [.en: "Drop", .ru: "Выбросить"],

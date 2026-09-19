@@ -64,6 +64,7 @@ struct GameContainerView: View {
                 if vm.showDeath { DeathView(vm: vm) }
                 if vm.showVictory { VictoryView(vm: vm) }
                 if vm.showTravel { TravelView(vm: vm) }
+                if vm.showCraft { CraftView(vm: vm) }
                 if vm.showSettings {
                     ZStack {
                         FullscreenDim()

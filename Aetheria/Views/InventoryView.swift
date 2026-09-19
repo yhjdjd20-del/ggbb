@@ -50,8 +50,14 @@ struct InventoryView: View {
                     detailPanel
                         .frame(width: 230)
                 }
-                SmallButton(label: L.t("common.close")) {
-                    vm.showInventory = false
+                HStack(spacing: 8) {
+                    SmallButton(label: L.t("common.close")) {
+                        vm.showInventory = false
+                    }
+                    SmallButton(label: "⚒ " + L.t("craft.title")) {
+                        vm.showInventory = false
+                        vm.showCraft = true
+                    }
                 }
             }
         }
@@ -127,6 +133,14 @@ struct InventoryView: View {
                             .background(Color.black.opacity(0.75))
                             .clipShape(Circle())
                     }
+                    if item.upgradeLevel > 0 {
+                        Text("+\(item.upgradeLevel)")
+                            .font(.caption2.bold())
+                            .foregroundColor(Color(hex: "#FFD94D"))
+                            .padding(3)
+                            .background(Color.black.opacity(0.75))
+                            .clipShape(Circle())
+                    }
                 }
                 .overlay(RoundedRectangle(cornerRadius: 8).stroke(selected ? Color.white : Color.clear, lineWidth: 2))
             }
@@ -141,7 +155,7 @@ struct InventoryView: View {
                 HStack {
                     ItemIconView(icon: def.icon, rarity: def.rarity, size: 46)
                     VStack(alignment: .leading) {
-                        Text(def.displayName)
+                        Text(def.displayName + (item.upgradeLevel > 0 ? " +\(item.upgradeLevel)" : ""))
                             .font(.headline)
                             .foregroundColor(.white)
                         Text(def.rarity.title)
@@ -153,17 +167,17 @@ struct InventoryView: View {
                     .font(.caption)
                     .foregroundColor(.dimText)
                     .frame(minHeight: 34, alignment: .top)
-                ForEach(statLines(def), id: \.self) { line in
+                ForEach(statLines(def, level: item.upgradeLevel), id: \.self) { line in
                     Text(line)
                         .font(.caption)
                         .foregroundColor(Color(hex: "#7DF9FF"))
                 }
-                ForEach(Array(compareLines(def).enumerated()), id: \.offset) { _, pair in
+                ForEach(Array(compareLines(item, def).enumerated()), id: \.offset) { _, pair in
                     Text(pair.0)
                         .font(.caption.bold())
                         .foregroundColor(pair.1)
                 }
-                Text("\(L.t("inv.sell")): \(def.price / 2) \(L.t("common.gold"))")
+                Text("\(L.t("inv.sell")): \(sellPrice(item, def)) \(L.t("common.gold"))")
                     .font(.caption)
                     .foregroundColor(.dimText)
                 HStack(spacing: 6) {
@@ -189,6 +203,17 @@ struct InventoryView: View {
                         }
                     }
                 }
+                if def.type == .weapon || def.type == .armor || def.type == .trinket {
+                    if let cost = vm.upgradeCost(for: item) {
+                        SmallButton(label: upgradeLabel(item, cost: cost)) {
+                            vm.upgradeItem(item)
+                        }
+                    } else {
+                        Text(L.t("craft.maxed"))
+                            .font(.caption.bold())
+                            .foregroundColor(Color(hex: "#FFD94D"))
+                    }
+                }
             } else {
                 Text(L.t("common.empty"))
                     .foregroundColor(.dimText.opacity(0.6))
@@ -201,19 +226,21 @@ struct InventoryView: View {
         .frame(minHeight: 300)
     }
 
-    private func compareLines(_ def: ItemDefinition) -> [(String, Color)] {
+    private func compareLines(_ item: InventoryItem, _ def: ItemDefinition) -> [(String, Color)] {
         guard def.type == .weapon || def.type == .armor || def.type == .trinket else { return [] }
-        let equippedId: String?
+        let equipped: InventoryItem?
         switch def.type {
-        case .weapon: equippedId = vm.session.equipment.weapon?.itemId
-        case .armor: equippedId = vm.session.equipment.armor?.itemId
-        default: equippedId = vm.session.equipment.trinket?.itemId
+        case .weapon: equipped = vm.session.equipment.weapon
+        case .armor: equipped = vm.session.equipment.armor
+        default: equipped = vm.session.equipment.trinket
         }
-        guard let equippedId, let old = ContentDatabase.shared.items[equippedId],
+        guard let equipped, let old = ContentDatabase.shared.items[equipped.itemId],
               old.id != def.id else { return [] }
+        let mNew = 1.0 + 0.12 * Double(item.upgradeLevel)
+        let mOld = 1.0 + 0.12 * Double(equipped.upgradeLevel)
         var out: [(String, Color)] = []
         for key in ["attack", "magic", "defense", "maxHealth", "maxMana", "crit", "moveSpeed"] {
-            let d = (def.stats[key] ?? 0) - (old.stats[key] ?? 0)
+            let d = (def.stats[key] ?? 0) * mNew - (old.stats[key] ?? 0) * mOld
             if d != 0 {
                 let sign = Int(d) > 0 ? "+" : ""
                 let num = d.truncatingRemainder(dividingBy: 1) == 0
@@ -226,7 +253,16 @@ struct InventoryView: View {
         return out
     }
 
-    private func statLines(_ def: ItemDefinition) -> [String] {
+    private func upgradeLabel(_ item: InventoryItem, cost: (material: String, gold: Int)) -> String {
+        let mat = ContentDatabase.shared.items[cost.material]?.displayName ?? cost.material
+        return "\(L.t("craft.upgrade")) +\(item.upgradeLevel + 1) · \(mat) + \(cost.gold)●"
+    }
+
+    private func sellPrice(_ item: InventoryItem, _ def: ItemDefinition) -> Int {
+        max(1, Int(Double(def.price / 2) * (1.0 + 0.25 * Double(item.upgradeLevel))))
+    }
+
+    private func statLines(_ def: ItemDefinition, level: Int = 0) -> [String] {
         var lines: [String] = []
         let names: [String: String] = [
             "attack": L.t("common.damage"), "magic": L.t("common.damage") + " ✦",
@@ -235,13 +271,15 @@ struct InventoryView: View {
             "heal": L.t("inv.heal"), "mana": L.t("inv.heal") + " MP",
             "lifesteal": "Lifesteal", "damage": L.t("common.damage"),
         ]
+        let mult = 1.0 + 0.12 * Double(level)
         for (key, value) in def.stats.sorted(by: { $0.key < $1.key }) {
             let label = names[key] ?? key
+            let scaled = value * mult
             let formatted: String
             if key == "crit" || key == "lifesteal" {
-                formatted = String(format: "%+.0f%%", value * 100)
+                formatted = String(format: "%+.0f%%", scaled * 100)
             } else {
-                formatted = String(format: "%+.0f", value)
+                formatted = String(format: "%+.0f", scaled)
             }
             lines.append("\(label): \(formatted)")
         }
