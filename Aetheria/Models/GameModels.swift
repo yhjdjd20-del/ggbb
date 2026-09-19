@@ -79,6 +79,7 @@ struct InventoryItem: Codable, Identifiable {
     var id: String
     var itemId: String
     var quantity: Int
+    var upgradeLevel: Int = 0
 
     init(itemId: String, quantity: Int = 1) {
         self.id = UUID().uuidString
@@ -427,8 +428,8 @@ struct HeroClass: Identifiable {
         HeroClass(
             id: "ranger",
             nameEn: "Ranger", nameRu: "Следопыт",
-            descEn: "A swift hunter of the Whispering Forest. Fast, elusive, deadly crits.",
-            descRu: "Быстрый охотник Шепчущего леса. Скорость, увёртливость, смертельные криты.",
+            descEn: "A swift hunter of the Whispering Forest. Fires piercing arrows, fast and elusive.",
+            descRu: "Быстрый охотник Шепчущего леса. Стреляет пронзающими стрелами, скор и неуловим.",
             stats: Stats(strength: 3, agility: 6, vitality: 3, intelligence: 1),
             weaponId: "blade_ranger",
             bonusSkill: "s_swift",
@@ -437,8 +438,8 @@ struct HeroClass: Identifiable {
         HeroClass(
             id: "mage",
             nameEn: "Mage", nameRu: "Маг",
-            descEn: "An apprentice of the burnt Tower. Fragile body, devastating spells.",
-            descRu: "Ученик сгоревшей Башни. Хрупкое тело, разрушительные заклинания.",
+            descEn: "An apprentice of the burnt Tower. Hurls arcane bolts, fragile but devastating.",
+            descRu: "Ученик сгоревшей Башни. Мечет чародейские болты: хрупок, но разрушителен.",
             stats: Stats(strength: 1, agility: 2, vitality: 3, intelligence: 7),
             weaponId: "staff_apprentice",
             bonusSkill: "a_bolt",
